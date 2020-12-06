@@ -1,6 +1,6 @@
 # marksie1988 / Total Debug Project Content Site
 
-This repository contains the Jekyll configuration and content behind the [https://projects.totaldebug.uk/](https://projects.totaldebug.uk/) site.
+This repository contains the Jekyll configuration and content behind the [https://totaldebug.uk/](https://totaldebug.uk/) site.
 
 To view the site locally, ensure you have Ruby and Jekyll installed:
 
