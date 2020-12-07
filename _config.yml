@@ -10,7 +10,7 @@ layout_style: overflow
 palette: blue
 header:
   title: TotalDebug
-  tagline: Header Tagline
+  tagline: Technology. Inside Out
   profile_img: images/avatar.png
   bg: dark
   has_nav: true
@@ -18,8 +18,8 @@ header:
 footer:
   content: '&copy; TotalDebug. All rights reserved.'
   links:
-    - text: Made with Stackbit
-      url: 'https://www.stackbit.com'
+    - text: TotalDebug
+      url: 'https://totaldebug.uk'
       new_window: true
 sass:
   indentWidth: 4
