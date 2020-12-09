@@ -2,7 +2,6 @@
 main:
   - url: https://projects.totaldebug.uk
     title: Projects
-    pre: <i class="project-diagram"></i>
     identifier: projects
     weight: 100
 ---
