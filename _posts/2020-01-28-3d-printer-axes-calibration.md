@@ -4,8 +4,8 @@ excerpt: >-
   One of the most difficult things I found out about 3d
   printing was that you must calibrate it!
 date: '2020-01-28'
-thumb_img_path: /assets/images/
-content_img_path: /assets/images/
+thumb_img_path: /assets/images/2020-01-28-3d-printer-axes-calibration.jpg
+content_img_path: /assets/images/2020-01-28-3d-printer-axes-calibration.jpg
 layout: post
 ---
 
