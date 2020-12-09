@@ -11,7 +11,7 @@ palette: blue
 header:
   title: TotalDebug
   tagline: Technology. Inside Out
-  profile_img: images/avatar.png
+  profile_img: /assets/images/logo.png
   bg: dark
   has_nav: true
   has_social: true
