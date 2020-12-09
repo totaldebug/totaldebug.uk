@@ -28,6 +28,8 @@ sass:
 plugins:
   - jekyll-remote-theme
   - jekyll-menus
+  - jekyll-feed
+
 exclude:
   - Gemfile
   - Gemfile.lock
