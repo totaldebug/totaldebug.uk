@@ -8,5 +8,6 @@ group :jekyll_plugins do
     gem "jekyll-menus"
     gem "jekyll-paginate-v2"
     gem "jekyll-paginate"
-    gem 'jekyll-sitemap'
+    gem "jekyll-sitemap"
+    gem "jekyll-remote-theme"
 end
