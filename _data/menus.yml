@@ -3,5 +3,5 @@ main:
   - url: https://projects.totaldebug.uk
     title: Projects
     identifier: projects
-    weight: 100
+    weight: 4
 ---

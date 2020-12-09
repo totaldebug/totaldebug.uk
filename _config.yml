@@ -7,7 +7,7 @@ collections:
   posts:
     permalink: '/posts/:title/'
 layout_style: overflow
-palette: blue
+palette: orange
 header:
   title: TotalDebug
   tagline: Technology. Inside Out
