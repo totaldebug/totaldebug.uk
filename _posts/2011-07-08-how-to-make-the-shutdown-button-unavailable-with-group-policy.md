@@ -1,12 +1,12 @@
 ---
-title: How to Make the Shutdown Button Unavailable by Using Group Policy
+title: How to Make the Shutdown Button Unavailable with Group Policy
 excerpt: >-
   You can use Group Policy Editor to make the **Shutdown** button unavailable in the **Log On to Windows** dialog box that appears when you press
   CTRL+ALT+DELETE on the Welcome to Windows screen.
 date: '2011-07-08'
 author: marksie1988
 layout: post
-permalink: /how-to-make-the-shutdown-button-unavailable-by-using-group-policy/
+permalink: /how-to-make-the-shutdown-button-unavailable-with-group-policy/
 categories:
   - GPO
 tags:
