@@ -4,8 +4,8 @@ excerpt: >-
   Run through how to setup Docker to use Overlay2 with
   CentOS for use in production.
 date: '2020-05-05'
-thumb_img_path: /assets/images/2020-05-05-docker-overlay2-centos-production.png
-content_img_path: /assets/images/2020-05-05-docker-overlay2-centos-production.png
+thumb_img_path: /assets/images/articles/2020-05-05-docker-overlay2-centos-production.png
+content_img_path: /assets/images/articles/2020-05-05-docker-overlay2-centos-production.png
 layout: post
 ---
 
