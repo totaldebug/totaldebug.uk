@@ -56,7 +56,7 @@ Issue the command: **M92** then press enter or hit send. you should see somethin
 
 ```
 echo: M92 X80.00 Y80.00 Z400.00 E93.00
-```w
+```
 
 Make a note of this information somewhere as we will be referring back to these values quite often.
 
@@ -92,11 +92,10 @@ NewValue = 100mm / ActualDistance * CurrentValue
 
 So if you have the below for your X Axis:
 
-  * CurrentValue = 80.00 (M92 for the Axis)
-  * ActualDistance = 93 (how far the Axis actually moved)
-  * DesiredDistance = 100 (the amount we told it to move)
-
-86.02 = 100 / 93 * 80
+  >CurrentValue = 80.00 (M92 for the Axis)
+  ActualDistance = 93 (how far the Axis actually moved)
+  DesiredDistance = 100 (the amount we told it to move)
+  86.02 = 100 / 93 * 80
 
 Based on the above, the new value for X would be 86.02
 

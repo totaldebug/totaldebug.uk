@@ -1,39 +1,12 @@
 ---
-id: 6215
-title: 'What is Docker? &#8211; Overview'
-date: 2018-05-20T18:49:38+00:00
+title: 'What is Docker? - Overview'
+date: '2018-05-20'
 author: marksie1988
 layout: post
-guid: http://spottedhyena.co.uk/?p=6215
 permalink: /what-is-docker-overview/
-slide_template:
-  - default
-audio_mp3:
-  - ""
-audio_ogg:
-  - ""
-audio_embed:
-  - ""
-video_mp4:
-  - ""
-video_ogv:
-  - ""
-video_webm:
-  - ""
+
 video_embed:
   - '<iframe  src="https://www.youtube.com/embed/p4yXe2Lg_0s" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'
-video_poster:
-  - ""
-link_url:
-  - ""
-status_author:
-  - ""
-quote_author:
-  - ""
-featured_media:
-  - 'true'
-ct_author_last_updated:
-  - default
 categories:
   - Linux
 tags:
