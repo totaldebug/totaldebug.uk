@@ -1,7 +1,7 @@
 ---
 title: Use Git like a pro!
 excerpt: >-
-  Git allows many ways to be utilised, Over the past few months
+  Git allows so much flexibility, Over the past few months
   I have improved my workflows and documented this here
 date: '2021-01-04'
 thumb_img_path: /assets/2021/01/git-like-a-pro.png
