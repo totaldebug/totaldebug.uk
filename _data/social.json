@@ -17,6 +17,12 @@
             "title": "LinkedIn",
             "icon": "fa-linkedin",
             "url": "https://www.linkedin.com/in/marksie1988/"
+        },
+        {
+            "type": "discord",
+            "title": "Discord",
+            "icon": "fa-discord",
+            "url": "https://discord.gg/6fmekudc8Q"
         }
     ]
 }
