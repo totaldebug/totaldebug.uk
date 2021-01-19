@@ -25,6 +25,12 @@ sass:
   indentWidth: 4
   style: nested
   precision: 10
+
+# Fill in your Google Analytics gtag.js ID to track your website using gtag
+gtag: "G-ZDGYQV98HT"
+# Fill in your Google adsense ID to implement page ads
+autoads_client: "ca-pub-1785931800967089"
+
 plugins:
   - jekyll-remote-theme
   - jekyll-menus
