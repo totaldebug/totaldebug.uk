@@ -1,6 +1,7 @@
 remote_theme: marksie1988/jekyll-theme-fresh
 
 title: TotalDebug
+url: "https://totaldebug.uk"
 baseurl: /
 permalink: '/:title/'
 collections:
@@ -35,6 +36,7 @@ plugins:
   - jekyll-remote-theme
   - jekyll-menus
   - jekyll-feed
+  - jekyll-sitemap
 
 exclude:
   - Gemfile
