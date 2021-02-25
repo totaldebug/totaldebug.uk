@@ -26,6 +26,18 @@ sass:
   indentWidth: 4
   style: nested
   precision: 10
+  
+webp:
+  enabled: true
+  quality: 75
+  img_dir: ["/assets", "wp-content"]
+  nested: true
+  formats: [".jpeg", ".jpg", ".png", ".tiff"] 
+  gifs: [".gif"]
+  regenerate: false
+  webp_path: nil
+  exclude: []
+  append_ext: false
 
 # Fill in your Google Analytics gtag.js ID to track your website using gtag
 gtag: "G-ZDGYQV98HT"
@@ -37,6 +49,7 @@ plugins:
   - jekyll-menus
   - jekyll-feed
   - jekyll-sitemap
+  - jekyll-webp
 
 exclude:
   - Gemfile
