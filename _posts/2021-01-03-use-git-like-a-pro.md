@@ -4,8 +4,8 @@ excerpt: >-
   Git allows so much flexibility, Over the past few months
   I have improved my workflows and documented this here
 date: '2021-01-04'
-thumb_img_path: /assets/2021/01/git-like-a-pro.png
-content_img_path: /assets/2021/01/git-like-a-pro.png
+thumb_img_path: /assets/images/posts/use-git-like-a-pro/git-like-a-pro.png
+content_img_path: /assets/posts/use-git-like-a-pro/git-like-a-pro.png
 layout: post
 ---
 
