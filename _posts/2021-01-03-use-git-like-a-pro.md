@@ -4,8 +4,8 @@ excerpt: >-
   Git allows so much flexibility, Over the past few months
   I have improved my workflows and documented this here
 date: '2021-01-04'
-thumb_img_path: /assets/images/posts/use-git-like-a-pro/git-like-a-pro.png
-content_img_path: /assets/posts/use-git-like-a-pro/git-like-a-pro.png
+thumb_img: thumb.png
+content_img: thumb.png
 layout: post
 ---
 
@@ -17,7 +17,7 @@ this is likely to change over time as it is only my first workflow but this is a
 
 ## What to solve?
 
-There are many things that I didnt like about the way I used Git in the past and so these are some of the issues I am aiming to solve:
+There are many things that I didn't like about the way I used Git in the past and so these are some of the issues I am aiming to solve:
 
 - Versioning
 - Standardised git commit messages

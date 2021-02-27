@@ -4,8 +4,8 @@ excerpt: >-
   Github Pages only support certain Jekyll plugins,
   find out how to mitigate this issue
 date: '2020-12-09'
-thumb_img_path: /assets/images/articles/2020-12-09-use-github-pages-with-unsupported-plugins.png
-content_img_path: /assets/images/articles/2020-12-09-use-github-pages-with-unsupported-plugins.png
+thumb_img: thumb.png
+content_img: thumb.png
 layout: post
 ---
 
