@@ -9,8 +9,8 @@ tags:
   - lvgroup
   - vgcreate
   - xfs
-thumb_img_path: /assets/images/articles/2020-05-05-docker-overlay2-centos-production.png
-content_img_path: /assets/images/articles/2020-05-05-docker-overlay2-centos-production.png
+thumb_img: thumb.png
+content_img: thumb.png
 ---
 The following short article runs through how to setup docker to use overlay2 with Centos for use in production
 

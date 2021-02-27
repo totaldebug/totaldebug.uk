@@ -12,8 +12,8 @@ tags:
   - axis
   - calibration
   - estep
-thumb_img_path: /assets/images/articles/2020-01-28-3d-printer-axes-calibration.jpg
-content_img_path: /assets/images/articles/2020-01-28-3d-printer-axes-calibration.jpgw
+thumb_img_path: thumb.jpg
+content_img_path: thumb.jpg
 ---
 One of the most difficult things I found out about 3d printing was that you must calibrate it! This isnt something that I was aware of, I assumed once everything was tightened that it would just work, I was so wrong!
 
@@ -34,7 +34,7 @@ I use an Ender 3 with a lot of upgrades, but the process is the same for almost 
 
 ## Axes Diagram:<figure class="wp-block-image size-large">
 
-![3d printer axes Source: StackExchange.com](/assets/images/articles/2020-01-28-3d-printer-axes-diagram.png)
+{% include picture.html img="2020-01-28-3d-printer-axes-diagram.png" alt="3d printer axes Source: StackExchange.com" %}
 
 ## Setup Software:
 
