@@ -1,21 +1,7 @@
 ---
 title: 'UniFi L2TP: set a static IP for a specific user (built-in Radius Server)'
 date: '2019-10-07'
-author: marksie1988
 layout: post
-permalink: /unifi-l2tp-set-a-static-ip-for-a-specific-user-built-in-radius-server/
-categories:
-  - Ubiquiti
-tags:
-  - config
-  - controller
-  - l2tp
-  - static ip
-  - ubiquiti
-  - unifi
-  - usg
-  - usw
-  - vpn
 ---
 When using my L2TP VPN with the Unifi I realised that it was assigning a different IP Address to my client when it connected sometimes.
 
@@ -31,7 +17,7 @@ First we need to get a dump of our configuration from the USG, to do this we nee
 mca-ctrl -t dump-cfg
 ```
 
-Once we have this I recommend copying it into your favorite text editor. We want to delete everything except the following:
+Once we have this I recommend copying it into your favourite text editor. We want to delete everything except the following:
 
 ```
 {

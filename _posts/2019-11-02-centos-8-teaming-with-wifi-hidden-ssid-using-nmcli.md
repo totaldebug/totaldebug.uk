@@ -1,11 +1,7 @@
 ---
 title: CentOS 8 Teaming with WiFi Hidden SSID using nmcli
 date: '2019-11-02'
-author: marksie1988
 layout: post
-permalink: /centos-8-teaming-with-wifi-hidden-ssid-using-nmcli/
-categories:
-  - Uncategorized
 ---
 I have had a lot of issues when setting up teaming with WiFi, mainly because of lack of documentation around this, im guessing that teaming ethernet and WiFi is not a common occurrence especially with a hidden SSID.
 

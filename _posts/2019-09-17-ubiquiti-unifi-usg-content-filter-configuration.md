@@ -1,24 +1,11 @@
 ---
 title: Ubiquiti UniFi USG Content Filter Configuration
 date: '2019-09-17'
-author: marksie1988
 layout: post
-permalink: /ubiquiti-unifi-usg-content-filter-configuration/
-featured_media:
-  - 'true'
-categories:
-  - Ubiquiti
-tags:
-  - content filter
-  - content filtering
-  - ubiquiti
-  - ubnt
-  - unifi
-  - usg
 ---
 Recently I had a requirement to setup a content filter on the USG for a client. I couldn&#8217;t find much information online so have decided to write this article to show others how to do this
 
-First we need to logon to the USG via SSH, On windows i recommend [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
+First we need to logon to the USG via SSH, On windows I recommend [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
 
 Once we have logged in, run the below command:
 
@@ -26,7 +13,7 @@ Once we have logged in, run the below command:
 update webproxy blacklists
 ```
 
-*This will download all of the content filter categories to the USG, this can take some time as there is aprox 100MB (70-80MB is &#8220;adult&#8221;)*
+*This will download all of the content filter categories to the USG, this can take some time as there is approx. 100MB (70-80MB is &#8220;adult&#8221;)*
 
 When this is completed run the following:
 
@@ -49,7 +36,7 @@ You are also able to set a redirect URL:
 set service webproxy url-filtering squidguard redirect-url &lt;url&gt;
 ```
 
-*The redirect url is google.com by default, however you could create a custom &#8220;Blocked Website&#8221; page to make users aware.*
+*The redirect URL is google.com by default, however you could create a custom &#8220;Blocked Website&#8221; page to make users aware.*
 
 Now we need to commit these changes to the USG:
 
@@ -67,13 +54,13 @@ set service webproxy url-filtering squidguard redirect-url spottedhyena.co.uk
 commit
 ```
 
-To make this a permenant change you can create a configuration file on the controller, run the command:
+To make this a permanent change you can create a configuration file on the controller, run the command:
 
 ```
 mca-ctrl -t dump-cfg
 ```
 
-Find the &#8220;service&#8221; section and delete all content other than the webproxy, it should looks similar to below:
+Find the &#8220;service&#8221; section and delete all content other than the web proxy, it should looks similar to below:
 
 ```
 "service": {

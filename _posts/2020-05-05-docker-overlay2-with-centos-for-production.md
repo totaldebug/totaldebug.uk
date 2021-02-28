@@ -1,14 +1,7 @@
 ---
 title: Docker Overlay2 with CentOS for production
 date: '2020-05-05'
-author: marksie1988
 layout: post
-permalink: /docker-overlay2-with-centos-for-production/
-tags:
-  - docker
-  - lvgroup
-  - vgcreate
-  - xfs
 thumb_img: thumb.png
 content_img: thumb.png
 ---

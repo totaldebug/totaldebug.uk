@@ -1,18 +1,7 @@
 ---
 title: vCloud Director 8.10 – Renew SSL Certificates
 date: '2018-09-20'
-author: marksie1988
 layout: post
-permalink: /vcloud-director-8-10-renew-ssl-certificates/
-categories:
-  - Linux
-  - VMware
-tags:
-  - certificate
-  - director
-  - ssl
-  - vcloud
-  - vmware
 ---
 Today I had to renew SSL certificates for a vCloud Director 8.10 cell which had expired.
 

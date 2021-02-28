@@ -1,47 +1,32 @@
 ---
-id: 6313
 title: Continuous Integration and Deployment
-date: 2019-10-11T20:19:48+00:00
-author: marksie1988
+date: '2019-10-11'
 layout: post
-guid: http://spottedhyena.co.uk/?p=6313
-permalink: /continuous-integration-and-deployment/
-ct_author_last_updated:
-  - default
-categories:
-  - Automation
-tags:
-  - automation
-  - continuous deployment
-  - continuous integration
-  - github
-  - gitlab
-  - time saver
 ---
-I have recently been looking into CI and CD, mainly for use at home with my various projects etc. but also to further my knowledge. 
+I have recently been looking into CI and CD, mainly for use at home with my various projects etc. but also to further my knowledge.
 
 Over the years I have built up quite an estate of servers that over time become more difficult to manage and maintain, mostly I will spend a long time researching and deploying a solution, but when it breaks weeks / months later i struggle to remember how it was all built.
 
-## There must be a better way! 
+## There must be a better way!
 
-So now im looking for the best way to deploy / re-deploy and test all of my servers and services with minimum effort and without breaking them if I do something wrong. 
+So now im looking for the best way to deploy / re-deploy and test all of my servers and services with minimum effort and without breaking them if I do something wrong.
 
-I started by building out Ansible playbooks, one for each of my servers, this works great for deploying my servers with all the apps that I require, However this doesnt help with things like home assistant configuration changes, if I change my config I have to do it via atom with a remote plugin that allows FTP on changes. This works&#8230; but if i make a mistake i take home assistant offline which doesnt go down well with the family! 
+I started by building out Ansible playbooks, one for each of my servers, this works great for deploying my servers with all the apps that I require, However this doesnt help with things like home assistant configuration changes, if I change my config I have to do it via atom with a remote plugin that allows FTP on changes. This works&#8230; but if i make a mistake i take home assistant offline which doesnt go down well with the family!
 
-After this I thought how can I update my configuration, keep it backed up, have the ability to roll it back and also test it before I put it on my server? 
+After this I thought how can I update my configuration, keep it backed up, have the ability to roll it back and also test it before I put it on my server?
 
-So I have now started using [GitHub](https://github.com/marksie1988/home-assistant-config) to store my configuration, this gives me a backup in case my server dies and also helps the HA Community see examples of the configuration for their own deployments. 
+So I have now started using [GitHub](https://github.com/marksie1988/home-assistant-config) to store my configuration, this gives me a backup in case my server dies and also helps the HA Community see examples of the configuration for their own deployments.
 
-I also want to check the new configuration when it gets committed to GIT but before I download it to home assistant, for this I use [gitlab](https://gitlab.com/marksie1988/home-assistant-config/pipelines). Whenever gitlab detects a commit on the GIT repository it will begin a pipeline on gitlab that checks my latest configuration for various things: 
+I also want to check the new configuration when it gets committed to GIT but before I download it to home assistant, for this I use [gitlab](https://gitlab.com/marksie1988/home-assistant-config/pipelines). Whenever gitlab detects a commit on the GIT repository it will begin a pipeline on gitlab that checks my latest configuration for various things:
 
   * MarkdownLint &#8211; Checks any files with markdown in to make sure it is valid
   * YAMLlint &#8211; Checks YAML files for formatting and validation
   * JSONlint &#8211; Checks any JSON files for formatting and validation
   * HA Stable / Dev / Beta &#8211; My Home Assistant configuration is then checked against the different builds
 
-By doing all of the above checks I will know that the code works as expected and I can also tell that it will work with all the current releases of HomeAssistant. 
+By doing all of the above checks I will know that the code works as expected and I can also tell that it will work with all the current releases of HomeAssistant.
 
-Once the configuration has been checked the pipeline will trigger a webhook back to my Home Assistant server which then pulls the latest commit from GitHub and restarts HomeAssistant. 
+Once the configuration has been checked the pipeline will trigger a webhook back to my Home Assistant server which then pulls the latest commit from GitHub and restarts HomeAssistant.
 
 Now I have gone from roughly 15 / 30 minutes for testing and troubleshooting, along with potential outages down to around 2 minutes and no long outage for my Home Assistant.
 

@@ -1,20 +1,7 @@
 ---
 title: 'I won a Ender 3 3D Printer and i&#8217;m addicted'
 date: '2020-01-13'
-author: marksie1988
 layout: post
-permalink: /i-won-a-ender-3-3d-printer-and-im-addicted/
-ct_author_last_updated:
-  - default
-categories:
-  - 3d Printing
-tags:
-  - 3d printing
-  - competition
-  - creality
-  - ender 3
-  - filament
-  - Free
 ---
 About 6 months ago I entered a competition with [DrZzs](https://www.youtube.com/drzzs) (highly recommend his channel for home automation) and [BangGood](https://www.banggood.com/) to win a Creality Ender 3 3D Printer.
 

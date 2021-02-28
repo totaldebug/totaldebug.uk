@@ -1,17 +1,7 @@
 ---
 title: 3d Printer Axes Calibration
 date: '2020-01-28'
-author: marksie1988
 layout: post
-permalink: /3d-printer-axes-calibration/
-categories:
-  - 3d Printing
-  - Uncategorized
-tags:
-  - 3d printer
-  - axis
-  - calibration
-  - estep
 thumb_img_path: thumb.jpg
 content_img_path: thumb.jpg
 ---
