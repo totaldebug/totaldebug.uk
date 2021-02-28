@@ -8,4 +8,4 @@ In this video I talk about what Docker is, how it can be used and how containeri
 
 For anyone just getting into Docker this video and my Docker series will take you through that Journey.
 
-{% include youtubePlayer.html id=id=page.youtubeId %}
+{% include youtubePlayer.html id=page.youtubeId %}
