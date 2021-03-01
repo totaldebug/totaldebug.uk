@@ -1,35 +1,9 @@
 ---
-id: 604
 title: VMware Distributed Switches (dvSwitch)
-date: 2015-02-18T11:49:38+00:00
-author: marksie1988
+date: 2015-02-18
 layout: post
-guid: http://35.176.61.220/?p=604
-permalink: /vmware-distributed-switches-dvswitch/
-post_views_count:
-  - "1876"
-voted_IP:
-  - 'a:1:{s:15:"193.108.213.144";i:1481183737;}'
-votes_count:
-  - "1"
-categories:
-  - VMware
-tags:
-  - backups
-  - distributed
-  - dvswitch
-  - enterprise
-  - netflow
-  - plus
-  - port-group
-  - portgroup
-  - private vlan
-  - vdswitch
-  - vlan
-  - vmware
-  - vswitch
 ---
-In this article I am going to take you through what a Distributed switch or dvSwitch is and how it is used, I will also talk about why backing them up is so important, then show you how to backup by hand and with the help of some PowerShell scripts I have created for you.  
+In this article I am going to take you through what a Distributed switch or dvSwitch is and how it is used, I will also talk about why backing them up is so important, then show you how to backup by hand and with the help of some PowerShell scripts I have created for you.
 <!--more-->
 
 ## What is a distributed switch?
@@ -44,17 +18,17 @@ This means that if you have 100 ESXi Hosts you only need to configure the PortGr
 
 ## How Do You Use a dvSwitch?
 
-Below I have created an example of a two host cluster using a dvSwitch, the dvSwitchis first configured on vCenter and then hosts are added to the dvSwitch. Adding a host to a dvSwitch will then push the network configuration to the host. 
+Below I have created an example of a two host cluster using a dvSwitch, the dvSwitchis first configured on vCenter and then hosts are added to the dvSwitch. Adding a host to a dvSwitch will then push the network configuration to the host.
 
-Once a host is added to the dvSwitchyou only need to assign the VMK&#8217;s and IP Addresses for it to begin functioning correctly. If you have migrated from a vSwitch you can migrate the VMK&#8217;s across saving additional configuration. 
+Once a host is added to the dvSwitchyou only need to assign the VMK&#8217;s and IP Addresses for it to begin functioning correctly. If you have migrated from a vSwitch you can migrate the VMK&#8217;s across saving additional configuration.
 
 [<img loading="lazy" src="http://35.176.61.220/wp-content/uploads/2015/02/vdSwitch.png" alt="vdSwitch diagram" width="1017" height="621" class="aligncenter size-full wp-image-623" />](http://35.176.61.220/wp-content/uploads/2015/02/vdSwitch.png)
 
-As you can see from the image there are a few differences from a standard switch, you now have &#8220;dvUplinks&#8221; these are virtual vmnic&#8217;s for the physical network cards that are associated to the same service. e.g. management on host A could be vmnic0 where as on host B it could be vmnic8 without dvUplinks we would not be able to assign the same service to different vmnics on each host. 
+As you can see from the image there are a few differences from a standard switch, you now have &#8220;dvUplinks&#8221; these are virtual vmnic&#8217;s for the physical network cards that are associated to the same service. e.g. management on host A could be vmnic0 where as on host B it could be vmnic8 without dvUplinks we would not be able to assign the same service to different vmnics on each host.
 
-After you get your head around dvUplinks everything else falls into place, the rest of the dvSwitch is the same as a standard switch (other than features) 
+After you get your head around dvUplinks everything else falls into place, the rest of the dvSwitch is the same as a standard switch (other than features)
 
-VMK&#8217;s are host specific due to the requirement for an IP Address, these cannot be allocated on a pool basis which is a shame. You have to manually add VMK&#8217;s by going to the host network configuration, selecting vSphere Distributed Switch and then select Manage Virtual adapters, this will then allow you to add / remove / migrate VMK&#8217;s to and from specific port groups. 
+VMK&#8217;s are host specific due to the requirement for an IP Address, these cannot be allocated on a pool basis which is a shame. You have to manually add VMK&#8217;s by going to the host network configuration, selecting vSphere Distributed Switch and then select Manage Virtual adapters, this will then allow you to add / remove / migrate VMK&#8217;s to and from specific port groups.
 
 ## Pros & Cons
 
@@ -160,12 +134,12 @@ vSphere 5.x provides these improvements to Distributed Switch functionality:
 
 Below is a script that I have written that allows automated backups of your dvSwitches.
 
-<pre class="lang:ps decode:true " data-url="https://github.com/SpottedHyenaUK/dvSwitches/raw/master/Get-dvSwitchBackup.ps1"></pre>
+[Get-dvSwitchBackup](https://github.com/SpottedHyenaUK/dvSwitches/raw/master/Get-dvSwitchBackup.ps1)
 
 I have also got many other scripts available for use <a href="https://github.com/SpottedHyenaUK/" target="_blank">here on my GitHub</a>.
 
 ## Final Thoughts
 
-vSphere Distributed Virtual Switches are definitely the correct choice for companies that have the license, is it worth buying the licensing just for dvSwitch? I wouldn&#8217;t say so unless you require one of the specific features only dvSwitch supports. When you environment starts to grow I would say they are vital to saving time deploying hosts and re-configuring networks. I would recommend that you only use one or the other and don&#8217;t use a Hybrid configuration, in a Hybrid mode you are adding more configuration for your team and also added complexity that is not required. As long as you always have a backup of your dvSwitch you will not have any issues with loss of configuration. 
+vSphere Distributed Virtual Switches are definitely the correct choice for companies that have the license, is it worth buying the licensing just for dvSwitch? I wouldn&#8217;t say so unless you require one of the specific features only dvSwitch supports. When you environment starts to grow I would say they are vital to saving time deploying hosts and re-configuring networks. I would recommend that you only use one or the other and don&#8217;t use a Hybrid configuration, in a Hybrid mode you are adding more configuration for your team and also added complexity that is not required. As long as you always have a backup of your dvSwitch you will not have any issues with loss of configuration.
 
 If you have anything to add please comment below, all feedback is appreciated.

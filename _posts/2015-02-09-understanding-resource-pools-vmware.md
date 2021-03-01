@@ -1,34 +1,9 @@
 ---
-id: 520
 title: Understanding Resource Pools in VMware
-date: 2015-02-09T20:05:27+00:00
-author: marksie1988
+date: 2015-02-09
 layout: post
-guid: http://35.176.61.220/?p=520
-permalink: /understanding-resource-pools-vmware/
-post_views_count:
-  - "1391"
-voted_IP:
-  - 'a:1:{s:12:"82.31.38.177";i:1426014599;}'
-votes_count:
-  - "1"
-xyz_fbap:
-  - "1"
-xyz_lnap:
-  - "1"
-xyz_twap:
-  - "1"
-categories:
-  - VMware
-tags:
-  - Powercli
-  - powershell
-  - resource pool
-  - usage
-  - vmware
-  - vsphere
 ---
-It is my experience that resource pools are nearly a four letter word in the virtualization world. Typically I see a look of fear or confusion when I bring up the topic, or I see people using them as folders. Even with some other great resources out there that discuss this topic, a lack of education remains on how resource pools work, and what they do. In this post, I’ll give you my spin on some of the ideals behind a resource pool, and then discuss ways to properly balance resource pools by hand and with the help of some PowerShell scripts I have created for you.  
+It is my experience that resource pools are nearly a four letter word in the virtualization world. Typically I see a look of fear or confusion when I bring up the topic, or I see people using them as folders. Even with some other great resources out there that discuss this topic, a lack of education remains on how resource pools work, and what they do. In this post, I’ll give you my spin on some of the ideals behind a resource pool, and then discuss ways to properly balance resource pools by hand and with the help of some PowerShell scripts I have created for you.
 <!--more-->
 
 ## What is a Resource Pool?
@@ -63,7 +38,7 @@ Let’s start with the resource pools. You’ll notice 3 points for each pool �
 
 Based on this, the Production resource pool has roughly 80% of the shares. However, when you divide those shares for the resource pool by the number of VMs that live in the resource pool, you start to see the problem. The bottom part of the graphic shows the entitlements at a **Per VM** level. Test has more than twice what Production has when looking at individual VMs.
 
-The below script will calculate the Per VM resource allocation for you: 
+The below script will calculate the Per VM resource allocation for you:
 
 <pre class="height-set:true height:200 lang:default decode:true " data-url="https://raw.githubusercontent.com/SpottedHyenaUK/VMwareScripts/master/ResourcePools/Get-ResourcePoolSharesReport.ps1" ></pre>
 
@@ -73,15 +48,15 @@ The script has many options and will calculate what the share value should be by
 
 So now you are thinking oh no! My resource pools are totally wrong and this could be causing all my performance issues, so how do you keep the balance?
 
-The trick to keeping your resource pools balanced is to work it out backwards and never, ever use the default high, normal, and low shares values. Decide the weight of your per VM shares first. Let’s say that I want my Test VMs to receive half as much share weight as Production. Shares are an arbitrary value that just determine weight, they aren’t a magic number so you could create your own values. I prefer to stick with the VMware defaults, this way you know where you stand. So, let’s give Test VMs 500 shares per CPU and Per MB Ram each, and Production VMs 2000 shares per CPU and Per MB Ram. I would change the resource pools to this:  
-**Calculations:**  
-[Total amount of VM RAM in Pool] * [shares] = [Required RAM Shares]  
+The trick to keeping your resource pools balanced is to work it out backwards and never, ever use the default high, normal, and low shares values. Decide the weight of your per VM shares first. Let’s say that I want my Test VMs to receive half as much share weight as Production. Shares are an arbitrary value that just determine weight, they aren’t a magic number so you could create your own values. I prefer to stick with the VMware defaults, this way you know where you stand. So, let’s give Test VMs 500 shares per CPU and Per MB Ram each, and Production VMs 2000 shares per CPU and Per MB Ram. I would change the resource pools to this:
+**Calculations:**
+[Total amount of VM RAM in Pool] * [shares] = [Required RAM Shares]
 [Total amount of VM vCPU in Pool] * [shares] = [Required CPU Shares]
 
-I would recommend having all virtual machines in a resource pool to avoid any issues with balancing your load. If you don&#8217;t want to do that then make sure you set your custom shares according to the VMware standards. 
+I would recommend having all virtual machines in a resource pool to avoid any issues with balancing your load. If you don&#8217;t want to do that then make sure you set your custom shares according to the VMware standards.
 
-**Our resource pools:**  
-Production would get 90,000 \* 20 = 180,000 shares of RAM, 90 \* 2000 = 180,000 shares of CPU  
+**Our resource pools:**
+Production would get 90,000 \* 20 = 180,000 shares of RAM, 90 \* 2000 = 180,000 shares of CPU
 Test would get 10,000 \* 5 = 50000 shares of RAM, 10 \* 500 = 5000 Shares of CPU
 
 Much easier, right? Note! If the number of VMs in the resource pool change, you’ll need to update the resource pool shares value to reflect the added VMs. Your options are to manually update the pool when the number of VMs inside change (no fun) or use PowerCLI!
@@ -94,11 +69,11 @@ Now let&#8217;s do some coding. This very basic script will connect to the vCent
 
 <pre class="lang:ps decode:true  height:200" data-url="https://raw.githubusercontent.com/SpottedHyenaUK/ResourcePoolScripts/master/Set-ResourcePoolShares.ps1" ></pre>
 
-Script Usage: 
+Script Usage:
 
 <pre class="lang:ps decode:true " >.\Set-ResourcePoolShares.ps1 -vcenter "vCenter.domain.com" -cluster "your-cluster"</pre>
 
-I am also in the process of writing some more resource pool scripts that will email a report should you have any pools not at the correct resource levels. 
+I am also in the process of writing some more resource pool scripts that will email a report should you have any pools not at the correct resource levels.
 
 You can find all of my various scripts in my <a href="https://github.com/SpottedHyenaUK/VMwareScripts" target="_blank">GitHub repository</a>
 

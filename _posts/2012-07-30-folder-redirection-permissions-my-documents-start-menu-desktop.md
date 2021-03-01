@@ -1,26 +1,12 @@
 ---
-id: 169
 title: Folder redirection permissions. My Documents / Start Menu / Desktop
-date: 2012-07-30T13:51:46+00:00
-author: marksie1988
+date: 2012-07-30
 layout: post
-guid: http://35.176.61.220/?p=169
-permalink: /folder-redirection-permissions-my-documents-start-menu-desktop/
-post_views_count:
-  - "3000"
-  - "3000"
-categories:
-  - Windows Server
-tags:
-  - desktop
-  - documents
-  - redirected
-  - start
 ---
-How to correctly set-up folder redirection permissions for My Documents, Start Menu and Desktop. I have worked on many company computer systems where this hadn&#8217;t been done correctly resulting in full access to all files and folders, as an outsider I had access to other peoples my documents from my laptop without being on the domain! Following this article will stop that happening to your data.  
+How to correctly set-up folder redirection permissions for My Documents, Start Menu and Desktop. I have worked on many company computer systems where this hadn&#8217;t been done correctly resulting in full access to all files and folders, as an outsider I had access to other peoples my documents from my laptop without being on the domain! Following this article will stop that happening to your data.
 <!--more-->
 
-**When creating the redirection share, limit access to the share to only users that need access.**  
+**When creating the redirection share, limit access to the share to only users that need access.**
 <!--more-->
 
 Because redirected folders contain personal information, such as documents and EFS certificates care should be taken to protect them as well as possible. In general:
@@ -31,64 +17,62 @@ Because redirected folders contain personal information, such as documents and E
 
 **Table 12 NTFS Permissions for Folder Redirection Root Folder**
 
-### 
-
 <table>
   <tr>
     <th colspan="1">
       User Account
     </th>
-    
+
     <th colspan="1">
       Minimum permissions required
     </th>
   </tr>
-  
+
   <tr>
     <td colspan="1">
       Creator/Owner
     </td>
-    
+
     <td colspan="1">
       Full Control, Subfolders And Files Only
     </td>
   </tr>
-  
+
   <tr>
     <td colspan="1">
       Administrator
     </td>
-    
+
     <td colspan="1">
       None
     </td>
   </tr>
-  
+
   <tr>
     <td colspan="1">
       Security group of users needing to put data on share.
     </td>
-    
+
     <td colspan="1">
       List Folder/Read Data, Create Folders/Append Data &#8211; This Folder Only
     </td>
   </tr>
-  
+
   <tr>
     <td colspan="1">
       Everyone
     </td>
-    
+
     <td colspan="1">
       No Permissions
     </td>
   </tr>
-  
+
   <tr>
     <td colspan="1">
       Local System
     </td>
-    
+
     <td colspan="1">
       Full Control, This Folder, Subfolders And Files
     </td>
@@ -97,46 +81,44 @@ Because redirected folders contain personal information, such as documents and E
 
 **Table 13 Share level (SMB) Permissions for Folder Redirection Share**
 
-### 
-
 <table>
   <tr>
     <th colspan="1">
       User Account
     </th>
-    
+
     <th colspan="1">
       Default Permissions
     </th>
-    
+
     <th colspan="1">
       Minimum permissions required
     </th>
   </tr>
-  
+
   <tr>
     <td colspan="1">
       Everyone
     </td>
-    
+
     <td colspan="1">
       Full Control
     </td>
-    
+
     <td colspan="1">
       No Permissions
     </td>
   </tr>
-  
+
   <tr>
     <td colspan="1">
       Security group of users needing to put data on share.
     </td>
-    
+
     <td colspan="1">
       N/A
     </td>
-    
+
     <td colspan="1">
       Full Control,
     </td>
@@ -145,74 +127,72 @@ Because redirected folders contain personal information, such as documents and E
 
 **Table 14 NTFS Permissions for Each Users Redirected Folder**
 
-### 
-
 <table>
   <tr>
     <th colspan="1">
       User Account
     </th>
-    
+
     <th colspan="1">
       Default Permissions
     </th>
-    
+
     <th colspan="1">
       Minimum permissions required
     </th>
   </tr>
-  
+
   <tr>
     <td colspan="1">
       %Username%
     </td>
-    
+
     <td colspan="1">
       Full Control, Owner Of Folder
     </td>
-    
+
     <td colspan="1">
       Full Control, Owner Of Folder
     </td>
   </tr>
-  
+
   <tr>
     <td colspan="1">
       Local System
     </td>
-    
+
     <td colspan="1">
       Full Control
     </td>
-    
+
     <td colspan="1">
       Full Control
     </td>
   </tr>
-  
+
   <tr>
     <td colspan="1">
       Administrators
     </td>
-    
+
     <td colspan="1">
       No Permissions
     </td>
-    
+
     <td colspan="1">
       No Permissions
     </td>
   </tr>
-  
+
   <tr>
     <td colspan="1">
       Everyone
     </td>
-    
+
     <td colspan="1">
       No Permissions
     </td>
-    
+
     <td colspan="1">
       No Permissions
     </td>

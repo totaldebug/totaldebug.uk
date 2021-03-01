@@ -1,35 +1,18 @@
 ---
-id: 761
 title: Failed to connect to VMware Lookup Service, SSL certificate verification failed
-date: 2016-03-30T11:18:59+00:00
-author: marksie1988
+date: 2016-03-30
 layout: post
-guid: http://35.176.61.220/?p=761
-permalink: /failed-connect-vmware-lookup-service-ssl-certificate-verification-failed/
-post_views_count:
-  - "534"
-  - "534"
-categories:
-  - VMware
-tags:
-  - admin
-  - failed
-  - lookup
-  - regeneration
-  - service
-  - ssl certificate
-  - vcloud
-  - vcns
-  - vmware
 ---
-Recently I have been playing in my lab with VCSA and vCNS, I found that when I tried to connect to the vCenter I received this error: 
+Recently I have been playing in my lab with VCSA and vCNS, I found that when I tried to connect to the vCenter I received this error:
 
-<pre class="lang:default decode:true " >Failed to connect to VMware Lookup Service.
-SSL certificate verification failed.</pre>
+```sh
+Failed to connect to VMware Lookup Service.
+SSL certificate verification failed.
+```
 
 <!--more-->
 
-I was stuck for a little while as to why I was getting this error, then I noticed that the SSL Cert had a different name to the appliance due to it being deployed and then renamed. Lucky for me the fix for this is very simple! 
+I was stuck for a little while as to why I was getting this error, then I noticed that the SSL Cert had a different name to the appliance due to it being deployed and then renamed. Lucky for me the fix for this is very simple!
 
   * Go to http://<vcenter>:5480
   * Click the &#8220;Admin&#8221; tab

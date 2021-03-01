@@ -1,33 +1,7 @@
 ---
-id: 634
 title: NUMA and vNUMA made simple!
-date: 2015-03-16T12:02:35+00:00
-author: marksie1988
+date: 2015-03-16
 layout: post
-guid: http://35.176.61.220/?p=634
-permalink: /numa-and-vnuma-made-simple/
-post_views_count:
-  - "1600"
-voted_IP:
-  - 'a:3:{s:15:"115.114.126.186";i:1426682486;s:12:"86.139.145.7";i:1426777649;s:14:"109.231.196.34";i:1475833226;}'
-votes_count:
-  - "3"
-xyz_fbap:
-  - "1"
-xyz_lnap:
-  - "1"
-xyz_twap:
-  - "1"
-categories:
-  - VMware
-tags:
-  - cpu
-  - memory
-  - 'N%L'
-  - non-uniform
-  - numa
-  - vmware
-  - vNuma
 ---
 ## What is NUMA?
 
@@ -45,7 +19,7 @@ In short NUMA links multiple small high performing nodes together inside a singl
 
 vNUMA stands for Virtual Non-Uniform Memory Access, ESX has been NUMA-aware singe 2002, with VMware ESX 1.5 Introducing memory management features to improve locality on NUMA hardware. This works very well for placing VMs on local memory for resources being used by that VM, particularly for VMs that are smaller than the NUMA node. Large VMs, however, will start to see performance issues as they breach a single node, these VMs will require some additional help with resource scheduling.
 
-When enabled vNUMA exposes the VM OS to the physical NUMA. This provides performance improvements with the VM by allowing the OS and programs to best utilise the NUMA optimisations. VMs will then benefit from NUMA, even if the VM itself is larger than the physical NUMA nodes 
+When enabled vNUMA exposes the VM OS to the physical NUMA. This provides performance improvements with the VM by allowing the OS and programs to best utilise the NUMA optimisations. VMs will then benefit from NUMA, even if the VM itself is larger than the physical NUMA nodes
 
   * An administrator can enable / disable vNUMA on a VM using advanced vNUMA Controls
   * If a VM has more than eight vCPUs, vNUMA is auto enabled
@@ -54,11 +28,11 @@ When enabled vNUMA exposes the VM OS to the physical NUMA. This provides perform
 
 ## How to determine the size of a NUMA node
 
-In most cases the easiest way to determine a NUMA nodes boundaries is by dividing the amount of physical RAM by the number of logical processoes (cores), this is a very loose guideline. Further information on determining the specific NUMA node setup can be found here: 
+In most cases the easiest way to determine a NUMA nodes boundaries is by dividing the amount of physical RAM by the number of logical processoes (cores), this is a very loose guideline. Further information on determining the specific NUMA node setup can be found here:
 
-  * <a href="https://communities.vmware.com/people/marcelo.soares/blog/2012/09/21/how-to-check-if-numa-is-enabled-on-esx-hardware" target="_Blank">VMware</a>
-  * <a href="http://blogs.technet.com/b/gbanin/archive/2013/06/26/how-to-determine-the-amount-of-memory-and-logical-processor-of-each-numa-node.aspx" target="_Blank">Microsoft</a>
-  * <a href="https://www.sharcnet.ca/help/index.php/Using_numactl" target="_Blank">Linux</a>
+  * [VMware](https://communities.vmware.com/people/marcelo.soares/blog/2012/09/21/how-to-check-if-numa-is-enabled-on-esx-hardware)
+  * [Microsoft](http://blogs.technet.com/b/gbanin/archive/2013/06/26/how-to-determine-the-amount-of-memory-and-logical-processor-of-each-numa-node.aspx)
+  * [Linux](https://www.sharcnet.ca/help/index.php/Using_numactl)
 
 ## What happens with vNUMA during vMotion?
 
@@ -68,12 +42,12 @@ A VM will initially have its vNUMA topology built when it is powered on, each ti
 
 If you start to see performance issues with VMs then I would recommend running this test to make sure that the VM isnt using resources from other Nodes.
 
-1. SSH to the ESXi host that the VM resides on  
-2. Type esxtop and press enter  
-3. Press &#8220;m&#8221;  
-4. Press &#8220;f&#8221;  
-5. Press &#8220;G&#8221; until a * shows next to NUMA STATS  
-6. look at the column N%L this shows the numa usage if it is lower than 100 it is sharing resources from another numa node, see the example shown below:  
+1. SSH to the ESXi host that the VM resides on
+2. Type esxtop and press enter
+3. Press &#8220;m&#8221;
+4. Press &#8220;f&#8221;
+5. Press &#8220;G&#8221; until a * shows next to NUMA STATS
+6. look at the column N%L this shows the numa usage if it is lower than 100 it is sharing resources from another numa node, see the example shown below:
 [<img loading="lazy" src="http://35.176.61.220/wp-content/uploads/2015/03/NumaUsage.png" alt="Numa Usage" width="684" height="182" class="aligncenter size-full wp-image-654" />](http://35.176.61.220/wp-content/uploads/2015/03/NumaUsage.png)
 
 As you can see we have multiple VMs using different NUMA nodes, these VMs were showing slower performance than expected, once we sized them correctly they stopped sharing NUMA nodes and this resolved our issues.
