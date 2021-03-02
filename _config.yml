@@ -4,6 +4,7 @@ title: TotalDebug
 url: "https://totaldebug.uk"
 baseurl: /
 permalink: '/:title/'
+reading_time: true
 collections:
   posts:
     permalink: '/posts/:title/'
@@ -26,13 +27,13 @@ sass:
   indentWidth: 4
   style: nested
   precision: 10
-  
+
 webp:
   enabled: true
   quality: 75
   img_dir: ["/assets/images/"]
   nested: true
-  formats: [".jpeg", ".jpg", ".png", ".tiff"] 
+  formats: [".jpeg", ".jpg", ".png", ".tiff"]
   gifs: [".gif"]
   regenerate: false
   webp_path: nil
