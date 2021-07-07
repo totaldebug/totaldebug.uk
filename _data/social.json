@@ -13,6 +13,12 @@
             "url": "https://github.com/marksie1988"
         },
         {
+            "type": "github",
+            "title": "GitHub",
+            "icon": "fa-github",
+            "url": "https://github.com/totaldebug"
+        },
+        {
             "type": "linkedin",
             "title": "LinkedIn",
             "icon": "fa-linkedin",
