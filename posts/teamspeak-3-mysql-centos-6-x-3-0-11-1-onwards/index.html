@@ -1,0 +1,392 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>Teamspeak 3 with MySQL on CentOS 6.x (3.0.11.1 Onwards) - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">Teamspeak 3 with MySQL on CentOS 6.x (3.0.11.1 Onwards)</h1>
+      
+        
+<small>2 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>By default Teamspeak 3 uses a SQLite database, most people tend to use this however for those of us that prefer MySQL there is a way to change it.</p>
+
+<p>Follow this small tutorial to create a Teamspeak 3 Server on CentOS 6.x using a MySQL Database!
+<!--more--></p>
+
+<p>First we need to install or upgrade MySQL:
+Install:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-Uvh</span> http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+rpm <span class="nt">-Uvh</span> http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+yum <span class="nt">--enablerepo</span><span class="o">=</span>remi,remi-test list mysql mysql-server
+yum <span class="nt">--enablerepo</span><span class="o">=</span>remi,remi-test <span class="nb">install </span>mysql mysql-server
+</code></pre></div></div>
+
+<p>Upgrade:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-Uvh</span> http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+rpm <span class="nt">-Uvh</span> http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+yum <span class="nt">--enablerepo</span><span class="o">=</span>remi,remi-test list mysql mysql-server
+yum <span class="nt">--enablerepo</span><span class="o">=</span>remi,remi-test update mysql mysql-server
+mysql_upgrade <span class="nt">-u</span> root <span class="nt">-p</span>
+</code></pre></div></div>
+
+<p>Now we need to create a new user on our server, this user will be used for the installation and running of teamspeak. For security reasons this user will not have sudo etc.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>useradd ts3user
+passwd ts3user
+</code></pre></div></div>
+
+<p>We are now in a position where we can configure MySQL with a Database and User for Teamspeak</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service mysqld start
+chkconfig mysqld on
+mysql_secure_installation
+
+mysql <span class="nt">-uroot</span> <span class="nt">-p</span>
+</code></pre></div></div>
+<pre><code class="language-mysql">create database ts3db;
+grant all on ts3db.* to 'ts3user'@'127.0.0.1' identified by 'ts3password';
+flush privileges;
+</code></pre>
+
+<p>Once the MySQL Database is set-up along with a user we will create an init script for Teamspeak so that we can start the server as a service, create the script: vi /etc/init.d/teamspeak</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c"># /etc/init.d/teamspeak</span>
+
+<span class="c">### BEGIN INIT INFO</span>
+<span class="c"># Provides: teamspeak</span>
+<span class="c"># Required-Start: $local_fs $remote_fs</span>
+<span class="c"># Required-Stop: $local_fs $remote_fs</span>
+<span class="c"># Should-Start: $network</span>
+<span class="c"># Should-Stop: $network</span>
+<span class="c"># Default-Start: 2 3 4 5</span>
+<span class="c"># Default-Stop: 0 1 6</span>
+<span class="c"># Short-Description: Teamspeak 3 Server</span>
+<span class="c"># chkconfig: 2345 94 05</span>
+<span class="c"># Description: Starts the Teamspeak 3 server</span>
+<span class="c">### END INIT INFO</span>
+
+<span class="c"># Source function library.</span>
+<span class="nb">.</span> /etc/rc.d/init.d/functions
+
+<span class="c"># Settings</span>
+<span class="nv">SERVICENAME</span><span class="o">=</span><span class="s1">'Teamspeak 3 Servers'</span>
+<span class="nv">SPATH</span><span class="o">=</span><span class="s1">'/home/ts3user/teamspeak3-server/'</span>
+<span class="nv">SERVICE</span><span class="o">=</span><span class="s1">'/home/ts3user/teamspeak3-server/ts3server_startscript.sh'</span>
+<span class="nv">OPTIONS</span><span class="o">=</span><span class="s1">'inifile=ts3server.ini'</span>
+<span class="nv">USERNAME</span><span class="o">=</span><span class="s1">'ts3user'</span>
+
+<span class="nv">ME</span><span class="o">=</span><span class="sb">`</span><span class="nb">whoami</span><span class="sb">`</span>
+as_user<span class="o">()</span> <span class="o">{</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$ME</span> <span class="o">==</span> <span class="nv">$USERNAME</span> <span class="o">]</span> <span class="p">;</span> <span class="k">then
+</span>bash <span class="nt">-c</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="k">else
+</span>su - <span class="nv">$USERNAME</span> <span class="nt">-c</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="k">fi</span>
+<span class="o">}</span>
+
+mc_start<span class="o">()</span> <span class="o">{</span>
+<span class="nb">echo</span> <span class="s2">"Starting </span><span class="nv">$SERVICENAME</span><span class="s2">..."</span>
+<span class="nb">cd</span> <span class="nv">$SPATH</span>
+as_user <span class="s2">"cd </span><span class="nv">$SPATH</span><span class="s2"> &amp;&amp; </span><span class="nv">$SERVICE</span><span class="s2"> start </span><span class="k">${</span><span class="nv">OPTIONS</span><span class="k">}</span><span class="s2">"</span>
+<span class="o">}</span>
+
+mc_stop<span class="o">()</span> <span class="o">{</span>
+<span class="nb">echo</span> <span class="s2">"Stopping </span><span class="nv">$SERVICENAME</span><span class="s2">"</span>
+as_user <span class="s2">"</span><span class="nv">$SERVICE</span><span class="s2"> stop"</span>
+<span class="o">}</span>
+
+mc_status<span class="o">(){</span>
+    <span class="c"># run checks to determine if the service is running or use generic status</span>
+    status <span class="nt">-p</span> /home/ts3user/teamspeak3-server/ts3server.pid <span class="nv">$SERVICENAME</span>
+<span class="o">}</span>
+mc_status_q<span class="o">(){</span>
+    rh_status &amp;gt<span class="p">;</span>/dev/null 2&amp;gt<span class="p">;</span>&amp;1
+<span class="o">}</span>
+
+<span class="c"># Start and stop the service here</span>
+<span class="k">case</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="k">in
+</span>start<span class="p">)</span>
+mc_start
+<span class="p">;;</span>
+stop<span class="p">)</span>
+mc_stop
+<span class="p">;;</span>
+restart<span class="p">)</span>
+mc_stop
+mc_start
+<span class="p">;;</span>
+status<span class="p">)</span>
+mc_status
+<span class="p">;;</span>
+<span class="k">*</span><span class="p">)</span>
+<span class="nb">echo</span> <span class="s2">"Usage: /etc/init.d/teamspeak {start|stop|restart|status}"</span>
+<span class="nb">exit </span>1
+<span class="p">;;</span>
+<span class="k">esac</span>
+
+<span class="nb">exit </span>0
+</code></pre></div></div>
+
+<p>Now we will login with our new ts3user created at the beginning of this tutorial, download Teamspeak Server 3 64-bit for Linux and extract in your home directory, get the latest version here: <a href="http://www.teamspeak.com/?page=downloads">http://www.teamspeak.com/?page=downloads</a>
+As TS3User:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /home/ts3user/
+wget http://dl.4players.de/ts/releases/3.0.11.1/teamspeak3-server_linux-amd64-3.0.11.1.tar.gz
+<span class="nb">tar</span> <span class="nt">-xvf</span> teamspeak3-server_linux-amd64-3.0.11.1.tar.gz
+<span class="nb">mv </span>teamspeak3-server_linux-amd64 teamspeak3-server
+<span class="nb">cd </span>teamspeak3-server
+</code></pre></div></div>
+
+<p>As Root:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cp </span>redist/libmariadb.so.2 /lib64/libmariadb.so.2
+ldd libts3db_mariadb.so
+</code></pre></div></div>
+
+<p>As Ts3user:
+ts3server.ini stores the configuration for the teamspeak server, we need to edit this to work with MySQL instead of SQLite: vi ts3server.ini</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">machine_id</span><span class="o">=</span>1
+<span class="nv">default_voice_port</span><span class="o">=</span>9987
+<span class="nv">voice_ip</span><span class="o">=</span>0.0.0.0
+<span class="nv">licensepath</span><span class="o">=</span>
+<span class="nv">filetransfer_port</span><span class="o">=</span>30033
+<span class="nv">filetransfer_ip</span><span class="o">=</span>0.0.0.0
+<span class="nv">query_port</span><span class="o">=</span>10011
+<span class="nv">query_ip</span><span class="o">=</span>0.0.0.0
+<span class="nv">dbplugin</span><span class="o">=</span>ts3db_mariadb
+<span class="nv">dbpluginparameter</span><span class="o">=</span>ts3db_mariadb.ini
+<span class="nv">dbsqlpath</span><span class="o">=</span>sql/
+<span class="nv">dbsqlcreatepath</span><span class="o">=</span>create_mariadb/
+<span class="nv">logpath</span><span class="o">=</span>logs
+<span class="nv">logquerycommands</span><span class="o">=</span>0
+<span class="nv">dbclientkeepdays</span><span class="o">=</span>30
+<span class="nv">logappend</span><span class="o">=</span>0
+<span class="nv">query_skipbruteforcecheck</span><span class="o">=</span>0
+</code></pre></div></div>
+
+<p>We must now create a file called ts3db_mariadb.ini, this will hold your database login details:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>config]
+<span class="nv">host</span><span class="o">=</span>127.0.0.1
+<span class="nv">port</span><span class="o">=</span>3306
+<span class="nv">username</span><span class="o">=</span>ts3user
+<span class="nv">password</span><span class="o">=</span>ts3password
+<span class="nv">database</span><span class="o">=</span>ts3db
+<span class="nv">socket</span><span class="o">=</span>
+</code></pre></div></div>
+
+<p>Start Teamspeak:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./ts3server_startscript.sh start
+</code></pre></div></div>
+
+<p>You should now see that teamspeak 3 is installed and you will see a message on screen with a privilege token and your server query admin account details, it is important to copy these as you will need them to administer your server.</p>
+
+<p>Stop the server:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./ts3server_startscript.sh stop
+</code></pre></div></div>
+
+<p>Check the logs in the log directory. if everything is OK, log back in as root, enable the service and start it:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> <span class="o">=</span>x /etc/init.d/teamspeak
+chkconfig <span class="nt">--add</span> teamspeak
+chkconfig teamspeak on
+service teamspeak start
+</code></pre></div></div>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2014-10-31 00:00">Friday, October 31, 2014</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

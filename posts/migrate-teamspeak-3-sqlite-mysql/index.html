@@ -1,0 +1,267 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>Migrate TeamSpeak 3 from SQLite to MySQL - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">Migrate TeamSpeak 3 from SQLite to MySQL</h1>
+      
+        
+<small>1 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>One of the things I wanted to do was migrate my teamspeak server from SQLite to MySQL so I created the below which makes the migration easy.</p>
+
+<!--more-->
+
+<ol>
+  <li>Stop the TeamSpeak Server</li>
+</ol>
+
+<p>2.Run the following command to export configuration:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sqlite3 ts3server.sqlitedb .dump | <span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"sqlite_sequence"</span> |grep <span class="nt">-v</span> <span class="s2">"COMMIT;"</span> | <span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"BEGIN TRANSACTION;"</span> | <span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"PRAGMA "</span> | <span class="nb">sed</span> <span class="s1">'s/autoincrement/auto_increment/Ig'</span> | <span class="nb">sed</span> <span class="s1">'s/"/`/Ig'</span> &amp;gt<span class="p">;</span> ts3_export.sql
+</code></pre></div></div>
+
+<p>This will export the SQLite configuration in MySQL Format to a file called ts3_export.sql</p>
+
+<ol>
+  <li>Import the configuration to MySQL:</li>
+</ol>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-u</span> username <span class="nt">-p</span> database_name &amp;lt<span class="p">;</span> ts3_export.sql
+</code></pre></div></div>
+
+<p>This will import the ts3_export.sql file into a database of your choosing.</p>
+
+<ol>
+  <li>edit ts3server.ini to the following:</li>
+</ol>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">machine_id</span><span class="o">=</span>
+<span class="nv">default_voice_port</span><span class="o">=</span>9987
+<span class="nv">voice_ip</span><span class="o">=</span>0.0.0.0
+<span class="nv">licensepath</span><span class="o">=</span>
+<span class="nv">filetransfer_port</span><span class="o">=</span>30033
+<span class="nv">filetransfer_ip</span><span class="o">=</span>0.0.0.0
+<span class="nv">query_port</span><span class="o">=</span>10011
+<span class="nv">query_ip</span><span class="o">=</span>0.0.0.0
+<span class="nv">query_ip_whitelist</span><span class="o">=</span>query_ip_whitelist.txt
+<span class="nv">query_ip_blacklist</span><span class="o">=</span>query_ip_blacklist.txt
+<span class="nv">dbplugin</span><span class="o">=</span>ts3db_mysql
+<span class="nv">dbpluginparameter</span><span class="o">=</span>ts3db_mysql.ini
+<span class="nv">dbsqlpath</span><span class="o">=</span>sql/
+<span class="nv">dbsqlcreatepath</span><span class="o">=</span>create_mysql/
+<span class="nv">dbconnections</span><span class="o">=</span>10
+<span class="nv">logpath</span><span class="o">=</span>logs
+<span class="nv">logquerycommands</span><span class="o">=</span>0
+<span class="nv">dbclientkeepdays</span><span class="o">=</span>30
+<span class="nv">logappend</span><span class="o">=</span>0
+</code></pre></div></div>
+
+<ol>
+  <li>Create a file called ts3db_mysql.ini which contains:</li>
+</ol>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>config]
+<span class="nv">host</span><span class="o">=</span>localhost
+<span class="nv">port</span><span class="o">=</span>3306
+<span class="nv">username</span><span class="o">=</span>ts3user
+<span class="nv">password</span><span class="o">=</span>ts3password
+<span class="nv">database</span><span class="o">=</span>ts3db
+<span class="nv">socket</span><span class="o">=</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Start TeamSpeak and it should now be working on MySQL</li>
+</ol>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2014-04-28 00:00">Monday, April 28, 2014</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

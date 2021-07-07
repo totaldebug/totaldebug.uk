@@ -1,0 +1,268 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>How to Make the Shutdown Button Unavailable with Group Policy - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">How to Make the Shutdown Button Unavailable with Group Policy</h1>
+      
+        
+<small>2 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>You can use Group Policy Editor to make the <strong>Shutdown</strong> button unavailable in the <strong>Log On to Windows</strong> dialog box that appears when you press
+CTRL+ALT+DELETE on the Welcome to Windows screen.</p>
+
+<h4 id="to-edit-the-local-policy-on-a-windows-2000-based-computer">To Edit the Local Policy on a Windows 2000-Based Computer</h4>
+
+<p>To
+make the <strong>Shutdown</strong> button unavailable on a standalone Windows
+2000-based computer:</p>
+
+<ol>
+  <li>Click <strong>Start</strong>,
+    and then click <strong>Run</strong>.</li>
+  <li>In the <strong>Open</strong> box, type gpedit.msc, and then click <strong>OK</strong>.</li>
+  <li>Expand <strong>Computer
+    Configuration</strong>, expand <strong>Windows Settings</strong>, expand <strong>Security
+    Settings</strong>, expand <strong>Local Policies</strong>, and then click <strong>Security
+    Options</strong>.</li>
+  <li>In the right pane, double-click <strong>Shutdown:</strong><strong>Allow
+    system to be shut down without having to log on</strong>.</li>
+  <li>Click <strong>Disabled</strong>, and then click <strong>OK</strong>.<strong>NOTE</strong>: If domain-level policy settings are
+    defined, they may override this local policy setting.</li>
+  <li>Quit Group Policy Editor.</li>
+  <li>Restart the computer.</li>
+</ol>
+
+<h4 id="tocHeadRef">To Edit the Group Policy in a Domain</h4>
+
+<p>To edit a domain-wide
+policy to make the <strong>Shutdown</strong>button unavailable::</p>
+
+<ol>
+  <li>Start the Active Directory Users and
+    Computers snap-in. To do this, click <strong>Start</strong>, point to<strong>Programs</strong>, point to <strong>Administrative Tools</strong>, and then click <strong>Active Directory Users and Computers</strong>.</li>
+  <li>In the console, right-click your domain, and
+    then click <strong>Properties</strong>.</li>
+  <li>Click the <strong>Group
+    Policy</strong>tab.</li>
+  <li>In the <strong>Group Policy Object Links</strong> box, click the group policy for which you
+    want to apply this setting. For example, click <strong>Default
+    Domain Policy</strong>.</li>
+  <li>Click <strong>Edit</strong>.</li>
+  <li>Expand <strong>User
+    Configuration</strong>, expand <strong>Administrative Templates</strong>, and then click<strong>Start Menu &amp; Taskbar</strong>.</li>
+  <li>In the right pane, double-click <strong>Disable and remove the Shut Down command</strong>.</li>
+  <li>Click <strong>Enabled</strong>, and then click <strong>OK</strong>.</li>
+  <li>Quit the Group Policy editor, and then
+    click <strong>OK</strong>.</li>
+</ol>
+
+<h3 id="tocHeadRef">Troubleshooting</h3>
+
+<p>Group Policy changes are not immediately
+enforced. Group Policy background processing can take up to 5 minutes to be
+refreshed on domain controllers, and up to 120 minutes to be refreshed on client
+computers. To force background processing of Group Policy settings, use the
+Secedit.exe tool. To do this:</p>
+
+<ol>
+  <li>Click <strong>Start</strong>,
+    and then click <strong>Run</strong>.</li>
+  <li>In the <strong>Open</strong> box, type cmd, and then click <strong>OK</strong>.</li>
+  <li>Type secedit /refreshpolicy user_policy, and then press ENTER.</li>
+  <li>Type secedit /refreshpolicy machine_policy, and then press
+    ENTER.</li>
+  <li>Type exit, and then press ENTER to quit the command prompt.</li>
+</ol>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2011-07-08 00:00">Friday, July  8, 2011</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

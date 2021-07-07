@@ -1,0 +1,941 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="https://totaldebug.uk/feed.xml" rel="self" type="application/atom+xml" /><link href="https://totaldebug.uk/" rel="alternate" type="text/html" /><updated>2021-07-07T12:51:01+00:00</updated><id>https://totaldebug.uk/feed.xml</id><title type="html">TotalDebug</title><entry><title type="html">Sqitch, Sensible database change management</title><link href="https://totaldebug.uk/posts/sqitch-sensible-database-change-management/" rel="alternate" type="text/html" title="Sqitch, Sensible database change management" /><published>2021-07-07T00:00:00+00:00</published><updated>2021-07-07T00:00:00+00:00</updated><id>https://totaldebug.uk/posts/sqitch-sensible-database-change-management</id><content type="html" xml:base="https://totaldebug.uk/posts/sqitch-sensible-database-change-management/">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;Recently I have been working on a few projects that utilise PostgreSQL databases,
+as the projects have grown our team has found it increasingly more difficult to manage
+all of the database changes between dev / staging / prod without missing parts of functions
+or missing table columns, especially over long development periods.&lt;/p&gt;
+
+&lt;p&gt;Due to this I spent the past month looking into many different ways to manage this, we ended
+up landing on sqitch, it wasn’t the first product tested and below I will run through
+some of the others that I found and the issues we saw with them.&lt;/p&gt;
+
+&lt;h2 id=&quot;expectations&quot;&gt;Expectations&lt;/h2&gt;
+
+&lt;p&gt;So what did our team expect would be delivered by the database change management tool?&lt;/p&gt;
+
+&lt;p&gt;Well here is the list:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Native SQL support&lt;/li&gt;
+  &lt;li&gt;No limitations on SQL functionality&lt;/li&gt;
+  &lt;li&gt;Open Source, or have a feature rich community edition that is well supported&lt;/li&gt;
+  &lt;li&gt;Easily managed version control, ideally without need for new SQL files for each change&lt;/li&gt;
+  &lt;li&gt;Ability to rollback changes to specific versions&lt;/li&gt;
+  &lt;li&gt;Unix command line utility for easy automation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;the-testing-phase&quot;&gt;The testing phase&lt;/h2&gt;
+
+&lt;p&gt;Over about a month I tested the following products:&lt;/p&gt;
+
+&lt;h3 id=&quot;flyway&quot;&gt;Flyway&lt;/h3&gt;
+
+&lt;p&gt;Flyway was very close to being the chosen product, it had most of our requirements with a
+few limitations, but it was the best I had found.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Pros:&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Uses native SQL&lt;/li&gt;
+  &lt;li&gt;Easy file naming&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Cons:&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;A new file is required for every change, this would lead to hundreds of version files&lt;/li&gt;
+  &lt;li&gt;Inability to rollback to a specific version in time&lt;/li&gt;
+  &lt;li&gt;Heavily limited functionality on the community edition&lt;/li&gt;
+  &lt;li&gt;More complex implementation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;liqibase&quot;&gt;Liqibase&lt;/h3&gt;
+
+&lt;p&gt;Liqibase was looking great, until I discovered that the main language used is XML, SQL is
+supported, however most documentation is XML based and I didn’t have the time to spend
+learning the XML format to eventually find out that some specific feature we use isn’t
+supported by this format.&lt;/p&gt;
+
+&lt;p&gt;All in I found that it was more complex to get started than Flyway and the documentation
+wasn’t the best.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Pros:&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;More features in the free version than Flyway&lt;/li&gt;
+  &lt;li&gt;Diff feature to compare two databases&lt;/li&gt;
+  &lt;li&gt;Rollback is free&lt;/li&gt;
+  &lt;li&gt;Utilises one file for migrations&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Cons:&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;XML is the primary language used&lt;/li&gt;
+  &lt;li&gt;Targeted rollback is an addon&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;sql-alchemy&quot;&gt;SQL Alchemy&lt;/h3&gt;
+
+&lt;p&gt;As this is an ORM it was removed from the running fairly quickly, there is no native SQL
+support, which means a high chance of missing SQL functionality, one such feature was
+the ability to create and update Postgres functions&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Pros:&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Uses Python so can be baked into projects&lt;/li&gt;
+  &lt;li&gt;Development Teams dont need to know/learn SQL&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Cons:&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Functionality limited to what the developers implement&lt;/li&gt;
+  &lt;li&gt;Risk of compatibility issues in the future&lt;/li&gt;
+  &lt;li&gt;No support for native SQL files&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;sqitch&quot;&gt;Sqitch&lt;/h3&gt;
+
+&lt;p&gt;Sqitch was the last option on the table, I found this tool when searching YouTube when a
+very early version was being presented.&lt;/p&gt;
+
+&lt;p&gt;The idea of Sqitch is to use Version control to track the changes in files, for
+our requirements this was perfect. It meant I could update existing SQL files and
+Sqitch would know a change was made and could then be deployed.&lt;/p&gt;
+
+&lt;p&gt;One downside to this plan is that not all these features are implemented yet. Although
+the developers working on the project are making massive strides and I feel it wont
+be long until they have achieved the original goal they set out for.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Pros:&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Uses native SQL&lt;/li&gt;
+  &lt;li&gt;Utilises a git like version control system&lt;/li&gt;
+  &lt;li&gt;You always edit the original file&lt;/li&gt;
+  &lt;li&gt;Open source allowing you to customise as needed&lt;/li&gt;
+  &lt;li&gt;Very responsive community&lt;/li&gt;
+  &lt;li&gt;Ability to support almost any database&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Cons:&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Some expected features are not implemented yet&lt;/li&gt;
+  &lt;li&gt;No commercial support, only community based&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;implementation&quot;&gt;Implementation&lt;/h2&gt;
+
+&lt;p&gt;Now that we have tested and decided that Sqitch is the product for us, its time to
+implement the solution.&lt;/p&gt;
+
+&lt;p&gt;Installation is super simple, its written in Perl so can be installed on almost any
+system, or you can use it within a Docker container.&lt;/p&gt;
+
+&lt;p&gt;I won’t cover the installation as its easy enough and documented well on the
+&lt;a href=&quot;http://sqitch.org/&quot;&gt;sqitch website&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;One thing that I would recommend is to change the default location of the files, by
+default Sqitch will add &lt;code class=&quot;highlighter-rouge&quot;&gt;deploy&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;revert&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;verify&lt;/code&gt; to the root directory. Your
+SQL goes inside these directories. I prefer to have these in a separate directory to
+keep the root directory tidy, to do this you would run a command similar to below when
+initialising your repository:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sqitch init myApp &lt;span class=&quot;nt&quot;&gt;--top-dir&lt;/span&gt; sql &lt;span class=&quot;nt&quot;&gt;--uri&lt;/span&gt; https://github.com/totaldebug/sqitch_demo &lt;span class=&quot;nt&quot;&gt;--engine&lt;/span&gt; pg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This command will tell Sqitch that you want to &lt;code class=&quot;highlighter-rouge&quot;&gt;init&lt;/code&gt; a sqitch project within the directory
+&lt;code class=&quot;highlighter-rouge&quot;&gt;sql&lt;/code&gt; for the GitHub repository &lt;code class=&quot;highlighter-rouge&quot;&gt;sqitch_demo&lt;/code&gt; and with the engine &lt;code class=&quot;highlighter-rouge&quot;&gt;pg&lt;/code&gt; (PostgreSQL) there
+are other options and databases supported all listed &lt;a href=&quot;http://sqitch.org/docs/manual/sqitch-init/&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Once you have initialised the project you are ready to add a change. The basic pattern is:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Create a branch&lt;/li&gt;
+  &lt;li&gt;Add SQL changes&lt;/li&gt;
+  &lt;li&gt;Modify the code as needed&lt;/li&gt;
+  &lt;li&gt;Commit&lt;/li&gt;
+  &lt;li&gt;Merge to master&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So when first starting out you would want to create the schema to do this you would:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Create a branch in your Git repo&lt;/li&gt;
+  &lt;li&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;sqitch add appschema&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Edit &lt;code class=&quot;highlighter-rouge&quot;&gt;sql/deploy/appschema.sql&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;sql/revert/appschema.sql&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;sql/verify/appschema.sql&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;sqitch deploy db:pg://user@127.0.0.1:5432/sqitch_demo&lt;/code&gt; to deploy the changes&lt;/li&gt;
+  &lt;li&gt;Edit any code as normal&lt;/li&gt;
+  &lt;li&gt;Run any tests&lt;/li&gt;
+  &lt;li&gt;Commit your changes&lt;/li&gt;
+  &lt;li&gt;Merge the changes back to the main branch&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In order to ensure that your revert SQL is working as expected, it is a good idea to
+revert and redeploy your changes:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sqitch rebase &lt;span class=&quot;nt&quot;&gt;--onto&lt;/span&gt; @HEAD^ &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This command will revert the last change, and redeploy it to the database. This is
+essentially a shorter way of running:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sqitch revert &lt;span class=&quot;nt&quot;&gt;--to&lt;/span&gt; @HEAD^ &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sqitch deploy db:pg://user@127.0.0.1:5432/sqitch_demo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When the &lt;code class=&quot;highlighter-rouge&quot;&gt;deploy&lt;/code&gt; command is issued, sqitch will run down the plan file and execute each
+change that is required.&lt;/p&gt;
+
+&lt;p&gt;If this is the first time deploying Sqitch to a database, it will automatically create
+all the required tables to track future deployments and changes.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;I’ve barely scratched the surface of Sqitch’s capabilities. To say how long Git and change
+management has been around, its amazing that its taken this long for someone to get it right.
+If you are having issues with managing database change, I highly suggest that you try Sqitch.&lt;/p&gt;</content><author><name></name></author><summary type="html">Sqitch is a fairly new open source database change management tool, allowing for easy version control without having to manage hundreds of files.</summary></entry><entry><title type="html">Using CloneZilla to migrate multiple disk server</title><link href="https://totaldebug.uk/posts/using-clonezilla-to-migrate-multi-disk-server/" rel="alternate" type="text/html" title="Using CloneZilla to migrate multiple disk server" /><published>2021-05-15T00:00:00+00:00</published><updated>2021-05-15T00:00:00+00:00</updated><id>https://totaldebug.uk/posts/using-clonezilla-to-migrate-multi-disk-server</id><content type="html" xml:base="https://totaldebug.uk/posts/using-clonezilla-to-migrate-multi-disk-server/">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;I recently decided to migrate all of my home servers to Proxmox from VMware ESXi, many factors at play but the main being that new versions of ESXi dont support my hardware.&lt;/p&gt;
+
+&lt;p&gt;For a normal migration I would just use CloneZilla’s remote-source to remote-dest feature, however I could only get this to work for a single source disk, which is fine for the majority of my servers, however I do have some with multiple disks which became an issue.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-was-the-problem&quot;&gt;What was the problem?&lt;/h2&gt;
+
+&lt;p&gt;At its core &lt;a href=&quot;https://clonezilla.org/&quot;&gt;CloneZilla&lt;/a&gt; is designed to clone a single disk to multiple other disks, you can do this many different ways, however if you have a machine with multiple disks then it is not possible to do this in the traditional way that most tutorials online show you.&lt;/p&gt;
+
+&lt;p&gt;I really struggled to find any information on this subject, and most of my research turned up how to clone a single disk to multiple disks rather than how to clone multiple disks to multiple disks!&lt;/p&gt;
+
+&lt;p&gt;Its easy to see how this could be difficult for &lt;a href=&quot;https://clonezilla.org/&quot;&gt;CloneZilla&lt;/a&gt;, I mean how would it know which two disks to clone the source data to on the destination? without some form of GUI where you need to pair up all the disks it would be difficult.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-solution&quot;&gt;The solution&lt;/h2&gt;
+
+&lt;p&gt;In order to overcome this issue, I created a &lt;a href=&quot;https://clonezilla.org/&quot;&gt;CloneZilla&lt;/a&gt; image this was cloned onto an NFS share. Once complete, I was able to load the image on the destination machine, as there were only two disks in the destination server the image was applied without any issue, on boot I could see that both disks had been cloned over from the image.&lt;/p&gt;
+
+&lt;p&gt;The only thing I didnt like about this is that I had to first create the image, then deploy that image, when I only have one server to clone and not need for an image it would be nice for &lt;a href=&quot;https://clonezilla.org/&quot;&gt;CloneZilla&lt;/a&gt; to implement something in the remote-source / remote-dest that allows this functionality.&lt;/p&gt;
+
+&lt;h2 id=&quot;final-thoughts&quot;&gt;Final Thoughts&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://clonezilla.org/&quot;&gt;CloneZilla&lt;/a&gt; is an excellent tool for performing these migrations, It’s very easy to use and clones the images quite quickly. In my opinion it is much easier than other solutions provided on the Proxmox website, in fact other methods using the OVF Tool never worked for me (there are also lots of reports of other users having the same issues) which is why I ended up going with &lt;a href=&quot;https://clonezilla.org/&quot;&gt;CloneZilla&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you have had any experience with Proxmox migrations using &lt;a href=&quot;https://clonezilla.org/&quot;&gt;CloneZilla&lt;/a&gt; or have a trick that makes the OVF Tool migrations work please let me know over on my &lt;a href=&quot;https://discord.gg/6fmekudc8Q&quot;&gt;Discord&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">I have been migrating all of my servers to ProxMox, however one issue I found was migrating VMs with multiple disks, in this article I explain my process.</summary></entry><entry><title type="html">Use Git like a pro!</title><link href="https://totaldebug.uk/posts/use-git-like-a-pro/" rel="alternate" type="text/html" title="Use Git like a pro!" /><published>2021-01-04T00:00:00+00:00</published><updated>2021-01-04T00:00:00+00:00</updated><id>https://totaldebug.uk/posts/use-git-like-a-pro</id><content type="html" xml:base="https://totaldebug.uk/posts/use-git-like-a-pro/">&lt;p&gt;Over the past few months I have been using Git &amp;amp; GitHub more frequently, both in my professional and personal work,
+with this came many questions about what the “correct” way is to use Git.&lt;/p&gt;
+
+&lt;p&gt;There are obviously many ways to create workflows using Git, however below is the way that I have started to manage my workflow,
+this is likely to change over time as it is only my first workflow but this is a start!&lt;/p&gt;
+
+&lt;h2 id=&quot;what-to-solve&quot;&gt;What to solve?&lt;/h2&gt;
+
+&lt;p&gt;There are many things that I didn’t like about the way I used Git in the past and so these are some of the issues I am aiming to solve:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Versioning&lt;/li&gt;
+  &lt;li&gt;Standardised git commit messages&lt;/li&gt;
+  &lt;li&gt;How best to utilise Branches&lt;/li&gt;
+  &lt;li&gt;When should Pull Requests be used&lt;/li&gt;
+  &lt;li&gt;How can the workflow be Automated&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;why-solve-them&quot;&gt;Why solve them?&lt;/h2&gt;
+
+&lt;p&gt;Well this is quite straight forward, to improve the readability of my Git Repos especially in open source projects,
+but also to keep my mind clear and organised.&lt;/p&gt;
+
+&lt;h2 id=&quot;how-were-these-issues-solved&quot;&gt;How were these issues solved?&lt;/h2&gt;
+
+&lt;p&gt;Below I have split each area to solve out, this explains how I solved the issues I was experiencing.&lt;/p&gt;
+
+&lt;h3 id=&quot;versioning&quot;&gt;Versioning&lt;/h3&gt;
+
+&lt;p&gt;Versioning was something that I never thought about, I increased when I wanted to based on what I thought was right.&lt;/p&gt;
+
+&lt;p&gt;Then I started doing code professionally and was introduced to the &lt;a href=&quot;https://semver.org/&quot;&gt;Semantic Versioning&lt;/a&gt; specification.&lt;/p&gt;
+
+&lt;p&gt;This made much more sense by adding a relationship between each different increment.&lt;/p&gt;
+
+&lt;p&gt;A version number would be MAJOR.MINOR.PATCH, Increments as below:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;MAJOR&lt;/code&gt; version when changes are mede that would break previous functionality.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;MINOR&lt;/code&gt; version when functionality is added in a backwards compatible manner.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;PATCH&lt;/code&gt; version where you make backwards compatible bug fixes.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;by using this method people are now able to easily identify what type of change has been implemented and if it is likely to break their current project.&lt;/p&gt;
+
+&lt;h3 id=&quot;conventional-commits&quot;&gt;Conventional Commits&lt;/h3&gt;
+
+&lt;p&gt;My commit records were… well… a total mess, Looking at other repos this is quite common and not many projects follow a standard.
+I was looking for a better way to provide commit messages that just make sense and are easy to read, in my research I found a standard called
+&lt;a href=&quot;https://www.conventionalcommits.org/&quot;&gt;Conventional Commits&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Conventional Commits is a specification for adding human and machine readable meanings to commit messages, this then allows the creation of
+ChangeLogs through Automation and makes life easier for a human to tell what has changed!&lt;/p&gt;
+
+&lt;p&gt;The specification is real simple so doesn’t take much to get your head around:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;&lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;[&lt;/span&gt;optional scope]: &amp;lt;description&amp;gt;
+
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;optional body]
+
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;optional footer]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The commit contains the following structural elements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;fix: a commit of the &lt;em&gt;type&lt;/em&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;fix&lt;/code&gt; resolves a bug in the codebase (&lt;code class=&quot;highlighter-rouge&quot;&gt;PATCH&lt;/code&gt; in SemVer)&lt;/li&gt;
+  &lt;li&gt;feat: a commit of the &lt;em&gt;type&lt;/em&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;feat&lt;/code&gt; adds a new feature to the codebase (&lt;code class=&quot;highlighter-rouge&quot;&gt;MINOR&lt;/code&gt; on SemVer)&lt;/li&gt;
+  &lt;li&gt;Breaking Changes: a commit that appends &lt;code class=&quot;highlighter-rouge&quot;&gt;!&lt;/code&gt; after the &lt;em&gt;type/scope&lt;/em&gt;, where a breaking change is introduced (&lt;code class=&quot;highlighter-rouge&quot;&gt;MAJOR&lt;/code&gt; in SemVer). A breaking change can be part of commits of any type.&lt;/li&gt;
+  &lt;li&gt;Other &lt;em&gt;types&lt;/em&gt; are allowed for example: &lt;code class=&quot;highlighter-rouge&quot;&gt;build:&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;ci:&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;docs:&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;style:&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;test:&lt;/code&gt; and others.&lt;/li&gt;
+  &lt;li&gt;Body &amp;amp; Footers may be provided to include Breaking Change as well as other information.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Some examples:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;fix&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;core&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: error handling of CLI Command
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This example shows a &lt;code class=&quot;highlighter-rouge&quot;&gt;fix&lt;/code&gt; for the &lt;code class=&quot;highlighter-rouge&quot;&gt;core&lt;/code&gt; scope and the fix was for error handling of CLI Command&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;feat&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;core&lt;span class=&quot;o&quot;&gt;)!&lt;/span&gt;: Updated API to add more functionality to xxx
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This example adds a &lt;code class=&quot;highlighter-rouge&quot;&gt;feat&lt;/code&gt; to the &lt;code class=&quot;highlighter-rouge&quot;&gt;core&lt;/code&gt; scope, its a breaking change and shows that more functionality was added to the API.&lt;/p&gt;
+
+&lt;p&gt;As you can see this is such a simple and easy to understand convention which is very easy to use in automation if needed.&lt;/p&gt;
+
+&lt;h3 id=&quot;branches&quot;&gt;Branches&lt;/h3&gt;
+
+&lt;p&gt;When I first started using Git Branches were something of a mystery to me, I didnt understand why you would want to commit to a branch and then have to push to master.
+After using Git for a few years I have realised their huge benefits and how they assist me with automation of tasks.&lt;/p&gt;
+
+&lt;p&gt;For every issue that is reported I will create a new branch, the branch will be named as follows:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;issue number&amp;gt;-&amp;lt;short_description&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;311-softLimit
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;By doing this I am able to quickly link a branch to a specific issue in the project. Branches also enable me to make multiple commits at smaller increments, which I then use Pull Requests to merge with Master&lt;/p&gt;
+
+&lt;h3 id=&quot;pull-requests&quot;&gt;Pull Requests&lt;/h3&gt;
+
+&lt;p&gt;I now utilise Pull Requests to move my branch into the master, the pull request has various checks using GitHub Actions depending on the project type
+This would be things like:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Version check:&lt;/strong&gt; confirm that the version in the project files has been incremented since the last release&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Tests:&lt;/strong&gt; Check that the code functions as expected&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Linting:&lt;/strong&gt; Check that the code still adhears to the relevant standards&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;With all of my Repos I will only enable &lt;code class=&quot;highlighter-rouge&quot;&gt;Allow squash merging&lt;/code&gt; this allows me to create one good commit message that covers the issues fixed for the specifc branch we are merging, rather than all the commits from the development lifecycle (keeping my master commits clean)&lt;/p&gt;
+
+&lt;h3 id=&quot;version-tags&quot;&gt;Version Tags&lt;/h3&gt;
+
+&lt;p&gt;Once I have completed all of the pull requests for a specific release I will then add a version &lt;code class=&quot;highlighter-rouge&quot;&gt;tag&lt;/code&gt; to the master.&lt;/p&gt;
+
+&lt;p&gt;This version tag creates a point in time referance along with triggering my release automation once it is pushed.&lt;/p&gt;
+
+&lt;h3 id=&quot;automated-workflow&quot;&gt;Automated Workflow&lt;/h3&gt;
+
+&lt;p&gt;In order to streamline my delivery to release I have started to utilise GitHub Actions, This allows me to have endless automation capabilities.&lt;/p&gt;
+
+&lt;p&gt;Currently I utilise Actions for the following:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Linting&lt;/li&gt;
+  &lt;li&gt;Tests&lt;/li&gt;
+  &lt;li&gt;Version Checks&lt;/li&gt;
+  &lt;li&gt;ChangeLog Generation&lt;/li&gt;
+  &lt;li&gt;Release creation&lt;/li&gt;
+  &lt;li&gt;Push to external artifactories (e.g. Docker Hub, Ansible Galaxy etc.)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The changelog and release process is something that I have just started doing, I was manually writing out my changelog for
+any new releases which was time consuming and required a lot of manual back and forth to confirm what was changed,
+not an issue whilst a project is small, but if it grows that would quickly become out of control.&lt;/p&gt;
+
+&lt;h2 id=&quot;final-thoughts&quot;&gt;Final Thoughts&lt;/h2&gt;
+
+&lt;p&gt;I believe that at this time for the work I am doing this is the best workflow for myself, If you have any thoughts on ways
+this could be further improved, please let me know over on my &lt;a href=&quot;https://discord.gg/6fmekudc8Q&quot;&gt;Discord&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><summary type="html">Git allows so much flexibility, Over the past few months I have improved my workflows and documented this here</summary></entry><entry><title type="html">Use GitHub pages with unsupported plugins</title><link href="https://totaldebug.uk/posts/use-github-pages-with-unsupported-plugins/" rel="alternate" type="text/html" title="Use GitHub pages with unsupported plugins" /><published>2020-12-09T00:00:00+00:00</published><updated>2020-12-09T00:00:00+00:00</updated><id>https://totaldebug.uk/posts/use-github-pages-with-unsupported-plugins</id><content type="html" xml:base="https://totaldebug.uk/posts/use-github-pages-with-unsupported-plugins/">&lt;p&gt;I have recently migrated my website over to Github Pages, however in doing so I have found that there are some limitations, the main one being that not all Jekyll plugins are supported.&lt;/p&gt;
+
+&lt;p&gt;Due to this I needed to find a workaround, which I wanted to share with you all&lt;/p&gt;
+
+&lt;h2 id=&quot;advantages-of-this-method&quot;&gt;Advantages of this method&lt;/h2&gt;
+
+&lt;h3 id=&quot;control-over-gemset&quot;&gt;Control over gemset&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Jekyll Version - Instead of using the version forced upon you by GitHub, you can use any version you want&lt;/li&gt;
+  &lt;li&gt;Plugins - You can use any Jekyll plugins irrespective of them being supported by GitHub&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;workflow-management&quot;&gt;Workflow Management&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Customization - By using GitHub Actions, you are able to customize the build steps however you need them&lt;/li&gt;
+  &lt;li&gt;Logging - The build log is visible and can be adjusted, so it is much easier to debug errors&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;setting-up-the-github-action&quot;&gt;Setting up the GitHub Action&lt;/h2&gt;
+
+&lt;p&gt;GitHub actions are created by adding a YAML file in the directory &lt;code class=&quot;highlighter-rouge&quot;&gt;.github/workflows&lt;/code&gt;. Here we will create our action using the Jekyll Action from the Marketplace.&lt;/p&gt;
+
+&lt;p&gt;Create a workflow file &lt;code class=&quot;highlighter-rouge&quot;&gt;github-pages.yml&lt;/code&gt;, then add the below information:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;name: Build and deploy Jekyll site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  github-pages:
+    runs-on: ubuntu-16.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: helaili/jekyll-action@2.0.1
+        env:
+          JEKYLL_PAT: $
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This workflow is doing the following:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;We trigger &lt;code class=&quot;highlighter-rouge&quot;&gt;on.push&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;master&lt;/code&gt;, or by a manual dispatch &lt;code class=&quot;highlighter-rouge&quot;&gt;workflow_dispatch&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;checkout&lt;/code&gt; action clones your repository.&lt;/li&gt;
+  &lt;li&gt;Our action is specified along with the required version &lt;code class=&quot;highlighter-rouge&quot;&gt;helaili/jekyll-action@2.0.1&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;We set an environment variable for the action to use &lt;code class=&quot;highlighter-rouge&quot;&gt;JEKYLL_PAT&lt;/code&gt; a Personal Access Token&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;providing-permissions&quot;&gt;Providing permissions&lt;/h2&gt;
+
+&lt;p&gt;The action needs permissions to push the Jekyll data to your &lt;code class=&quot;highlighter-rouge&quot;&gt;gh-pages&lt;/code&gt; branch (this will be created if it doesn’t exist)&lt;/p&gt;
+
+&lt;p&gt;In order to do this, you must create a GitHub Personal Access Token on your GitHub profile, then set this as an environment variable using Secrets.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;On your GitHub profile, under Developer Settings, go to the Personal Access Tokens section.&lt;/li&gt;
+  &lt;li&gt;Create a token. Give it a name like “GitHub Actions” and ensure it has permissions to public_repos (or the entire repo scope for private repository) — necessary for the action to commit to the gh-pages branch.&lt;/li&gt;
+  &lt;li&gt;Copy the token value.&lt;/li&gt;
+  &lt;li&gt;Go to your repository’s Settings and then the Secrets tab.&lt;/li&gt;
+  &lt;li&gt;Create a token named &lt;code class=&quot;highlighter-rouge&quot;&gt;JEKYLL_PAT&lt;/code&gt; (important) and paste your token into the value&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;deployment&quot;&gt;Deployment&lt;/h2&gt;
+
+&lt;p&gt;On pushing changes onto &lt;code class=&quot;highlighter-rouge&quot;&gt;master&lt;/code&gt; the action will be triggered and the build will start.&lt;/p&gt;
+
+&lt;p&gt;You can watch the progress by looking at the actions that are currently running via your repository&lt;/p&gt;
+
+&lt;p&gt;If all goes well you should see a green build status on the &lt;code class=&quot;highlighter-rouge&quot;&gt;gh-pages&lt;/code&gt; branch.&lt;/p&gt;
+
+&lt;p&gt;If this is a new repository you will also need to setup the pages to use the new &lt;code class=&quot;highlighter-rouge&quot;&gt;gh-pages&lt;/code&gt; branch instead of master. this can be found in the repository settings.&lt;/p&gt;</content><author><name></name></author><summary type="html">Github Pages only support certain Jekyll plugins, find out how to mitigate this issue</summary></entry><entry><title type="html">Docker Overlay2 with CentOS for production</title><link href="https://totaldebug.uk/posts/docker-overlay2-with-centos-for-production/" rel="alternate" type="text/html" title="Docker Overlay2 with CentOS for production" /><published>2020-05-05T00:00:00+00:00</published><updated>2020-05-05T00:00:00+00:00</updated><id>https://totaldebug.uk/posts/docker-overlay2-with-centos-for-production</id><content type="html" xml:base="https://totaldebug.uk/posts/docker-overlay2-with-centos-for-production/">&lt;p&gt;The following short article runs through how to setup docker to use overlay2 with Centos for use in production&lt;/p&gt;
+
+&lt;h2 id=&quot;pre-requisites&quot;&gt;Pre-Requisites&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Add an extra drive to CentOS (this could also be freespace on the existing disk)&lt;/li&gt;
+  &lt;li&gt;Have docker installed (services stopped)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;setup&quot;&gt;Setup&lt;/h2&gt;
+
+&lt;p&gt;First we need to find our new disk:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;fdisk -l
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Once we have our new disk, we can start to create a our logical volume:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pvcreate /dev/sdb -f
+vgcreate docker_vg /dev/sdb
+lvcreate -n docker_xfs -l 100%FREE docker_vg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now that we havve our logical volume, check that it doesnt have xfs on it already:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;xfs_info /dev/docker_vg/docker_xfs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we can create our XFS and mount the new volume:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkfs.xfs /dev/docker_vg/docker_xfs -f -n ftype=1
+mkdir /var/lib/docker
+mount /dev/docker_vg/docker_xfs /var/lib/docker
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Add this to fstab in order to ensure it mounts on reboot vi /etc/fstab&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/dev/docker_vg/docker_xfs/ /var/lib/docker xfs rw,relatime,seclabel,attr2,inode64,noquota 0 0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we can start our docker services&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start docker
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To test that this has worked, run the following, you should see that now you are using Overlay2 as the storage driver:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker info
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><summary type="html">The following short article runs through how to setup docker to use overlay2 with Centos for use in production</summary></entry><entry><title type="html">3d Printer Axes Calibration</title><link href="https://totaldebug.uk/posts/3d-printer-axes-calibration/" rel="alternate" type="text/html" title="3d Printer Axes Calibration" /><published>2020-01-28T00:00:00+00:00</published><updated>2020-01-28T00:00:00+00:00</updated><id>https://totaldebug.uk/posts/3d-printer-axes-calibration</id><content type="html" xml:base="https://totaldebug.uk/posts/3d-printer-axes-calibration/">&lt;p&gt;One of the most difficult things I found out about 3d printing was that you must calibrate it! This isnt something that I was aware of, I assumed once everything was tightened that it would just work, I was so wrong!&lt;/p&gt;
+
+&lt;p&gt;The good news is, its quite a simple process once you know how and in this article im going to share with you, how I calibrate my printer and get perfect prints almost every time.&lt;/p&gt;
+
+&lt;p&gt;I use an Ender 3 with a lot of upgrades, but the process is the same for almost all 3d printers , so you should be able to follow this article without issue.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-you-will-need&quot;&gt;What you will need:&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;3d Printer&lt;/li&gt;
+  &lt;li&gt;Correctly tensioned belts (they should make a nice twang sound)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.pronterface.com/&quot;&gt;Pronterface&lt;/a&gt; or &lt;a href=&quot;https://octoprint.org/&quot;&gt;Octoprint&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Digital Calipers&lt;/li&gt;
+  &lt;li&gt;Ruler (calipers sometimes get in the way but you may be ok)&lt;/li&gt;
+  &lt;li&gt;Tape or marker&lt;/li&gt;
+  &lt;li&gt;Filament&lt;/li&gt;
+  &lt;li&gt;Something to take notes on&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;axes-diagram&quot;&gt;Axes Diagram:&lt;figure class=&quot;wp-block-image size-large&quot;&gt;&lt;/figure&gt;&lt;/h2&gt;
+
+&lt;picture&gt;
+    &lt;source type=&quot;image/webp&quot; srcset=&quot;/assets/images/posts/3d-printer-axes-calibration/2020-01-28-3d-printer-axes-diagram.webp&quot; /&gt;
+    &lt;img src=&quot;/assets/images/posts/3d-printer-axes-calibration/2020-01-28-3d-printer-axes-diagram.png&quot; alt=&quot;3d printer axes Source: StackExchange.com&quot; /&gt;
+&lt;/picture&gt;
+
+&lt;h2 id=&quot;setup-software&quot;&gt;Setup Software:&lt;/h2&gt;
+
+&lt;p&gt;First we need to gather all the current settings, to do this you must first send a command to the printer, this can be done with either:&lt;/p&gt;
+
+&lt;h3 id=&quot;pronterface&quot;&gt;Pronterface&lt;/h3&gt;
+
+&lt;p&gt;You must plug the USB into the printer and a computer, then launch pronterface, it should auto detect the printer, then click &lt;strong&gt;Connect&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;You can now enter commands in the right window next to the &lt;strong&gt;Send&lt;/strong&gt; button&lt;/p&gt;
+
+&lt;h3 id=&quot;octoprint&quot;&gt;Octoprint&lt;/h3&gt;
+
+&lt;p&gt;Once Octoprint is setup go to the terminal tab and you can enter commands here&lt;/p&gt;
+
+&lt;h2 id=&quot;gather-initial-info&quot;&gt;Gather Initial Info:&lt;/h2&gt;
+
+&lt;p&gt;Issue the command: &lt;strong&gt;M92&lt;/strong&gt; then press enter or hit send. you should see something like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;echo: M92 X80.00 Y80.00 Z400.00 E93.00
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Make a note of this information somewhere as we will be referring back to these values quite often.&lt;/p&gt;
+
+&lt;p&gt;Now we can begin to calibrate each of our motors.&lt;/p&gt;
+
+&lt;h2 id=&quot;xz-axis-calibration&quot;&gt;X&amp;amp;Z-Axis Calibration&lt;/h2&gt;
+
+&lt;p&gt;First start by homing your X axis and the Z axis. I will use the stop switch as the measuring point as this doesn’t move, however you can use any fixed point from the relevant axis.&lt;/p&gt;
+
+&lt;p&gt;First measure the distance from the stop switch to the edge of the moving part (X = Printhead, Z = Gantry) , if yours is touching the stop switch then the distance is 0mm.&lt;/p&gt;
+
+&lt;p&gt;Now tell your printer to move the Axis 100mm (you can set this to smaller or larger number as the calculation will still work) The further you move the axis the more accurate your calibration should be. Now with your calipers measure from the stop switch to the same point on the printhead, write down the measurement as “ActualDistance” you will need to do this for both the X &amp;amp; Z Axis&lt;/p&gt;
+
+&lt;p&gt;If you measured 100mm then you dont need to do anything else, your axis is calibrated. However, you likely wont get exactly 100mm so we will need to adjust for this.&lt;/p&gt;
+
+&lt;h2 id=&quot;e-axis-calibration&quot;&gt;E Axis Calibration&lt;/h2&gt;
+
+&lt;p&gt;There are two ways that you can calibrate the E Axis. With the HotEnd attached or without. Personally I prefer to remove the bowden tube from the extruder and measure this way, I find its much more accurate. Some people prefer to heat the HotEnd and let the filament flow through it.&lt;/p&gt;
+
+&lt;p&gt;First, remove your filament and disconnect the bowden tube, then we will need to push the filament through the extruder until you just see the end of it flat with the edge where the bowden tube attaches.&lt;/p&gt;
+
+&lt;p&gt;Now send 100mm to the E Axis to extrude (you will need to heat the HotEnd or it wont work)&lt;/p&gt;
+
+&lt;p&gt;Once this finishes, measure with your calipers the distance from the end of the filament to the extruder this should be 100mm, if not make a note of the measurement (ActualDistance)&lt;/p&gt;
+
+&lt;h2 id=&quot;calculations&quot;&gt;Calculations&lt;/h2&gt;
+
+&lt;p&gt;In order to calculate the Axis we need the following calculation, the calculation is the same no matter which Axis you are working on:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;NewValue = 100mm / ActualDistance * CurrentValue
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So if you have the below for your X Axis:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;CurrentValue = 80.00 (M92 for the Axis)
+  ActualDistance = 93 (how far the Axis actually moved)
+  DesiredDistance = 100 (the amount we told it to move)
+  86.02 = 100 / 93 * 80&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Based on the above, the new value for X would be 86.02&lt;/p&gt;
+
+&lt;h2 id=&quot;applying-new-values-for-all-axis&quot;&gt;Applying New Values for all Axis&lt;/h2&gt;
+
+&lt;p&gt;Now we need to apply all these values by running the &lt;strong&gt;M92&lt;/strong&gt; command again with your new values as below:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;M92 X86.02 Y81.20 Z400.00 E149.00
+M500
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Also we add an &lt;strong&gt;M500&lt;/strong&gt; which will save the configuration, if you want to make sure the values have saved, restart your printer and issue &lt;strong&gt;M92&lt;/strong&gt; again you should see the new values.&lt;/p&gt;</content><author><name></name></author><summary type="html">One of the most difficult things I found out about 3d printing was that you must calibrate it! This isnt something that I was aware of, I assumed once everything was tightened that it would just work, I was so wrong!</summary></entry><entry><title type="html">I won a Ender 3 3D Printer and i’m addicted</title><link href="https://totaldebug.uk/posts/i-won-a-ender-3-3d-printer-and-im-addicted/" rel="alternate" type="text/html" title="I won a Ender 3 3D Printer and i’m addicted" /><published>2020-01-13T00:00:00+00:00</published><updated>2020-01-13T00:00:00+00:00</updated><id>https://totaldebug.uk/posts/i-won-a-ender-3-3d-printer-and-im-addicted</id><content type="html" xml:base="https://totaldebug.uk/posts/i-won-a-ender-3-3d-printer-and-im-addicted/">&lt;p&gt;About 6 months ago I entered a competition with &lt;a href=&quot;https://www.youtube.com/drzzs&quot;&gt;DrZzs&lt;/a&gt; (highly recommend his channel for home automation) and &lt;a href=&quot;https://www.banggood.com/&quot;&gt;BangGood&lt;/a&gt; to win a Creality Ender 3 3D Printer.&lt;/p&gt;
+
+&lt;p&gt;To my surprise a few weeks later I received an email from Banggood stating that I had won and to email over my address, at first i thought that it was just a spam email.&lt;/p&gt;
+
+&lt;p&gt;After a few weeks of waiting the printer arrived, I couldn’t believe it, I just got a £300 printer for FREE!&lt;/p&gt;
+
+&lt;h2 id=&quot;on-with-the-build&quot;&gt;On with the build!&lt;/h2&gt;
+
+&lt;p&gt;I then unboxed and went through building the printer. I followed the instructions which were very comprehensive (other than a few confusing sentences).&lt;/p&gt;
+
+&lt;p&gt;It took me roughly 2 hours to build the printer.&lt;/p&gt;
+
+&lt;p&gt;I ran through a test print, printing out a benchy to make sure that everything was working as expected. It looked perfect so ordered some more filament for future projects.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-addiction-begins&quot;&gt;The addiction begins…&lt;/h2&gt;
+
+&lt;p&gt;So now it starts, I spend the rest of my time glued to thingiverse deciding what to print! Although my son made this easier by constantly bugging me to print him a &lt;a href=&quot;https://www.thingiverse.com/make:670192&quot;&gt;mini combine harvester&lt;/a&gt;. This was a difficult print, the thing prints as one, but the combine kept on fusing to the harvester so it wouldnt spin. After a lot of calibration I finally made it work and he was delighted to get a new toy for free!&lt;/p&gt;
+
+&lt;p&gt;Now I have the printer running, and have printed multiple useful prints, &lt;a href=&quot;https://www.thingiverse.com/thing:2334648&quot;&gt;Laptop wall mount&lt;/a&gt;, Google Home wall mount, Microphone stand for my large desk etc. (and more toys)&lt;/p&gt;
+
+&lt;h2 id=&quot;time-for-the-upgrades&quot;&gt;Time for the upgrades!&lt;/h2&gt;
+
+&lt;p&gt;The Ender3 is a brilliant little printer for the price, however it does have some issues that can be easily resolved with a few upgrades.&lt;/p&gt;
+
+&lt;h3 id=&quot;printed-upgrades&quot;&gt;Printed Upgrades&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.thingiverse.com/thing:2917932&quot;&gt;&lt;strong&gt;Upper Filament Guide&lt;/strong&gt;&lt;/a&gt; –
+Unfortunately not a great upgrade, and one that I scrapped. I have put this here to recommend avoiding this. (I have better options below)
+It is supposed to keep the filament further away from the printer and stop it wearing the extruder arm. However I found that it made horrible squeaking noises so that was out.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.thingiverse.com/thing:2896612&quot;&gt;&lt;strong&gt;Lower Fila&lt;/strong&gt;&lt;/a&gt;&lt;strong&gt;&lt;a href=&quot;https://www.thingiverse.com/thing:2896612&quot;&gt;ment Guide&lt;/a&gt;&lt;/strong&gt; –
+This brilliant little print stops the filament from rubbing against Z Screw and getting grease on it which ruins prints.
+I recommend the linked guide as it doesn’t curl over the filament, again I found any that curled over the top would rub and cause a horrible squeak.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.thingiverse.com/thing:3155772&quot;&gt;Fan Cover&lt;/a&gt;&lt;/strong&gt; –
+I found that little bits of filament would drop from the hot end into the fan that was open on the ender 3 case, this covers that up and also puts the directions for bed up and down.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.thingiverse.com/thing:3991855&quot;&gt;&lt;strong&gt;Hero Me Gen3 remix&lt;/strong&gt;&lt;/a&gt; –
+Parts don’t get cooled fast enough with the standard cooler, therefore I printed this one, it focuses the air perfectly under the nozzle for really good cooling.&lt;/p&gt;
+
+&lt;p&gt;This version is for the new Ender3’s as they have smaller screws than the older models.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.thingiverse.com/thing:3109769&quot;&gt;Extruder Knob&lt;/a&gt;&lt;/strong&gt; –
+This print was one I didn’t know I needed until I printed it, this allows for easier retraction and extrusion by twisting the knob it will move the gear to easily feed filament.&lt;/p&gt;
+
+&lt;p&gt;If you plan to upgrade to the MK8 Dual Gear Extruder Arm this part wont fit due to larger gears.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.thingiverse.com/thing:3515835&quot;&gt;Side Spool Holder&lt;/a&gt;&lt;/strong&gt; –
+I had issues with the filament dragging and getting stuck due to the sharp angle that it was pulling at, this causes unnecessary wear on the extruder arm and gears. I found this side spool holder which moves the spool to the side of the printer, next to the extruder arm causing much less force to be required when extruding and less rubbing on the extruder arm.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.thingiverse.com/thing:3020026&quot;&gt;&lt;strong&gt;Spool Holder&lt;/strong&gt;&lt;/a&gt; –
+This spool holder uses bearings to allow the filament to roll around much easier, reducing the drag on the extruder and in turn reducing the wear on the stepper motor.&lt;/p&gt;
+
+&lt;h3 id=&quot;purchased-upgrades&quot;&gt;Purchased Upgrades&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.aliexpress.com/item/32980032591.html?spm=a2g0s.9042311.0.0.136b4c4dNnV0Jh&quot;&gt;&lt;strong&gt;SKR 1.3&lt;/strong&gt;&lt;/a&gt; -
+A great upgrade to silence those stepper motors, not only that the SKR has a 32bit chip which means more space for new features and faster gcode processing. The TMC2209 Stepper Motor Drivers really do make a massive difference when it comes to the noise of the printer.&lt;/p&gt;
+
+&lt;p&gt;Now the only annoying thing are the fans… still on my to do list.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.aliexpress.com/item/32890419752.html?spm=a2g0s.9042311.0.0.136b4c4dNnV0Jh&quot;&gt;Capricorn Bowden Tube&lt;/a&gt;&lt;/strong&gt; –
+This Bowden Tube appears to be much better than the one shipped with the Ender 3, it is much more slick to the touch and a little more sturdy, this means the filament passes through it with ease, also the tight diameter means the filament has little room to flex and cause retraction issues.
+I found that the shipped bowden tube had also melted at the end and had filament stuck to it which leads me to believe it wasn’t installed very well at the factory.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.aliexpress.com/item/33041468821.html?spm=a2g0s.9042311.0.0.136b4c4dNnV0Jh&quot;&gt;&lt;strong&gt;MK8 Dual Gear Extruder Arm&lt;/strong&gt;&lt;/a&gt; –
+My extruder arm broke within a few months of use, I didn’t notice until I was having bad under extrusion and also seeing slippage on the extruder gear. I took the arm apart to clean the gear and found a tiny crack near the screw for the idler wheel, this was enough to stop the arm working at all due to the flex it added. This can be combated by printing a new extruder arm but I decided to upgrade to a dual gear option which results in:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Even less potential slippage&lt;/li&gt;
+  &lt;li&gt;Stronger spring for the extruder arm&lt;/li&gt;
+  &lt;li&gt;Metal body stops wear from filament rub&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.creality3dofficial.com/collections/cmagnet-tempered-glass/products/pei-magnetic-flexible&quot;&gt;PEI Magnetic Bed&lt;/a&gt;&lt;/strong&gt; –
+This is an excellent upgrade from the stock bed, makes prints super smooth on the bed and sticks really well. I haven’t had a single failed print due to adhesion on this surface, also you can easily take stuff off once cooled without much effort or by flexing the magnetic plate for larger prints.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;All in I think I have spent no more than £100 on upgrades and have a brilliant printer, the prints that I get out now are near perfect bed adhesion is excellent with the stock bed, however I ripped mine by overheating a print during testing and am awaiting a new PEI Magnetic build plate which I think will be my last upgrade for a little while!&lt;/p&gt;
+
+&lt;p&gt;It would also be great to hear about anyone else experience with this printer.&lt;/p&gt;</content><author><name></name></author><summary type="html">About 6 months ago I entered a competition with DrZzs (highly recommend his channel for home automation) and BangGood to win a Creality Ender 3 3D Printer.</summary></entry><entry><title type="html">CentOS 8 Teaming with WiFi Hidden SSID using nmcli</title><link href="https://totaldebug.uk/posts/centos-8-teaming-with-wifi-hidden-ssid-using-nmcli/" rel="alternate" type="text/html" title="CentOS 8 Teaming with WiFi Hidden SSID using nmcli" /><published>2019-11-02T00:00:00+00:00</published><updated>2019-11-02T00:00:00+00:00</updated><id>https://totaldebug.uk/posts/centos-8-teaming-with-wifi-hidden-ssid-using-nmcli</id><content type="html" xml:base="https://totaldebug.uk/posts/centos-8-teaming-with-wifi-hidden-ssid-using-nmcli/">&lt;p&gt;I have had a lot of issues when setting up teaming with WiFi, mainly because of lack of documentation around this, im guessing that teaming ethernet and WiFi is not a common occurrence especially with a hidden SSID.&lt;/p&gt;
+
+&lt;p&gt;As part of my home systems I am utilising an old laptop as my home assistant server, this allows for battery backup and network teaming, if my switch dies, my WiFi will still work etc.&lt;/p&gt;
+
+&lt;h2 id=&quot;lets-get-to-the-meat-and-potatoes&quot;&gt;Lets get to the meat and potatoes!&lt;/h2&gt;
+
+&lt;p&gt;So the first thing that we need to do is check our devices are available:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# nmcli d status
+DEVICE   TYPE      STATE      CONNECTION
+eno1     ethernet  connected  Ethernet connection 1
+wlp3s0   wifi      connected  Wi-Fi connection 1
+lo       loopback  unmanaged  --
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now that we see all our devices (they may not all be listed as connected yet) we can create our team:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;]# nmcli c a type team con-name team0
+Connection 'team-TeamA' (4387966d-715b-4636-b307-03d2b92476bf) successfully added.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;NetworkManager will set its internal parameter &lt;strong&gt;&lt;em&gt;connection.autoconnect&lt;/em&gt;&lt;/strong&gt; to yes and as no IP address was given &lt;strong&gt;&lt;em&gt;ipv4.method&lt;/em&gt;&lt;/strong&gt; will be set to auto. NetworkManager will also write a configuration file to /etc/sysconfig/network-scripts/ifcfg-team-TeamA where the corresponding &lt;strong&gt;ONBOOT&lt;/strong&gt; will be set to yes and &lt;strong&gt;BOOTPROTO&lt;/strong&gt; will be set to dhcp.&lt;/p&gt;
+
+&lt;p&gt;Now if we show the connections we should see team0 listed:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;]# nmcli c show
+NAME                   UUID                                  TYPE      DEVICE
+Ethernet connection 1  520e1441-f8d9-43c1-8c3d-a0d56227b6b9  ethernet  eno1
+Wi-Fi connection 1     ddef5993-b469-4916-961d-3082b1f41ec1  wifi      wlp3s0
+team0                  c742d9e4-73ec-4506-82ff-b2a93727cc3a  team      nm-team
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Currently the team isnt doing anything, so we need to add our ethernet interface:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;]# nmcli c a type team-slave ifname eno1 master team0
+Connection 'team-slave-eno1' (d2f0f253-0b42-4fdb-828b-c983b7ad59f4) successfully added.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Once done if we show the connections again we will see the two team-slaves:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;NAME                   UUID                                  TYPE      DEVICE
+Ethernet connection 1  520e1441-f8d9-43c1-8c3d-a0d56227b6b9  ethernet  eno1
+Wi-Fi connection 1     ddef5993-b469-4916-961d-3082b1f41ec1  wifi      wlp3s0
+team0                  c742d9e4-73ec-4506-82ff-b2a93727cc3a  team      nm-team1
+team-slave-eno1        d2f0f253-0b42-4fdb-828b-c983b7ad59f4  ethernet  --
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;These commands automatically create corresponding files for the team under:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/etc/sysconfig/network-scripts/ifcfg-team0
+/etc/sysconfig/network-scripts/ifcfg-team-slave-en01
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;if-you-edit-these-files-manually-you-will-need-to-run-nmcli-con-reload-so-that-network-manager-reads-the-config-changes&quot;&gt;If you edit these files manually, you will need to run nmcli con reload so that network manager reads the config changes.&lt;/h2&gt;
+
+&lt;p&gt;The team is now setup… however it is recommended to use a static IP Address, we can manually specify this by running the below commands:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nmcli c m team0 ipv4.method manual
+nmcli c m team0 ipv4.addresses 10.10.10.20/24
+nmcli c m team0 ipv4.gateway 10.10.10.1
+nmcli c m team0 ipv4.dns 10.10.10.1, 1.1.1.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;enabling-the-team&quot;&gt;Enabling the team&lt;/h2&gt;
+
+&lt;p&gt;To enable the team we must bring up our Ethernet interface with this command:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;]# nmcli c up team-slave-eno1
+Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/5)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;what-about-the-wifi&quot;&gt;What about the WiFi?&lt;/h2&gt;
+
+&lt;p&gt;So we have setup our connections and our team with an IP Address, however we havent specified any WiFi configurations at all, so lets do that…&lt;/p&gt;
+
+&lt;p&gt;First lets make sure the wifi module is installed, by default this isn’t:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dnf install NetworkManager-wifi
+systemctl restart NetworkManager
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We can discover any wifi in the area by running:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;]# nmcli d wifi list
+IN-USE  SSID                   MODE   CHAN  RATE        SIGNAL  BARS  SECURITY
+        my_wifi_net            Infra  1     195 Mbit/s  34      ▂▄__  WPA2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;to connect to one of these networks simply type:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nmcli d wifi connect my_wifi_net password &amp;amp;lt;wifi-password
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;hidden-wifi-network&quot;&gt;Hidden WiFi Network&lt;/h3&gt;
+
+&lt;p&gt;A hidden network is a standard WiFi network that doesnt broadcast its SSID, this means that its name cannot be searched and must be known in order to configure it.&lt;/p&gt;
+
+&lt;p&gt;To do this we must enter the following commands:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nmcli c a type 802-11-wireless ifname wlp3s0 master team0 utoconnect yes ssid &amp;amp;lt;your-Wifi-SSID&amp;gt; 802-11-wireless-security.key-mgmt wpa-psk 802-11-wireless-security.psk &amp;amp;lt;wifi-password&amp;gt; 802-11-wireless.hidden yes
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;wlp3s0-may-be-different-in-your-command-it-will-depend-what-your-wireless-slave-connection-is-called&quot;&gt;wlp3s0 may be different in your command, it will depend what your wireless slave connection is called&lt;/h2&gt;
+
+&lt;p&gt;Now that we have our wifi interface connected and configured we can bring it online with the below command&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;]# nmcli c up team-slave-wlp3s0
+Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/6)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After you have brought the connections up your team should automatically come online, to test you can run the following:&lt;/p&gt;
+
+&lt;p&gt;This command will list the team and connections, all should be up and the team should show an IP Address&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;]# ip a
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;This command will show all your connections, the ones for the team should all be green&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;]# nmcli c
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;I would also recommend doing some testing with the team to make sure it functions as expected, I normally run a continuous ping and then disconnect one of the interfaces, if all is well you should only see increased latency for one ping or a single dropped ping.&lt;/p&gt;
+
+&lt;h2 id=&quot;modifying-the-team&quot;&gt;Modifying the team&lt;/h2&gt;
+
+&lt;p&gt;When we first setup a team it will default to &lt;strong&gt;&lt;em&gt;roundrobin&lt;/em&gt;&lt;/strong&gt; this can be seen by running the below command: (substitute nm-team with your team)&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;]# teamdctl nm-team state
+setup:
+  runner: roundrobin
+ports:
+  eno1
+    link watches:
+      link summary: up
+      instance[link_watch_0]:
+        name: ethtool
+        link: up
+        down count: 0
+  wlp3s0
+    link watches:
+      link summary: up
+      instance[link_watch_0]:
+        name: ethtool
+        link: up
+        down count: 0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This shows the &lt;strong&gt;runner&lt;/strong&gt; which is how the traffic is managed across the interfaces, we can also see the interfaces that are part of the team, along with their states.&lt;/p&gt;
+
+&lt;p&gt;The possible runners are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;roundrobin:&lt;/strong&gt; This is the default option, it will send packets to all interfaces one at a time per interface, in a round robin manner&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;broadcast:&lt;/strong&gt; All traffic will be sent over all ports&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;activebackup:&lt;/strong&gt; One interface will be used as the Active interface and the rest as a backup, the team will monitor for failures and automatically failover the link should one go offline&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;loadbalance:&lt;/strong&gt; Traffic will be balanced across all interfaces based on Tx traffic, the load should be equal across all interfaces&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can change the runner that you are using when you create the team:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;]# nmcli c a type team con-name team0 config '{&quot;runner&quot;: {&quot;name&quot;: &quot;broadcast&quot;}, &quot;link_watch&quot;: {&quot;name&quot;: &quot;ethtool&quot;}}'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;or you can modify the connection with this command:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;]# nmcli c m team0 config  '{&quot;runner&quot;: {&quot;name&quot;: &quot;broadcast&quot;}, &quot;link_watch&quot;: {&quot;name&quot;: &quot;ethtool&quot;}}'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;once the above command is run a reboot will be required to apply the changes, now we can confirm the changes using:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;]# teamdctl nm-team state
+setup:
+  runner: broadcast
+ports:
+  eno1
+    link watches:
+      link summary: up
+      instance[link_watch_0]:
+        name: ethtool
+        link: up
+        down count: 0
+runner:
+  active port: eno1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;more information on runners can be found &lt;a href=&quot;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_teamd_runners&quot;&gt;here &lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;</content><author><name></name></author><summary type="html">I have had a lot of issues when setting up teaming with WiFi, mainly because of lack of documentation around this, im guessing that teaming ethernet and WiFi is not a common occurrence especially with a hidden SSID.</summary></entry><entry><title type="html">Continuous Integration and Deployment</title><link href="https://totaldebug.uk/posts/continuous-integration-and-deployment/" rel="alternate" type="text/html" title="Continuous Integration and Deployment" /><published>2019-10-11T00:00:00+00:00</published><updated>2019-10-11T00:00:00+00:00</updated><id>https://totaldebug.uk/posts/continuous-integration-and-deployment</id><content type="html" xml:base="https://totaldebug.uk/posts/continuous-integration-and-deployment/">&lt;p&gt;I have recently been looking into CI and CD, mainly for use at home with my various projects etc. but also to further my knowledge.&lt;/p&gt;
+
+&lt;p&gt;Over the years I have built up quite an estate of servers that over time become more difficult to manage and maintain, mostly I will spend a long time researching and deploying a solution, but when it breaks weeks / months later i struggle to remember how it was all built.&lt;/p&gt;
+
+&lt;h2 id=&quot;there-must-be-a-better-way&quot;&gt;There must be a better way!&lt;/h2&gt;
+
+&lt;p&gt;So now im looking for the best way to deploy / re-deploy and test all of my servers and services with minimum effort and without breaking them if I do something wrong.&lt;/p&gt;
+
+&lt;p&gt;I started by building out Ansible playbooks, one for each of my servers, this works great for deploying my servers with all the apps that I require, However this doesnt help with things like home assistant configuration changes, if I change my config I have to do it via atom with a remote plugin that allows FTP on changes. This works… but if i make a mistake i take home assistant offline which doesnt go down well with the family!&lt;/p&gt;
+
+&lt;p&gt;After this I thought how can I update my configuration, keep it backed up, have the ability to roll it back and also test it before I put it on my server?&lt;/p&gt;
+
+&lt;p&gt;So I have now started using &lt;a href=&quot;https://github.com/marksie1988/home-assistant-config&quot;&gt;GitHub&lt;/a&gt; to store my configuration, this gives me a backup in case my server dies and also helps the HA Community see examples of the configuration for their own deployments.&lt;/p&gt;
+
+&lt;p&gt;I also want to check the new configuration when it gets committed to GIT but before I download it to home assistant, for this I use &lt;a href=&quot;https://gitlab.com/marksie1988/home-assistant-config/pipelines&quot;&gt;gitlab&lt;/a&gt;. Whenever gitlab detects a commit on the GIT repository it will begin a pipeline on gitlab that checks my latest configuration for various things:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;MarkdownLint – Checks any files with markdown in to make sure it is valid&lt;/li&gt;
+  &lt;li&gt;YAMLlint – Checks YAML files for formatting and validation&lt;/li&gt;
+  &lt;li&gt;JSONlint – Checks any JSON files for formatting and validation&lt;/li&gt;
+  &lt;li&gt;HA Stable / Dev / Beta – My Home Assistant configuration is then checked against the different builds&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;By doing all of the above checks I will know that the code works as expected and I can also tell that it will work with all the current releases of HomeAssistant.&lt;/p&gt;
+
+&lt;p&gt;Once the configuration has been checked the pipeline will trigger a webhook back to my Home Assistant server which then pulls the latest commit from GitHub and restarts HomeAssistant.&lt;/p&gt;
+
+&lt;p&gt;Now I have gone from roughly 15 / 30 minutes for testing and troubleshooting, along with potential outages down to around 2 minutes and no long outage for my Home Assistant.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;By doing this I have saved myself 13 / 28 minutes per configuration change, when you add that up over weeks / months of changes I have very quickly saved a days worth of configuration change! If you then add the time saved by using Ansible, I can deploy a brand new Home Assistant server in around 10 minutes which is fully configured and functional.&lt;/p&gt;</content><author><name></name></author><summary type="html">I have recently been looking into CI and CD, mainly for use at home with my various projects etc. but also to further my knowledge.</summary></entry><entry><title type="html">UniFi L2TP: set a static IP for a specific user (built-in Radius Server)</title><link href="https://totaldebug.uk/posts/unifi-l2tp-set-a-static-ip-for-a-specific-user-built-in-radius-server/" rel="alternate" type="text/html" title="UniFi L2TP: set a static IP for a specific user (built-in Radius Server)" /><published>2019-10-07T00:00:00+00:00</published><updated>2019-10-07T00:00:00+00:00</updated><id>https://totaldebug.uk/posts/unifi-l2tp-set-a-static-ip-for-a-specific-user-built-in-radius-server</id><content type="html" xml:base="https://totaldebug.uk/posts/unifi-l2tp-set-a-static-ip-for-a-specific-user-built-in-radius-server/">&lt;p&gt;When using my L2TP VPN with the Unifi I realised that it was assigning a different IP Address to my client when it connected sometimes.&lt;/p&gt;
+
+&lt;p&gt;This wouldn’t normally be a problem if the remote client was only taking to my internal network, however I run a server that my internal network communicates out to via IP Address, so if this changes it all stops working.&lt;/p&gt;
+
+&lt;p&gt;This article walks through how to setup a static IP Address for an L2TP Client.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;First we need to get a dump of our configuration from the USG, to do this we need to SSH to the USG and run a dump:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mca-ctrl -t dump-cfg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Once we have this I recommend copying it into your favourite text editor. We want to delete everything except the following:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+        &quot;service&quot;: {
+                &quot;radius-server&quot;: {
+                        &quot;user&quot;: {
+                                &quot;myl2tpuser&quot;: {
+                                        &quot;password&quot;: &quot;password&quot;,
+                                        &quot;tunnel-param&quot;: &quot;3 1&quot;
+                                }
+                        }
+                }
+        }
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now that we only have our user configuration we need to modify it to assign the IP Address:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+        &quot;service&quot;: {
+                &quot;radius-server&quot;: {
+                        &quot;user&quot;: {
+                                &quot;myl2tpuser&quot;: {
+                                        &quot;ip-address&quot;: &quot;192.168.10.10&quot;
+                                }
+                        }
+                }
+        }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Once we have this we are able to add this to a config file on our controller which, when the controller re-provisions the USG will apply. (you can also manually force a provision)&lt;/p&gt;
+
+&lt;p&gt;The file needs to be saved to the site location, this will be something similar to:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/opt/UniFi/data/sites/default/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;once in this directory create a new file called “config.gateway.json” and paste the above configuration into it.&lt;/p&gt;
+
+&lt;p&gt;To test the new configuration file you can run this command:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python -m json.tool config.gateway.json
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;you shouldn’t see any errors if this is correct.&lt;/p&gt;
+
+&lt;p&gt;We now can re-provision the USG which will pickup the configuration from the Controller and update the VPN settings.&lt;/p&gt;</content><author><name></name></author><summary type="html">When using my L2TP VPN with the Unifi I realised that it was assigning a different IP Address to my client when it connected sometimes.</summary></entry></feed>

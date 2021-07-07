@@ -1,0 +1,429 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>Folder redirection permissions. My Documents / Start Menu / Desktop - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">Folder redirection permissions. My Documents / Start Menu / Desktop</h1>
+      
+        
+<small>3 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>How to correctly set-up folder redirection permissions for My Documents, Start Menu and Desktop. I have worked on many company computer systems where this hadn’t been done correctly resulting in full access to all files and folders, as an outsider I had access to other peoples my documents from my laptop without being on the domain! Following this article will stop that happening to your data.
+<!--more--></p>
+
+<p><strong>When creating the redirection share, limit access to the share to only users that need access.</strong>
+<!--more--></p>
+
+<p>Because redirected folders contain personal information, such as documents and EFS certificates care should be taken to protect them as well as possible. In general:</p>
+
+<ul>
+  <li>Restrict the share to only users that need access. Create a security group for users that have redirected folders on a particular share, and limit access to only those users.</li>
+  <li>When creating the share, hide the share by putting a $ after the share name. This will hide the share from casual browsers; the share will not be visible in My Network Places.</li>
+  <li>Only give users the minimum amount of permissions needed. The permissions needed are shown in the tables below:</li>
+</ul>
+
+<p><strong>Table 12 NTFS Permissions for Folder Redirection Root Folder</strong></p>
+
+<table>
+  <tr>
+    <th colspan="1">
+      User Account
+    </th>
+
+    <th colspan="1">
+      Minimum permissions required
+    </th>
+  </tr>
+
+  <tr>
+    <td colspan="1">
+      Creator/Owner
+    </td>
+
+    <td colspan="1">
+      Full Control, Subfolders And Files Only
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="1">
+      Administrator
+    </td>
+
+    <td colspan="1">
+      None
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="1">
+      Security group of users needing to put data on share.
+    </td>
+
+    <td colspan="1">
+      List Folder/Read Data, Create Folders/Append Data &#8211; This Folder Only
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="1">
+      Everyone
+    </td>
+
+    <td colspan="1">
+      No Permissions
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="1">
+      Local System
+    </td>
+
+    <td colspan="1">
+      Full Control, This Folder, Subfolders And Files
+    </td>
+  </tr>
+</table>
+
+<p><strong>Table 13 Share level (SMB) Permissions for Folder Redirection Share</strong></p>
+
+<table>
+  <tr>
+    <th colspan="1">
+      User Account
+    </th>
+
+    <th colspan="1">
+      Default Permissions
+    </th>
+
+    <th colspan="1">
+      Minimum permissions required
+    </th>
+  </tr>
+
+  <tr>
+    <td colspan="1">
+      Everyone
+    </td>
+
+    <td colspan="1">
+      Full Control
+    </td>
+
+    <td colspan="1">
+      No Permissions
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="1">
+      Security group of users needing to put data on share.
+    </td>
+
+    <td colspan="1">
+      N/A
+    </td>
+
+    <td colspan="1">
+      Full Control,
+    </td>
+  </tr>
+</table>
+
+<p><strong>Table 14 NTFS Permissions for Each Users Redirected Folder</strong></p>
+
+<table>
+  <tr>
+    <th colspan="1">
+      User Account
+    </th>
+
+    <th colspan="1">
+      Default Permissions
+    </th>
+
+    <th colspan="1">
+      Minimum permissions required
+    </th>
+  </tr>
+
+  <tr>
+    <td colspan="1">
+      %Username%
+    </td>
+
+    <td colspan="1">
+      Full Control, Owner Of Folder
+    </td>
+
+    <td colspan="1">
+      Full Control, Owner Of Folder
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="1">
+      Local System
+    </td>
+
+    <td colspan="1">
+      Full Control
+    </td>
+
+    <td colspan="1">
+      Full Control
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="1">
+      Administrators
+    </td>
+
+    <td colspan="1">
+      No Permissions
+    </td>
+
+    <td colspan="1">
+      No Permissions
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="1">
+      Everyone
+    </td>
+
+    <td colspan="1">
+      No Permissions
+    </td>
+
+    <td colspan="1">
+      No Permissions
+    </td>
+  </tr>
+</table>
+
+<p><strong>Always use the NTFS Filesystem for volumes holding users data.</strong></p>
+
+<p>For the most secure configuration, configure servers hosting redirected files to use the NTFS File System. Unlike FAT, NTFS supports Discretionary access control lists (DACLs) and system access control lists (SACLs), which control who can perform operations on a file and what events will trigger logging of actions performed on a file.</p>
+
+<p><strong>Let the system create folders for each user.</strong></p>
+
+<p>To ensure that Folder Redirection works optimally, create only the root share on the server, and let the system create the folders for each user. Folder Redirection will create a folder for the user with appropriate security.</p>
+
+<p>If you must create folders for the users, ensure that you have the correct permissions set, also note that if pre-creating folders you must clear the “grant the user exclusive rights to XXX checkbox on the settings tab of the Folder Redirection page. If you don’t clear this checkbox, then Folder Redirection will first check a pre-existing folder to ensure the user is the owner. If the folder is pre-created by the administrator, this check will fail and redirection will be aborted. Folder Redirection will then log an event in the Application event log:</p>
+
+<p>Error: Folder Redirection</p>
+
+<p>Event ID: 101</p>
+
+<p>Event Message:</p>
+
+<p>Failed to perform redirection of folder XXXX. The new directories for the redirected folder could not be created. The folder is configured to be redirected to \server\share, the final expanded path was \server\share\XXX .</p>
+
+<p>The following error occurred:</p>
+
+<p>This security ID may not be assigned as the owner of this object.</p>
+
+<p>It is strongly recommended that you do not pre-create folders, and allow Folder Redirection to create the folder for the user.</p>
+
+<p><strong>Ensure correct permissions are set if redirecting to a users home directory.</strong></p>
+
+<p>Windows Server 2003 and Windows XP allow you to redirect a users My Documents folder to their home directory. When redirecting to the home directory, the default security checks are not made – ownership and the existing directory security are not checked and any existing permissions are not changed – it is assumed that the permissions on the users home directory are set appropriately.</p>
+
+<p>If you are redirecting to a users home directory, be sure that the permissions on the users home directory are set appropriately for your organization.</p>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2012-07-30 00:00">Monday, July 30, 2012</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

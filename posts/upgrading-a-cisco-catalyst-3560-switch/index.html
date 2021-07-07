@@ -1,0 +1,280 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>Upgrading a Cisco Catalyst 3560 Switch - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">Upgrading a Cisco Catalyst 3560 Switch</h1>
+      
+        
+<small>2 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>Here are my notes on upgrading a Catalyst 3560. I plugged in a laptop to the serial console and an ethernet cable into port 1 (technically interface Gigabit Ethernet 0/1). <a href="http://www.cisco.com/en/US/products/hw/switches/ps646/products_configuration_example09186a0080169623.shtml">Here</a> is the official Cisco documentation I followed. It’s for the 3550, but the Cisco support engineer said that it’s close enough.
+<!--more--></p>
+
+<h3 id="first-hurdle-vlan-mismatch-error"><strong>First Hurdle: VLAN Mismatch Error</strong></h3>
+
+<p>I quickly got bunch of errors that stated “Native VLAN Mismatch: discovered on Gigabit Ethernet 0/1.” The far end of the new switch is VLAN1. To fix this error, I moved port 1 from VLAN 3 to VLAN 1. These are the commands I ran.</p>
+
+<p>switch&gt;show vlan</p>
+
+<p>VLAN Name Status Ports
+———- ———– ————- ——————–
+1 default active Gi0/28
+3 server active Gi0/1, Gi0/2, Gi0/3 ….</p>
+
+<p>switch&gt; enable
+switch# config term
+switch (config)# interface Gi0/1
+switch (config-if)# switchport access vlan 1
+switch (config-if)# exit
+switch (config)# exit
+switch# show vlan</p>
+
+<p>VLAN Name Status Ports
+——— ———– ————- —————
+1 default active Gi0/1, Gi0/28
+3 server active Gi0/2, Gi0/3 ….</p>
+
+<h3 id="second-hurdle-couldnt-reach-tftp-server"><strong>Second Hurdle: Couldn’t Reach TFTP Server</strong></h3>
+
+<p>To upgrade the image, I had to put the image on a TFTP server and pull it down. Unfortunately I wasn’t able to ping my FTP server. I quickly figured out that I didn’t have an IP address for VLAN 1. To set the IP address:</p>
+
+<p>switch(config)#int vlan 1
+switch(config-if)# ip address 172.16.0.10 255.255.0.0
+switch# ping 172.16.1.27</p>
+
+<h3 id="finally-the-upgrade"><strong>Finally the upgrade!</strong></h3>
+
+<p>Cisco offers a .tar and a .bin image for the upgrades. Use the .tar file if you want to use the CMS software. I just wanted to use the command line interface (CLI), so I grabbed the .bin file (c3560-ipbasek9-mz.122-44.SE.bin) and placed it on the root directory of my TFTP server.</p>
+
+<p><strong>1. Verified that there’s enough space. The .bin file is ~8MB. In the 3560’s flash:</strong></p>
+
+<p>switch#dir flash</p>
+
+<p>&lt;——- Tuncated except for last line ——-&gt;
+24998976 bytles total (16349184 bytes free)</p>
+
+<p>Since there’s ~ 16 MB free, we’re good to go. Otherwise delete by issuing this command:</p>
+
+<p>switch#delete /force /recursive flash:directory_of_old_image_here</p>
+
+<p><strong>2. Downloaded image onto the switch and verified its integrity</strong></p>
+
+<p>switch#copy tftp flash
+Address or name of remote host []? 172.16.1.27
+Source filename []? c3560-ipbasek9-mz.122-44.SE.bin
+Destination filename [c3560-ipbasek9-mz.122-44.SE.bin]?</p>
+
+<p>switch#dir flash
+switch#verify flash:c3560-ipbasek9-mz.122-44.SE.bin</p>
+
+<p><strong>3. Changed the boot image in the switch</strong></p>
+
+<p>switch#show boot
+switch#configure terminal
+switch(config)#boot system flash:c3560-ipbasek9-mz.122-44.SE.bin
+switch#exit
+switch#show boot</p>
+
+<p><strong>4. Saved, verified, and rebooted</strong></p>
+
+<p>switch#write memory
+switch#show version
+switch#reload</p>
+
+<p>Upon reboot
+switch#show ver</p>
+
+<p><strong>5. Drank a celebratory drink. Coffee of course, because I was still at work.</strong></p>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2012-06-27 00:00">Wednesday, June 27, 2012</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

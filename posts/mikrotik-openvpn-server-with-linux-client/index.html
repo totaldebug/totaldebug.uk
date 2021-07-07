@@ -1,0 +1,459 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>Mikrotik OpenVPN Server with Linux Client - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">Mikrotik OpenVPN Server with Linux Client</h1>
+      
+        
+<small>6 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>I spent quite some time trying to get the OpenVPN Server working on the Mikrotik Router with a Linux client, It caused some pain and I didnt want others to go through that. I have therefore written this guide, taking you from certificate creation all the way to VPN connectivity.</p>
+
+<p>For this tutorial I will have SSH to my Mikrotik (you can use a winbox terminal), I have chosen not to use WinBox for the configuration as its easier to deploy this way.
+<!--more--></p>
+
+<h3 id="certificate-creation">Certificate Creation</h3>
+
+<p>First we need to create our certificate templates on our Mikrotik.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/certificate
+add <span class="nv">name</span><span class="o">=</span>ca-template <span class="nv">country</span><span class="o">=</span>GB <span class="nv">locality</span><span class="o">=</span>Leeds <span class="nv">organization</span><span class="o">=</span>SpottedHyena <span class="nv">state</span><span class="o">=</span>WestYorkshire common-name<span class="o">=</span><span class="s2">"home.server.co.uk"</span> key-size<span class="o">=</span>2048 <span class="nv">unit</span><span class="o">=</span>IT
+</code></pre></div></div>
+
+<p><strong>Name (Optional):</strong> This is the visual name for the template, set this as required.
+<strong>Country (Optional:</strong> The country that you are in, this should be denoted by the 2 letter prefix e.g. GB for Great Britain.
+<strong>Locality (Optional):</strong> This is the City / Town.
+<strong>Organization (Optional):</strong> If you are an Organization enter the name here.
+<strong>State (Optional):</strong> Your State / Province.
+<strong>Common-Name (Required):</strong> The common name should be the FQDN of your Server / Mikrotik, this cannot be an IP Address and must be a valid domain name accessible publicly.
+<strong>Key-Size (Optional):</strong> Although this is optional I would recommend setting it to at lease 2048 for security 1024 is the default and not as secure.
+<strong>Unit (Optional):</strong> this is the department the certificate belongs to.</p>
+
+<p>Once we have generated our template we now need to create a certificate request and submit it to our CA</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/certificate
+create-certificate-request <span class="nv">template</span><span class="o">=</span>ca-template
+</code></pre></div></div>
+
+<p>Press enter and then type a passphrase, keep this safe it will be required when using the certificate.</p>
+
+<p>Once the certificate is created you will get 2 new files, using an FTP Client such as <a href="https://filezilla-project.org/">Filezilla</a> connect to the Mikrotik and download these two files:</p>
+
+<ol>
+  <li>certificate-request.pem</li>
+  <li>certificate-requset_key.pem</li>
+</ol>
+
+<p>Edit the certificate-request.pem file in your favourite <a href="https://notepad-plus-plus.org/">Notepad Product</a> copy all of the contents from this file including the begin and end tags.</p>
+
+<p>Now we need to login to <a href="www.cacert.org">CAcert.org</a> (if you don’t have an account create one)
+<a href="http://35.176.61.220/wp-content/uploads/2015/07/CACert.png"><img loading="lazy" src="http://35.176.61.220/wp-content/uploads/2015/07/CACert.png" alt="CACert" width="1845" height="528" class="aligncenter size-full wp-image-720" /></a></p>
+
+<p>Once logged in select “Domains” “Add” in here type the domain name you used for your “Common-Name” e.g. 35.176.61.220 (you dont need the subdomain if one was used) You will then be asked to verify the domain via an email to one of a list of possible email accounts, verify the domain before continuing.</p>
+
+<p>When the domain is verified go to “Server Certificate” “New”</p>
+
+<p>Paste the contents of certificate-request.pem into the box and submit the request.</p>
+
+<p>This should be accepted straight away and you will receive your certificate in text form on the next page.
+<a href="http://35.176.61.220/wp-content/uploads/2015/07/cacert2.jpg"><img loading="lazy" src="http://35.176.61.220/wp-content/uploads/2015/07/cacert2.jpg" alt="cacert2" width="900" height="484" class="aligncenter size-full wp-image-721" /></a></p>
+
+<p>Copy and Paste your Certificate Response from Cacert in a notepad and save that with .pem file ( In Here : certificate-response.pem )</p>
+
+<h3 id="private-key">Private Key</h3>
+
+<p>We now need to convert the private key, this is generated in pkcs8 format, this is not supported by RouterOS.</p>
+
+<p>To import the private key use linux openssl and make a private-key file.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install </span>openssl
+</code></pre></div></div>
+
+<p>Upload the certificate-requset_key.pem file to the Linux server and run the following command:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>openssl rsa <span class="nt">-in</span> certificate-requset_key.pem <span class="nt">-text</span>
+</code></pre></div></div>
+
+<p>copy and paste export String (Include Begin and End tags) to a New File eg certificate-requset_key.key</p>
+
+<h3 id="import-certificate">Import Certificate</h3>
+
+<p>Upload the files Certificate-Response.pem, certificate-requset_key.key and <a href="http://www.cacert.org/?id=3">ca.crt (root ca from CACert.org)</a> to your Mikrotik with Filezilla</p>
+
+<p>We now need to import the Certificate-response.pem with the passphrase you set earlier:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/certificate
+import file-name<span class="o">=</span>certificate-response.pem
+</code></pre></div></div>
+
+<p>Now import the certificate-requset_key.key</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/certificate
+import file-name<span class="o">=</span>certificate-request_key.key
+</code></pre></div></div>
+
+<p>Now import the Intermidiate (CA Cert) from CACert.org</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> /certificate
+import file-name<span class="o">=</span>ca.crt
+</code></pre></div></div>
+
+<p><strong>Always import the certificate first, then the key.</strong> You should be able to do a /certificate print and see the entries for the files you imported. In the print output, look at the flags column and verify that the line with your certificate has a T and a K. If the K is missing, import the key one more time. If that still doesn’t work, ensure that your certificate and key match.</p>
+
+<p>The default naming conventions used for certificates is a little confusing. You can rename a certificate by running set name=firewall.35.176.61.220 number=0 (run a /certificate print to get the right number).</p>
+
+<h3 id="openvpn-server-configuration">OpenVPN Server Configuration</h3>
+
+<p>(Credit to <a href="https://major.io/2015/05/01/howto-mikrotik-openvpn-server/" target="_Blank">major.io</a> for parts of this section.</p>
+
+<p>Now we are ready to begin the configuration of our OpenVPN Server</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/interface ovpn-server server
+<span class="nb">set </span><span class="nv">certificate</span><span class="o">=</span>firewall.35.176.61.220 <span class="nv">cipher</span><span class="o">=</span>aes256 default-profile<span class="o">=</span>default-encryption <span class="nv">enabled</span><span class="o">=</span><span class="nb">yes</span>
+</code></pre></div></div>
+
+<p>This tells the device that we want to use our certificate we created and imported earlier along with AES256 Ciphers, there are more ciphers available however at the time of writing AES256 was the most secure available. We are also selecting <strong>default-encriotion</strong> profile, we will configure this in more detail later.</p>
+
+<p>We now need to add an OpenVPN interface to the Mikrotik. You can have multiple OpenVPN Server profiles running under the same server. They will all share the same certificate, but each may have different configurations. Below we create the first porfile:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/interface ovpn-server
+add <span class="nv">name</span><span class="o">=</span>openvpn-inbound <span class="nv">user</span><span class="o">=</span>openvpn
+</code></pre></div></div>
+
+<p>There is now a profile with a username <strong>openvpn</strong>. That will be the username that we use to connect to this VPN server.</p>
+
+<h3 id="secrets">Secrets</h3>
+
+<p>The router needs a way to identify the user we just created:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/ppp secret
+add <span class="nv">name</span><span class="o">=</span>openvpn <span class="nv">password</span><span class="o">=</span>ovpnpassword <span class="nv">profile</span><span class="o">=</span>default-encryption
+</code></pre></div></div>
+
+<h3 id="profiles">Profiles</h3>
+
+<p>We have referred to this default-encryption profile and now it’s time to configure it. This is one of the things I prefer to configure using the Winbox GUI or the web interface since there are plenty of options to review. (in winbox select PPP then the profiles tab, open default-encryption profile)</p>
+
+<p>The most important part is how you connect the VPN connection into your internal network. You have a few options here. You can configure an IP address that will always be assigned to this connection no matter what. There are upsides and downsides with that choice. You will always get the same IP on the inside network but you won’t be able to connect to the same profile with multiple clients.</p>
+
+<p>I prefer to set the bridge option to my internal network bridge (which I call bridge1). That allows me to use my existing bridge configuration and filtering rules on my OpenVPN tunnels. My configuration looks something like this:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/ppp profile
+<span class="nb">set </span>1 <span class="nv">bridge</span><span class="o">=</span>bridge1 local-address<span class="o">=</span>dhcp_pool1 only-one<span class="o">=</span>no remote-address<span class="o">=</span>dhcp_pool1
+</code></pre></div></div>
+
+<p>Here we have told the router that we want VPN Connections to use the main bridge, and should get its local and remote addresses from my normal DHCP Pool. In addition we are allowing multiple connections to this profile.</p>
+
+<h3 id="firewall-rule">Firewall Rule</h3>
+
+<p>The following firewall rule will be required to allow traffic into the OpenVPN Port:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/ip firewall filter add <span class="nv">chain</span><span class="o">=</span>input dst-port<span class="o">=</span>1194 <span class="nv">protocol</span><span class="o">=</span>tcp
+</code></pre></div></div>
+
+<h3 id="openvpn-client">OpenVPN Client</h3>
+
+<p>This is where I got stuck the most, no articles explain where to get the Certificate for the Client from, for a seasoned pro this may seem like something very simple however to a newbie to this type of deployment its information I really could have done with!</p>
+
+<p>Well the answer I now know is quite simple, you use the same Certificate for a Client and Server, Lots of articles I found mentioned having a client cert but that didnt seem to work for me.</p>
+
+<p>First we must install OpenVPN and create the configuration</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install </span>openvpn <span class="nt">-y</span>
+</code></pre></div></div>
+
+<p>The configuration files live here: /etc/openvpn/</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /etc/openvpn/
+</code></pre></div></div>
+
+<p>we will need to create <code class="highlighter-rouge">firewall-auth.txt</code> and <code class="highlighter-rouge">home.up</code> see the contents of these files below: <code class="highlighter-rouge">vi firewall-auth.txt</code></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>username
+password
+</code></pre></div></div>
+
+<p>The firewall-auth.txt file holds our username and password, this will allow OpenVPN to login and restart the connection without user interaction.</p>
+
+<h3 id="required-certificates">Required Certificates:</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>openssl dhparam <span class="nt">-out</span> dh2048.pem 2048
+</code></pre></div></div>
+
+<p>This is our Diffie–Hellman file which is required by OpenVPN.</p>
+
+<p>We also need to copy the following files ca.crt, certificate-response.crt and private-key.key</p>
+
+<p><code class="highlighter-rouge">vi MyVpn.ovpn</code></p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dev tun
+pull
+tls-client
+dh dh2048.pem
+ca ca.crt
+cert certificate-response.crt
+key certificate-request_key.key
+remote firewall.35.176.61.220 1194 tcp-client
+persist-key
+script-security 3
+cipher AES-256-CBC
+auth-nocache
+auth-user-pass firewall-auth.txt
+ping 15
+ping-restart 45
+ping-timer-rem
+persist-tun
+verb 3
+log-append /var/log/openvpn.log
+</code></pre></div></div>
+
+<p>This is the main configuration file, Below I have explained what each line means:
+<strong>dev tun:</strong>
+<strong>pull:</strong>
+<strong>tls-client:</strong>
+<strong>dh dh2048.pem:</strong>
+<strong>ca ca.crt:</strong>
+<strong>cert certificate-response.crt:</strong>
+<strong>key certificate-request_key.key:</strong>
+<strong>remote firewall.35.176.61.220 1194 tcp-client:</strong>
+<strong>persist-key</strong>
+<strong>script-security 3</strong>
+<strong>cipher AES-256-CBC</strong>
+<strong>auth-nocache</strong>
+<strong>auth-user-pass firewall-auth.txt</strong>
+<strong>ping 15</strong>
+<strong>ping-restart 45</strong>
+<strong>ping-timer-rem</strong>
+<strong>persist-tun</strong>
+<strong>verb 3</strong>
+<strong>log-append /var/log/openvpn.log</strong></p>
+
+<h3 id="testing">Testing</h3>
+
+<p>To test the VPN is quite simple, open 2x SSH windows to your Client Linux Server.</p>
+
+<p>In the first SSH Window run:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>openvpn /etc/openvpn/MyVpn.ovpn
+</code></pre></div></div>
+
+<p>In the second SSH Window run:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tail</span> <span class="nt">-f</span> /var/log/openvpn.log
+</code></pre></div></div>
+
+<p>Watch the log closely, you will see errors in here which will help with troubleshooting any issues.</p>
+
+<h3 id="troubleshooting">Troubleshooting</h3>
+
+<p><strong>Compression:</strong> At the time of writing compression is not supported by Mikrotik, please make sure no LZO lines are present in the configuration.</p>
+
+<p><strong>Certificates:</strong> Check that your certificate and key were imported properly and that your client is configured to trust the self-signed certificate or the CA you used.</p>
+
+<h3 id="security">Security</h3>
+
+<p>There are some security improvements that could be made to this configuration, however this is to get you up and running.</p>
+
+<ol>
+  <li>Limit the port access to a specific Source IP Address so that only you can connect</li>
+  <li>Configre better passwords, the ones shown are examples only</li>
+  <li>Consider using a seperate bridge so that the VPN has its own filters and rules</li>
+  <li>Change the security of the firewall-auth.txt and home.up files to 600</li>
+</ol>
+
+<p>Hopefully this will be helpful to someone out there.</p>
+
+<p>If you have any issues add a comment below and I will get back to you ASAP.</p>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2015-07-29 00:00">Wednesday, July 29, 2015</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

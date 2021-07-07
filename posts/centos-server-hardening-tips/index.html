@@ -1,0 +1,398 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>CentOS Server Hardening Tips - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">CentOS Server Hardening Tips</h1>
+      
+        
+<small>4 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>This article provides various hardening tips for your Linux server.
+<!--more--></p>
+
+<h4 id="1-minimise-packages-to-minimise-vulnerability">1. Minimise Packages to Minimise Vulnerability</h4>
+
+<p>Do you really want all sorts of services installed?. It’s recommended to avoid installing packages that are not required to avoid vulnerabilities. This may minimise risks that compromise other services on your server. Find and remove or disable unwanted services from the server to minimize vulnerability. Use the <strong>chkconfig</strong> command to find out services which are running on <strong>runlevel 3</strong>.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/sbin/chkconfig <span class="nt">--list</span> |grep <span class="s1">'3:on'</span>
+</code></pre></div></div>
+
+<p>Once you’ve found any unwanted services that are running, disable them using the following command:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chkconfig serviceName off
+</code></pre></div></div>
+
+<p>Use the RPM package managers such as “yum” or “apt-get” tools to list all installed packages on a system and remove them using the following command:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">-y</span> remove package-name
+</code></pre></div></div>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get remove package-name
+</code></pre></div></div>
+
+<h4 id="2-check-listening-network-ports">2. Check Listening Network Ports</h4>
+
+<p>With the help of the <strong>netstat</strong> networking command you can view all open ports and associated programs. As I said above use the <strong>chkconfig</strong> command to disable all unwanted network services on the system.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>netstat <span class="nt">-tulpn</span>
+</code></pre></div></div>
+
+<h4 id="3-use-secure-shellssh">3. Use Secure Shell(SSH)</h4>
+
+<p><strong>Telnet</strong> and <strong>rlogin</strong> protocols use plain text, a non encrypted format which is prone to security breaches. SSH is a secure protocol that uses encryption technologies during communication.</p>
+
+<p>Never login directly as <strong>root</strong> unless necessary. Use <strong>sudo</strong> to execute commands. sudo users are specified in the <code class="highlighter-rouge">/etc/sudoers</code> file which can be edited with the <strong>visudo</strong> utility which opens in the VI editor.</p>
+
+<p>It’s also recommended to change default SSH (22) port number with a different unassigned port number. Open the main SSH configuration file and change the following parameters to restrict users to access. (<code class="highlighter-rouge">vi /etc/ssh/sshd_config</code>)</p>
+
+<h5 id="disable-root-login">Disable root Login</h5>
+
+<p>This will disable users from logging in over SSH with the Root account, Obviously if you don’t have console access don’t change this setting.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PermitRootLogin n
+</code></pre></div></div>
+
+<h5 id="only-allow-specific-users">Only Allow Specific Users</h5>
+
+<p>Change this to only allow users that you want to be using SSH Access (one line per user)</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AllowUsers username
+AllowUsers username
+</code></pre></div></div>
+
+<h5 id="use-ssh-protocol-2-version">Use SSH Protocol 2 Version</h5>
+
+<p>This should be used in all cases!</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Protocol 2
+</code></pre></div></div>
+
+<h4 id="4-keep-your-system-updated">4. Keep Your System updated</h4>
+
+<p>Always keep your system updated with latest releases, patches, security fixes and kernel updates when available.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum updates
+yum check-update
+</code></pre></div></div>
+
+<h4 id="5-lockdown-cronjobs">5. Lockdown Cronjobs</h4>
+
+<p><strong>Cron</strong> has a built in feature, where it allows you to specify who can and can not run cron jobs. This is controlled by the use of the following files called <code class="highlighter-rouge">/etc/cron.allow</code> and <code class="highlighter-rouge">/etc/cron.deny</code>. To stop a user using cron, simply add their user names to <code class="highlighter-rouge">cron.deny</code> and to allow a user to run cron add them to <code class="highlighter-rouge">cron.allow</code>. If you would like to disable all users from using cron, add the <strong>ALL</strong> line to <code class="highlighter-rouge">cron.deny</code> file.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo </span>username <span class="o">&gt;&gt;</span>/etc/cron.allow
+<span class="nb">echo </span>ALL <span class="o">&gt;&gt;</span>/etc/cron.deny
+</code></pre></div></div>
+
+<h4 id="6-remove-kdegnome-desktops">6. Remove KDE/GNOME Desktops</h4>
+
+<p>There is no need to run X Window desktops like KDE or GNOME on your LAMP server. You can remove or disable them to increase security and performance. To disable simple open the file <code class="highlighter-rouge">/etc/inittab</code> and set the run level to 3. If you wish to remove it completely from the system use the below command.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum groupremove <span class="s2">"X Window System"</span>
+</code></pre></div></div>
+
+<h4 id="7-turn-off-ipv6">7. Turn Off IPv6</h4>
+
+<p>If you’re not using a IPv6 protocol, then you should disable it. Most of the applications or policies don’t required IPv6 protocol and currently it isn’t required on the server. Go to the network configuration file and add followings lines to disable it.(<code class="highlighter-rouge">vi /etc/sysconfig/network</code>)</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">NETWORKING_IPV6</span><span class="o">=</span>no
+<span class="nv">IPV6INIT</span><span class="o">=</span>no
+</code></pre></div></div>
+
+<h4 id="8-restrict-users-from-using-old-passwords">8. Restrict Users from using Old Passwords</h4>
+
+<p>This is very useful if you want to stop users using the same old passwords. The old password file is located at <code class="highlighter-rouge">/etc/security/opasswd</code>. This can be achieved by using the PAM module.
+<code class="highlighter-rouge">vi /etc/pam.d/system-auth</code></p>
+
+<p>Add the following line to the <strong>auth</strong> section</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>auth        sufficient    pam_unix.so likeauth nullok
+</code></pre></div></div>
+
+<p>Add the following line to <strong>password</strong> section to disallow a user from re-using the last 5 password.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>password   sufficient    pam_unix.so nullok use_authtok md5 shadow <span class="nv">remember</span><span class="o">=</span>5
+</code></pre></div></div>
+
+<p>Only the last <strong>5</strong> passwords are remembered by the server, if you try to use any of the last <strong>5</strong> old passwords you will receive an error.</p>
+
+<h4 id="9-enforce-stronger-passwords">9. Enforce Stronger Passwords</h4>
+
+<p>A number of users use soft or weak passwords and their password might be hacked with a dictionary based or brute-force attack. The <code class="highlighter-rouge">pam_cracklib</code> module is available in the PAM (Pluggable Authentication Modules) module stack which will force a user to set a strong passwords. Add the following to this file (<code class="highlighter-rouge">vi /etc/pam.d/system-auth</code>)</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/lib/security/<span class="nv">$ISA</span>/pam_cracklib.so <span class="nv">retry</span><span class="o">=</span>3 <span class="nv">minlen</span><span class="o">=</span>8 <span class="nv">lcredit</span><span class="o">=</span><span class="nt">-1</span> <span class="nv">ucredit</span><span class="o">=</span><span class="nt">-2</span> <span class="nv">dcredit</span><span class="o">=</span><span class="nt">-2</span> <span class="nv">ocredit</span><span class="o">=</span><span class="nt">-1</span>
+</code></pre></div></div>
+
+<h4 id="10-enable-iptables-firewall">10. Enable Iptables (Firewall)</h4>
+
+<p>It’s highly recommended to enable the Linux firewall to secure access to your servers. Apply rules in iptables to filter incoming, outgoing and forwarding packets. We can specify the source and destination address to allow and deny specific udp/tcp port number.</p>
+
+<p>The following are rules i would highly recommend adding to yours (<code class="highlighter-rouge">vi /etc/sysconfig/iptables</code>) the first block of rules drop connections that are not recognised, the second allows local network access to certain ports e.g. SSH port 22.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Generated by iptables-save v1.4.7 on Mon Mar 31 14:07:57 2014
+<span class="k">*</span>filter
+:INPUT DROP <span class="o">[</span>0:0]
+:FORWARD DROP <span class="o">[</span>0:0]
+:OUTPUT ACCEPT <span class="o">[</span>7:747]
+<span class="nt">-A</span> INPUT <span class="nt">-i</span> lo <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-m</span> state <span class="nt">--state</span> RELATED,ESTABLISHED <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-p</span> tcp <span class="nt">-m</span> tcp <span class="nt">--tcp-flags</span> FIN,SYN,RST,PSH,ACK,URG NONE <span class="nt">-j</span> DROP
+<span class="nt">-A</span> INPUT <span class="nt">-p</span> tcp <span class="nt">-m</span> tcp <span class="o">!</span> <span class="nt">--tcp-flags</span> FIN,SYN,RST,ACK SYN <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-j</span> DROP
+<span class="nt">-A</span> INPUT <span class="nt">-p</span> tcp <span class="nt">-m</span> tcp <span class="nt">--tcp-flags</span> FIN,SYN,RST,PSH,ACK,URG FIN,SYN,RST,PSH,ACK,URG <span class="nt">-j</span> DROP
+<span class="nt">-A</span> INPUT <span class="nt">-f</span> <span class="nt">-j</span> DROP
+
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 192.168.0.0/24 <span class="nt">-p</span> icmp <span class="nt">--icmp-type</span> any <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 192.168.0.0/24 <span class="nt">-i</span> eth0 <span class="nt">-p</span> tcp <span class="nt">-m</span> tcp <span class="nt">--dport</span> 22 <span class="nt">-j</span> ACCEPT
+</code></pre></div></div>
+
+<h4 id="11-keep-boot-as-read-only">11. Keep /boot as read-only</h4>
+
+<p>The Linux kernel and its related files are in <code class="highlighter-rouge">/boot</code> directory which is by default read-write. Changing it to read-only reduces the risk of unauthorised modification of critical boot files. To do this, <code class="highlighter-rouge">vi /etc/fstab</code> and add the following to the bottom.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">LABEL</span><span class="o">=</span>/boot     /boot     ext2     defaults,ro     1 2
+</code></pre></div></div>
+
+<p>Please note that you need to reset the change to read-write if you need to upgrade the kernel in future.</p>
+
+<h4 id="12-setup-ntp">12. Setup NTP</h4>
+
+<p>Having an accurate system clock is important for reviewing log files and determining when an event occurred. Often system clocks can become out of sync or be reset to an older date and this can cause havoc with tracking of errors. Consider creating a Cron job rather than running ntpd to update the time daily or hourly with a common source for all servers.</p>
+
+<h4 id="13-install-ddos-deflate">13. Install DDoS Deflate</h4>
+
+<p>DDoS Deflate is a lightweight bash shell script designed to assist in the process of blocking a denial of service attack. It uses the command below to create a list of IP addresses connected to the server, along with their total number of connections.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>netstat <span class="nt">-ntu</span> | <span class="nb">awk</span> ‘<span class="o">{</span>print <span class="nv">$5</span><span class="o">}</span>’ | <span class="nb">cut</span> <span class="nt">-d</span>: <span class="nt">-f1</span> | <span class="nb">sort</span> | <span class="nb">uniq</span> <span class="nt">-c</span> | <span class="nb">sort</span> <span class="nt">-n</span>
+</code></pre></div></div>
+
+<h5 id="features-of-ddos-deflate">Features of (D)DoS Deflate</h5>
+
+<p>Configuration file: /usr/local/ddos/ddos.conf
+To whitelist IP address, use /usr/local/ddos/ignore.ip.list.
+It is having a feature to unblock IP addresses automatically after a preconfigured time limit.
+You can execute the script at a chosen frequency.
+You will get email alerts when IP addresses are blocked.</p>
+
+<h5 id="installation">Installation</h5>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://www.inetbase.com/scripts/ddos/install.sh
+<span class="nb">chmod </span>0700 install.sh
+./install.sh
+</code></pre></div></div>
+
+<h5 id="uninstallation">Uninstallation</h5>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://www.inetbase.com/scripts/ddos/uninstall.ddos
+<span class="nb">chmod </span>0700 uninstall.ddos
+./uninstall.ddos
+</code></pre></div></div>
+
+<h5 id="script-to-check-no-of-connected-ips">Script to check No of connected ip’s.</h5>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh /usr/local/ddos/ddos.sh
+</code></pre></div></div>
+
+<h5 id="restart-ddos-deflate">Restart DDos Deflate</h5>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh /usr/local/ddos/ddos.sh <span class="nt">-c</span>
+</code></pre></div></div>
+
+<h4 id="14-install-denyhosts">14. Install DenyHosts</h4>
+
+<p>DenyHosts is a security tool written in python that monitors server access logs to prevent brute force attacks on a virtual server. The program works by banning IP addresses that exceed a certain number of failed login attempts.</p>
+
+<hr />
+
+<p>This list is still not completed, I am constantly adding new security tips to it, should you have any you think I should include please comment below and I will add them.</p>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2014-05-29 00:00">Thursday, May 29, 2014</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

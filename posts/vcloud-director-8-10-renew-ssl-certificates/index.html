@@ -1,0 +1,323 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>vCloud Director 8.10 – Renew SSL Certificates - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">vCloud Director 8.10 – Renew SSL Certificates</h1>
+      
+        
+<small>2 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>Today I had to renew SSL certificates for a vCloud Director 8.10 cell which had expired.</p>
+
+<p>I could not find a working guide explaining the steps so this post covers everything required to replace expiring / expired certificates with new ones.</p>
+
+<h1 id="first-cell-steps">First Cell Steps</h1>
+
+<p>First we lets check that the Cell doesn’t have any running jobs:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/opt/vmware/vcloud-director/bin/cell-management-tool -u &amp;lt;AdminUser&amp;gt; cell --status
+</code></pre></div></div>
+
+<p>You will be prompted for your administrator account password.</p>
+
+<p>Once you have done this you should see the following output:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Job count = 1
+Is Active = true
+In Maintenance Mode = false
+</code></pre></div></div>
+
+<p>We must now stop the task scheduler to quiesce the cell by running the command:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/opt/vmware/vcloud-director/bin/cell-management-tool -u &amp;lt;AdminUser&amp;gt; cell --quiesce true
+</code></pre></div></div>
+
+<hr />
+<p><strong>NOTE</strong></p>
+
+<h2 id="this-command-prevents-new-jobs-from-being-started-existing-jobs-continue-to-run-until-they-complete-or-are-cancelled">This command prevents new jobs from being started. Existing jobs continue to run until they complete or are cancelled.</h2>
+
+<p>When the Job Count = 0 and Is Active = false, it is safe to shut down the cell by running the command:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./cell-management-tool -u &amp;lt;AdminUser&amp;gt; cell --shutdown
+</code></pre></div></div>
+
+<p>Copy our old certificate store:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp /usr/local/vmware/certificates.ks /usr/local/vmware/certificates-new.ks
+</code></pre></div></div>
+
+<p>Now we need to list the certificates in our new keystore:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/opt/vmware/vcloud-director/jre/bin/keytool -storetype JCEKS -keystore /usr/local/vmware/certificates-new.ks -list -storepass &lt;password&gt;
+</code></pre></div></div>
+
+<hr />
+<p><strong>Note</strong></p>
+
+<h2 id="the-keystore-location-may-be-different-on-your-server">The keystore location may be different on your server</h2>
+
+<p>We now need to delete the expired http and consoleproxy certificates from the keystore. Note that the root and intermediate certificates may not have expired so you can leave these in place</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/opt/vmware/vcloud-director/jre/bin/keytool -delete -alias http -keystore /usr/local/vmware/certificates-new.ks -storetype JCEKS -storepass &lt;password&gt;
+/opt/vmware/vcloud-director/jre/bin/keytool -delete -alias consoleproxy -keystore /usr/local/vmware/certificates-new.ks -storetype JCEKS -storepass &lt;password&gt;
+</code></pre></div></div>
+
+<p>Run the following to generate new certificates for HTTP and ConsoleProxy:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/opt/vmware/vcloud-director/jre/bin/keytool -keystore /usr/local/vmware/certificates-new.ks -storetype JCEKS -storepass &lt;password&gt; -genkey -keysize 2048 -keyalg RSA -alias http
+/opt/vmware/vcloud-director/jre/bin/keytool -keystore /usr/local/vmware/certificates-new.ks -storetype JCEKS -storepass &lt;password&gt; -genkey -keysize 2048 -keyalg RSA -alias consoleproxy
+</code></pre></div></div>
+
+<p>Now we must generate our CSR files:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/opt/vmware/vcloud-director/jre/bin/keytool -keystore /usr/local/vmware/certificates-new.ks -storetype JCEKS -storepass &lt;password&gt; -certreq -alias http -file ~/http.csr
+/opt/vmware/vcloud-director/jre/bin/keytool -keystore /usr/local/vmware/certificates-new.ks -storetype JCEKS -storepass &lt;password&gt; -certreq -alias consoleproxy -file ~/consoleproxy.csr
+</code></pre></div></div>
+
+<p>Once the files are created you will need to copy the contents to your SSL Provider in order to get your certificate. When you have the .cer file from them you can continue through this article.</p>
+
+<p>Copy your new certificate cer files to your server, this can be done by copying the contents to a new file on the server or via a program like winSCP</p>
+
+<p>Import the Certificates into the keystore:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/opt/vmware/vcloud-director/jre/bin/keytool -storetype JCEKS -storepass &lt;password&gt; -keystore /usr/local/vmware/certificates2018.ks -import -alias http -file http2018.cer
+/opt/vmware/vcloud-director/jre/bin/keytool -storetype JCEKS -storepass &lt;password&gt; -keystore /usr/local/vmware/certificates2018.ks -import -alias consoleproxy -file consoleproxy2018.cer
+</code></pre></div></div>
+
+<p>Now we need to replace the existing certificates with the new certificates:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./cell-management-tool certificates -j -k /usr/local/vmware/certificates-new.ks -w &lt;password&gt;
+./cell-management-tool certificates -p -k /usr/local/vmware/certificates-new.ks -w &lt;password&gt;
+</code></pre></div></div>
+
+<p>-j = Replace the keystore file named certificates used by the <strong>http</strong> endpoint.</p>
+
+<p>-p =  Replace the keystore file named proxycertificates used by the <strong>console proxy</strong> endpoint.</p>
+
+<p>Start the Cell:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service vmware-vcd start
+</code></pre></div></div>
+
+<h1 id="multiple-cells">Multiple Cells</h1>
+
+<p>If you have multiple cells, simply copy the keystore to the other servers using an application like winSCP</p>
+
+<p>Then run the following:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./cell-management-tool certificates -j -k /usr/local/vmware/certificates-new.ks -w &lt;password&gt;
+./cell-management-tool certificates -p -k /usr/local/vmware/certificates-new.ks -w &lt;password&gt;
+</code></pre></div></div>
+
+<p>Re-start the Cell:</p>
+
+<p>We must now stop the task scheduler to quiesce the cell by running the command:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/opt/vmware/vcloud-director/bin/cell-management-tool -u &lt;AdminUser&gt; cell --quiesce true
+</code></pre></div></div>
+
+<hr />
+<p><strong>NOTE</strong></p>
+
+<h2 id="this-command-prevents-new-jobs-from-being-started-existing-jobs-continue-to-run-until-they-complete-or-are-cancelled-1">This command prevents new jobs from being started. Existing jobs continue to run until they complete or are cancelled.</h2>
+
+<p>When the Job Count = 0 and Is Active = false, it is safe to shut down the cell by running the command:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./cell-management-tool -u &lt;;AdminUser&gt; cell --shutdown
+</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service vmware-vcd start
+</code></pre></div></div>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2018-09-20 00:00">Thursday, September 20, 2018</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

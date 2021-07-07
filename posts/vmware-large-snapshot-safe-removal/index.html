@@ -1,0 +1,243 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>VMware Large Snapshot Safe Removal - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">VMware Large Snapshot Safe Removal</h1>
+      
+        
+<small>3 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>One of the great virtualization and VMware features is the ability to take snapshots of a virtual machine. The snapshot feature allows an IT administrator to make a restore point of a virtual machine, with the option to make it crash consistent. This feature is particularly useful when performing upgrades or testing, as if anything goes wrong during the process, you can quickly go back to a stable point in time (when the snapshot was taken).
+<!--more--></p>
+
+<p>Snapshots are great for quick, short term restores, but can have devastating effects to an environment if kept long term. There are a number of reasons why snapshots should not be kept for long term or used as backups, one of the main issues is I/O performance <a href="http://kb.vmware.com/kb/1008885">1008885</a>. A list of best practices for snapshots can be found here: <a href="http://kb.vmware.com/kb/1025279">1025279</a>. This article shows 1 method to remove snapshots in a way that minimizes impact.</p>
+
+<h2 id="noticing-high-io">Noticing High I/O</h2>
+
+<p>As mentioned earlier, one of the disasters that can occur when leaving a snapshot active for too long is that it very heavy I/O. In the example below, after taking a look at the virtual machine, the “Revert to Current Snapshot” is available, so a snapshot exists.
+<a href="http://35.176.61.220/wp-content/uploads/2015/07/VMware-SafeSnap01.png"><img loading="lazy" src="http://35.176.61.220/wp-content/uploads/2015/07/VMware-SafeSnap01.png" alt="VMware-SafeSnap01" width="517" height="140" class="aligncenter size-full wp-image-699" /></a></p>
+
+<p>Before deleting the snapshot, check the size of the deltas to get an idea of how long the removal process will take. To do this select your virtual machine, right click the datastore and click browse.
+<a href="http://35.176.61.220/wp-content/uploads/2015/07/VMware-SafeSnap02.png"><img loading="lazy" src="http://35.176.61.220/wp-content/uploads/2015/07/VMware-SafeSnap02.png" alt="VMware-SafeSnap02" width="640" height="399" class="aligncenter size-full wp-image-700" /></a></p>
+
+<p>From the datastore select the folder matching your virtual machine name:
+<a href="http://35.176.61.220/wp-content/uploads/2015/07/VMware-SafeSnap03.png"><img loading="lazy" src="http://35.176.61.220/wp-content/uploads/2015/07/VMware-SafeSnap03.png" alt="VMware-SafeSnap03" width="640" height="473" class="aligncenter size-full wp-image-701" /></a></p>
+
+<p>As you can see from the delta (000001.vmdk) the snapshots are large. If this were a non-critical server or a small snapshot, I would just delete it, in this example the snapshot exists on a business critical server so I will take the below precautions.</p>
+
+<h2 id="why-take-precautions">Why Take Precautions</h2>
+
+<p>Although snapshot removal has been substantially improved in newer versions, it is still possible in 5.1 to stun the VM and in 5.5 to fail the removal and require consolidation. For a business critical application such as Microsoft SQL / Exchange that must remain active, the snapshot removal process cannot be cancelled once it has been initiated.</p>
+
+<p>One example that I experienced when I had first started working with VMware, I noticed one of our IT Staff had taken a snapshot on our Exchange server and had left it there for around 2 weeks. It was then decided we would remove the snapshot… Big Mistake! About 3 hours into the snapshot removal, Our phones were ringing off the hook, our Exchange server had became unresponsive and users could no longer access their mail. For the next 3 hours VMware was removing the snapshot and no one was able to use email.</p>
+
+<h2 id="removing-a-large-snapshot">Removing a Large Snapshot</h2>
+
+<p>As crazy as this will seem, to remove the large snapshot we must first create a new snapshot… yes you did read that correctly. The reason for this is that it stops VMware writing to the old snapshot delta thus allowing VMware to write it back to the main VMDK without interruption. We then have a much smaller new snapshot that can be easily removed.</p>
+
+<p><a href="http://35.176.61.220/wp-content/uploads/2015/07/VMware-SafeSnap04.png"><img loading="lazy" src="http://35.176.61.220/wp-content/uploads/2015/07/VMware-SafeSnap04.png" alt="VMware-SafeSnap04" width="478" height="125" class="aligncenter size-full wp-image-702" /></a></p>
+
+<p>Uncheck the “Snapshot the Virtual machine’s memory” option and name this: Safe Snapshot Removal. By unchecking the box shown below, this will assist in removing the “Safe Snapshot” once the other snapshot is removed, as we are not expecting to restore to this snapshot it is not required.</p>
+
+<p><a href="http://35.176.61.220/wp-content/uploads/2015/07/VMware-SafeSnap05.png"><img loading="lazy" src="http://35.176.61.220/wp-content/uploads/2015/07/VMware-SafeSnap05.png" alt="VMware-SafeSnap05" width="331" height="281" class="aligncenter size-full wp-image-703" /></a></p>
+
+<p>As you can see below we now have 2 snapshots, one from the upgrade (the old large snapshot) and our new Safe Removal Snapshot.
+<a href="http://35.176.61.220/wp-content/uploads/2015/07/VMware-SafeSnap06.png"><img loading="lazy" src="http://35.176.61.220/wp-content/uploads/2015/07/VMware-SafeSnap06.png" alt="VMware-SafeSnap06" width="567" height="462" class="aligncenter size-full wp-image-704" /></a></p>
+
+<p>Next, remove the large “Upgrade” snapshot. This will roll the snapshot back into the parent and will no longer cause any downtime. Note that this can potentially cause greater I/O penalties, so calculate the risks before proceeding with this method.
+<a href="http://35.176.61.220/wp-content/uploads/2015/07/VMware-SafeSnap07.png"><img loading="lazy" src="http://35.176.61.220/wp-content/uploads/2015/07/VMware-SafeSnap07.png" alt="VMware-SafeSnap07" width="567" height="462" class="aligncenter size-full wp-image-705" /></a></p>
+
+<p>Once the Upgrade snapshot has been deleted, I verify that the Safe Removal Snapshot is fairly small. If not, repeat the process. If it is, the Safe Removal Snapshot can be deleted.</p>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2015-07-21 00:00">Tuesday, July 21, 2015</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

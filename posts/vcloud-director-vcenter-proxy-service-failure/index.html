@@ -1,0 +1,263 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>vCloud Director and vCenter Proxy Service Failure - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">vCloud Director and vCenter Proxy Service Failure</h1>
+      
+        
+<small>2 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>Over the past couple of weeks I have spent some time working with VMware vCloud Director 5.1. I will also be producing multiple other guides for vCloud Director as I use it more over the coming months.</p>
+
+<p>One issue that we have hit a few times was the vCD cell stopped working properly (Multi-cell environment). I could log into the vCD provider and organization portals but the deployment of vApps would run for an abnormally long time and then fail after 20 minutes.
+<!--more--></p>
+
+<p>The first thing I tried to do to resolve this issue was reconnect vCenter to vCloud, in the past this has been the solution to this type of problem, however I noticed two problems:</p>
+
+<p>Problem #1: Performing a Reconnect on the vCenter Server object resulted in <strong>Error performing operation</strong> and <strong>Unable to find the cell running this listener</strong>.</p>
+
+<p>Problem #2: <strong>None of the cells have a vCenter proxy service running on the cell server.</strong></p>
+
+<p>I then stumbled upon some SQL Queries that I wasn’t too sure about, I passed these over to VMware and they confirmed this is the correct action to take and it is none destructive. The below steps take you through resolving this issue:</p>
+
+<ol>
+  <li>Stop all your Cells</li>
+</ol>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service vmware-vcd stop
+</code></pre></div></div>
+
+<ol>
+  <li>Backup the entire vCloud SQL Database. This is just a precaution.</li>
+  <li>run the below query in SQL Management Studio</li>
+</ol>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">USE</span> <span class="p">[</span><span class="n">vcloud</span><span class="p">]</span>
+<span class="k">GO</span>
+
+<span class="err">–</span> <span class="n">shutdown</span> <span class="k">all</span> <span class="n">cells</span> <span class="k">before</span> <span class="n">executing</span>
+<span class="k">delete</span> <span class="k">from</span> <span class="n">QRTZ_SCHEDULER_STATE</span>
+<span class="k">delete</span> <span class="k">from</span> <span class="n">QRTZ_FIRED_TRIGGERS</span>
+<span class="k">delete</span> <span class="k">from</span> <span class="n">QRTZ_PAUSED_TRIGGER_GRPS</span>
+<span class="k">delete</span> <span class="k">from</span> <span class="n">QRTZ_CALENDARS</span>
+<span class="k">delete</span> <span class="k">from</span> <span class="n">QRTZ_TRIGGER_LISTENERS</span>
+<span class="k">delete</span> <span class="k">from</span> <span class="n">QRTZ_BLOB_TRIGGERS</span>
+<span class="k">delete</span> <span class="k">from</span> <span class="n">QRTZ_CRON_TRIGGERS</span>
+<span class="k">delete</span> <span class="k">from</span> <span class="n">QRTZ_SIMPLE_TRIGGERS</span>
+<span class="k">delete</span> <span class="k">from</span> <span class="n">QRTZ_TRIGGERS</span>
+<span class="k">delete</span> <span class="k">from</span> <span class="n">QRTZ_JOB_LISTENERS</span>
+<span class="k">delete</span> <span class="k">from</span> <span class="n">QRTZ_JOB_DETAILS</span>
+<span class="k">go</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Start one of your Cells and verify that the issue is resolved</li>
+</ol>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service vmware-vcd start
+</code></pre></div></div>
+
+<ol>
+  <li>Start the remaining cells.</li>
+</ol>
+
+<p>The script should run successfully wiping out all rows in each of the named tables.</p>
+
+<p>I was now able to restart the vCD cell and my problems were gone. Everything was working again. All errors have vanished.</p>
+
+<p>These [vCenter Proxy Service] issues are usually caused by a disconnect from the database, causing the tables to become stale. vCD constantly needs the ability to write to the database and when it cannot, the cell ends up in a state that is similar to the one that you have seen.
+The qrtz tables contain information that controls the coordinator service, and lets it know when the coordinator to be dropped and restarted, for cell to cell fail over to another cell in multi cell environment.
+When the tables are purged it forces the cell on start up to recheck its status and start the coordinator service. In your situation the cell, due to corrupt records in the table was not allowing this to happen. So by clearing them forced the cell to recheck and to restart the coordinator.</p>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2014-07-11 00:00">Friday, July 11, 2014</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

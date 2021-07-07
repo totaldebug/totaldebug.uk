@@ -1,0 +1,393 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>Use Google Authenticator for SSH - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">Use Google Authenticator for SSH</h1>
+      
+        
+<small>3 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>I have recently setup two factor authentication on my server using Google Authenticator, I thought it would be a good idea to share with you guys the way I achieved this and some issues I bumped into along the way.
+<!--more--></p>
+
+<h2 id="install-ntp-to-synchronize-the-system-clock-very-important-or-nothing-will-work">Install NTP to synchronize the system clock (Very important or nothing will work)</h2>
+
+<p>Login via ssh as root user.
+Type the following command to install ntp:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install </span>ntp
+chkconfig ntpd on
+ntpdate pool.ntp.org
+/etc/init.d/ntpd start
+</code></pre></div></div>
+
+<h2 id="install-make-and-disable-selinux">Install make and disable SELinux</h2>
+
+<p>Install Make:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> make
+</code></pre></div></div>
+
+<p>Open SE Linux Config for editing:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vi /etc/sysconfig/selinux
+</code></pre></div></div>
+
+<p>Change:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">SELINUX</span><span class="o">=</span>enforcing
+</code></pre></div></div>
+
+<p>To:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">SELINUX</span><span class="o">=</span>permissive
+</code></pre></div></div>
+
+<p>save the file and then reboot the server.</p>
+
+<h2 id="install-and-setup-the-google-authentication-pam-module-on-your-server">Install and setup the Google-Authentication PAM module on your server</h2>
+
+<p>Make sure that you have the “<a title="Link EPEL" href="https://fedoraproject.org/wiki/EPEL" target="_blank">link EPEL</a>” repo installed so that you will be able to install everything. I normally install it and then disable it, and only –enablerepo when it is needed.</p>
+
+<h5 id="on-centos-5x">On CentOS 5.x</h5>
+
+<p>If you don’t yet have Python 2.6 installed install it: – this will install in in parallel with python2.4 so as not to break yum:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">--enablerepo</span><span class="o">=</span>epel <span class="nb">install </span>python26
+</code></pre></div></div>
+
+<p>once installed lets install some dependencies – I have added a couple just in case I need them:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">--enablerepo</span><span class="o">=</span>epel <span class="nb">install </span>gcc gcc++ pam-devel subversion python26-devel
+</code></pre></div></div>
+
+<h5 id="on-centos-6x">On Centos 6.x</h5>
+
+<p>You will already have Python 2.6 running so you wont need to install that – lets just install some dependencies in case we need them:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">--enablerepo</span><span class="o">=</span>epel <span class="nb">install </span>gcc gcc++ pam-devel subversion python-devel
+</code></pre></div></div>
+
+<h5 id="now-we-need-to-download-and-install-git">Now we need to download and install git</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">--enablerepo</span><span class="o">=</span>epel <span class="nb">install </span>git
+</code></pre></div></div>
+
+<p>Make a directory for the authenticator and go into it:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> ./google-authenticator
+<span class="nb">cd </span>google-authenticator/
+</code></pre></div></div>
+
+<p>Download the SVN for google authenticator:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://code.google.com/p/google-authenticator/
+</code></pre></div></div>
+
+<p>Change to to downloaded directory (on mine I also had to cd into libpam)</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>google-authenticator/libpam/
+</code></pre></div></div>
+
+<p>Run make and make install:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make <span class="o">&amp;&amp;</span> make <span class="nb">install</span>
+</code></pre></div></div>
+
+<p>If all goes well you should now have the Google-Authentication PAM module on your server, if not then please leave a comment and I will help as best I can 🙂</p>
+
+<h2 id="setup-pam-authentication-on-the-ssh-server-to-work-with-the-google-authentication-pam-module">Setup PAM authentication on the SSH server to work with the Google-Authentication PAM module</h2>
+
+<p>Now we need to configure Pam auth for SSH:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vi /etc/pam.d/sshd
+</code></pre></div></div>
+
+<p>change the file to this – basically adding the “auth required pam_google_authenticator.so” line:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#%PAM-1.0</span>
+auth required pam_google_authenticator.so
+auth include system-auth
+account required pam_nologin.so
+account include system-auth
+password include system-auth
+session optional pam_keyinit.so force revoke
+session include system-auth
+session required pam_loginuid.so
+</code></pre></div></div>
+
+<h5 id="skip-two-factor-authentication-if-logging-in-from-the-local-network">Skip two-factor authentication if logging in from the local network</h5>
+
+<p>At first this is all very cool, but soon it becomes a bit annoying, too. When I SSH from a local network, I just don’t want to enter the verification code because I trust my local network. When I SSH from remote, a verification code is required. One way to arrange that, is always login with certificates. But there is another way to configure it: using the pam_access module. Try this config:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>auth <span class="o">[</span><span class="nv">success</span><span class="o">=</span>1 <span class="nv">default</span><span class="o">=</span>ignore] pam_access.so <span class="nv">accessfile</span><span class="o">=</span>/etc/security/access-local.conf
+auth required pam_google_authenticator.so nullok
+</code></pre></div></div>
+
+<p>The config file, <code class="highlighter-rouge">/etc/security/access-local.conf</code> looks like:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Two-factor can be skipped on local network</span>
++ : ALL : 10.0.0.0/24
++ : ALL : LOCAL
+- : ALL : ALL
+</code></pre></div></div>
+
+<p>Local login attempts from 10.0.0.0/24 will not require two-factor authentication, while all others do.
+Now we need to edit the ssh daemon configuration file.</p>
+
+<p><code class="highlighter-rouge">vi /etc/ssh/sshd_config</code></p>
+
+<p>Uncomment:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ChallengeResponseAuthentication <span class="nb">yes</span>
+</code></pre></div></div>
+
+<p>Comment out:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#ChallengeResponseAuthentication no</span>
+</code></pre></div></div>
+
+<p>Make sure that:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UsePAM <span class="nb">yes</span>
+</code></pre></div></div>
+
+<p>To make your system truly secure – you might want to disable PubkeyAuthentication:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PubkeyAuthentication no
+</code></pre></div></div>
+
+<p><strong>NOW STOP and make sure that second SSH session is working because you can then edit /etc/ssh/sshd_config &amp; /etc/pam.d/sshd if something goes wrong. Otherwise you are going to need to make these changes on the local console</strong></p>
+
+<p>Restart the SSH daemon:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service sshd restart
+</code></pre></div></div>
+
+<p>Then run the google authenticator on the server by running:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>google-authenticator
+</code></pre></div></div>
+
+<p>You should see something like:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://www.google.com/chart?chs<span class="o">=</span>200x200&amp;chld<span class="o">=</span>M%7C0&amp;cht<span class="o">=</span>qr&amp;chl<span class="o">=</span>otpauth://totp/user@server%3Fsecret%3DSAEP64T5VZAVWAFB
+Your new secret key is: SAEP64T5VZAVWAFB
+Your verification code is 376046
+Your emergency scratch codes are:
+67868696
+26247332
+54815527
+54336661
+</code></pre></div></div>
+
+<p>Answer each of the question to best suit your needs – I said Yes to everything except the “you can increase the window from its default size of 1:30min to about 4min.</p>
+
+<hr />
+<p><strong>NOTE</strong></p>
+
+<p>The emergency scratch codes are one-time use verification codes in the event your phone is unavailable. So save these somewhere save!</p>
+
+<hr />
+
+<p>In your browser, load the URL noted above; it will show a QRCode that you can scan into your phone using the Google Authenticator application for Android, iPhone or Blackberry. If you already have a Google Authenticator token being generated on your phone, you can add a new one and it will display them both.</p>
+
+<ul>
+  <li>Start the app on your phone:</li>
+  <li>choose to add by scanning the barcode and then using the url from above in your browser scan the barcode.</li>
+</ul>
+
+<p>If all is working you should be able to SSH in with the username, then authentication code from your phone/device and then your password.</p>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2014-01-08 00:00">Wednesday, January  8, 2014</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

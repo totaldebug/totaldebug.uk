@@ -1,0 +1,390 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>Install FreeRadius on CentOS 7 with DaloRadius for management &#8211; Updated - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">Install FreeRadius on CentOS 7 with DaloRadius for management &#8211; Updated</h1>
+      
+        
+<small>1 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>I have recently purchased a load of Ubiquiti UniFi equipment, as part of this i have the UniFi USG which in order to deploy a User VPN requires a RADUIS Server for user authentication. This article will run through how to install and set this up.</p>
+
+<!--more-->
+
+<p>I will be using FreeRADIUS as this is the most commonly used, it supports most common authentication protocols.</p>
+
+<p>Disable SELinux:
+<code class="highlighter-rouge">vi /etc/sysconfig/selinux</code></p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">SELINUX</span><span class="o">=</span>disabled
+</code></pre></div></div>
+
+<h3 id="first-we-need-to-update-our-centos-server-and-install-the-required-applications">First we need to update our CentOS server and install the required applications:</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
+yum <span class="nb">install</span> <span class="nt">-y</span> http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+yum-config-manager <span class="nt">--enable</span> remi-php72
+yum update <span class="nt">-y</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> freeradius freeradius-utils freeradius-mysql nginx mariadb-server mariadb php-cli php-mysqlnd php-devel php-gd php-mcrypt php-mbstring php-xml php-pear php-fpm
+pear channel-update pear.php.net
+pear <span class="nb">install </span>DB
+systemctl reboot
+</code></pre></div></div>
+
+<p>We must now enable the FreeRADIUS, MariaDB, PHP-FPM and Nginx services to run at boot:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl <span class="nb">enable </span>radiusd
+systemctl <span class="nb">enable </span>nginx
+systemctl <span class="nb">enable </span>mariadb
+systemctl <span class="nb">enable </span>php-fpm
+systemctl start mariadb
+</code></pre></div></div>
+
+<p>We need to configure MariaDB:
+<code class="highlighter-rouge">mysql_secure_installation</code></p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Set the root password
+Remove the Anonymous User
+Disable root remote login
+Remove Test DBs
+Reload Privileges
+</code></pre></div></div>
+
+<p>Allow local connections only: <code class="highlighter-rouge">vim /etc/my.cnf</code></p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">[</span>mysqld]
+ bind-address<span class="o">=</span>127.0.0.1
+</code></pre></div></div>
+
+<p>Configure the database to work with freeRADIUS:
+<code class="highlighter-rouge">mysql -u root -p</code></p>
+
+<pre><code class="language-mysql">CREATE DATABASE radius;
+GRANT ALL ON radius.* TO radius@localhost IDENTIFIED BY "radiuspassword";
+FLUSH PRIVILEGES;
+quit
+</code></pre>
+
+<p>We need to add Radius and HTTP ports to the firewall:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl start firewalld
+firewall-cmd <span class="nt">--zone</span><span class="o">=</span>public <span class="nt">--add-service</span><span class="o">=</span>radius <span class="nt">--add-service</span><span class="o">=</span>http <span class="nt">--permanent</span>
+firewall-cmd <span class="nt">--reload</span>
+</code></pre></div></div>
+
+<p>Now we will run Radius in debug mode to make sure it runs correctly:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>radiusd <span class="nt">-X</span>
+</code></pre></div></div>
+
+<p>Import the Radius database scheme:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-u</span> root <span class="nt">-p</span> radius &lt; /etc/raddb/mods-config/sql/main/mysql/schema.sql
+</code></pre></div></div>
+
+<p>Create a soft line for SQL:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ln</span> <span class="nt">-s</span> /etc/raddb/mods-available/sql /etc/raddb/mods-enabled/
+</code></pre></div></div>
+
+<p>configure the SQL module and change the database connection, edit the existing file, find the text below and make sure it matches:
+<code class="highlighter-rouge">vi /etc/raddb/mods-available/sql</code></p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sql <span class="o">{</span>
+  driver <span class="o">=</span> <span class="s2">"rlm_sql_mysql"</span>
+  dialect <span class="o">=</span> <span class="s2">"mysql"</span>
+
+  <span class="c"># Connection info:</span>
+  server <span class="o">=</span> <span class="s2">"localhost"</span>
+  port <span class="o">=</span> 3306
+  login <span class="o">=</span> <span class="s2">"radius"</span>
+  password <span class="o">=</span> <span class="s2">"radiuspassword"</span>
+
+  <span class="c"># Database table configuration for everything except Oracle</span>
+  radius_db <span class="o">=</span> <span class="s2">"radius"</span>
+<span class="o">}</span>
+
+<span class="c"># Set to ‘yes’ to read radius clients from the database (‘nas’ table)</span>
+<span class="c"># Clients will ONLY be read on server startup.</span>
+read_clients <span class="o">=</span> <span class="nb">yes</span>
+
+<span class="c"># Table to keep radius client info</span>
+client_table <span class="o">=</span> “nas”
+</code></pre></div></div>
+
+<p>Change the group for the SQL folder to radiusd:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chgrp</span> <span class="nt">-h</span> radiusd /etc/raddb/mods-enabled/sql
+</code></pre></div></div>
+
+<p>Configure PHP (update the below lines in the file):</p>
+
+<p><code class="highlighter-rouge">vi /etc/php-fpm.d/www.conf</code></p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>listen <span class="o">=</span> /var/run/php-fpm/php-fpm.sock
+listen.owner <span class="o">=</span> nobody
+listen.group <span class="o">=</span> nobody
+user <span class="o">=</span> nginx
+group <span class="o">=</span> nginx
+</code></pre></div></div>
+
+<p>Configure Nginx (add the “location” :</p>
+
+<p><code class="highlighter-rouge">vi /etc/nginx/conf.d/default.conf</code></p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server <span class="o">{</span>
+    <span class="c">##other data here</span>
+
+    location ~ <span class="se">\.</span>php<span class="nv">$ </span><span class="o">{</span>
+        try_files <span class="nv">$uri</span> <span class="o">=</span>404<span class="p">;</span>
+        fastcgi_pass unix:/var/run/php-fpm/php-fpm.sock<span class="p">;</span>
+        fastcgi_index index.php<span class="p">;</span>
+        fastcgi_param SCRIPT_FILENAME <span class="nv">$document_root$fastcgi_script_name</span><span class="p">;</span>
+        include fastcgi_params<span class="p">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Installing Daloradius:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://github.com/lirantal/daloradius/archive/master.zip
+unzip master.zip
+<span class="nb">mv </span>daloradius-master/ daloradius
+<span class="nb">cd </span>daloradius
+</code></pre></div></div>
+
+<p>Import Daloradius MySQL:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-u</span> root <span class="nt">-p</span> radius &amp;lt<span class="p">;</span> contrib/db/fr2-mysql-daloradius-and-freeradius.sql
+mysql <span class="nt">-u</span> root <span class="nt">-p</span> radius &amp;lt<span class="p">;</span> contrib/db/mysql-daloradius.sql
+</code></pre></div></div>
+
+<p>Move to the httpd directory:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ..
+<span class="nb">mv </span>daloradius /usr/share/nginx/html
+</code></pre></div></div>
+
+<p>change permissions for httpd:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chown</span> <span class="nt">-R</span> nginx:nginx /usr/share/nginx/html/daloradius/
+<span class="nb">chmod </span>664 /usr/share/nginx/html/daloradius/library/daloradius.conf.php
+</code></pre></div></div>
+
+<p>Modify configuration for MySQL:</p>
+
+<p><code class="highlighter-rouge">vi /usr/share/nginx/html/daloradius/library/daloradius.conf.php</code></p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CONFIG_DB_USER
+CONFIG_DB_PASS
+CONFIG_DB_NAME
+</code></pre></div></div>
+
+<p>To make sure everything works restart all services:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl restart radiusd
+systemctl restart mariadb
+systemctl restart php-fpm
+systemctl restart nginx
+</code></pre></div></div>
+
+<p>Access the web interface:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://FQDN_IP_OF_SERVER/daloradius/login.php
+</code></pre></div></div>
+
+<p>Default Login:
+User: Administrator
+Pass: radius</p>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2017-02-01 00:00">Wednesday, February  1, 2017</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

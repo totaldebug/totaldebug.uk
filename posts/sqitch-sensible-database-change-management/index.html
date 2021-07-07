@@ -1,0 +1,401 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>Sqitch, Sensible database change management - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">Sqitch, Sensible database change management</h1>
+      
+        
+<small>4 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-thumbnail">
+      
+          <picture>
+            <source type="image/webp" srcset="/assets/images/posts/sqitch-sensible-database-change-management/thumb.webp" >
+            <img src="/assets/images/posts/sqitch-sensible-database-change-management/thumb.png" class="thumbnail" alt="Sqitch, Sensible database change management" />
+          </picture>
+    </div><!-- .post-thumbnail -->
+    
+    <div class="post-content">
+      <h2 id="overview">Overview</h2>
+
+<p>Recently I have been working on a few projects that utilise PostgreSQL databases,
+as the projects have grown our team has found it increasingly more difficult to manage
+all of the database changes between dev / staging / prod without missing parts of functions
+or missing table columns, especially over long development periods.</p>
+
+<p>Due to this I spent the past month looking into many different ways to manage this, we ended
+up landing on sqitch, it wasn’t the first product tested and below I will run through
+some of the others that I found and the issues we saw with them.</p>
+
+<h2 id="expectations">Expectations</h2>
+
+<p>So what did our team expect would be delivered by the database change management tool?</p>
+
+<p>Well here is the list:</p>
+
+<ul>
+  <li>Native SQL support</li>
+  <li>No limitations on SQL functionality</li>
+  <li>Open Source, or have a feature rich community edition that is well supported</li>
+  <li>Easily managed version control, ideally without need for new SQL files for each change</li>
+  <li>Ability to rollback changes to specific versions</li>
+  <li>Unix command line utility for easy automation</li>
+</ul>
+
+<h2 id="the-testing-phase">The testing phase</h2>
+
+<p>Over about a month I tested the following products:</p>
+
+<h3 id="flyway">Flyway</h3>
+
+<p>Flyway was very close to being the chosen product, it had most of our requirements with a
+few limitations, but it was the best I had found.</p>
+
+<p><em>Pros:</em></p>
+<ul>
+  <li>Uses native SQL</li>
+  <li>Easy file naming</li>
+</ul>
+
+<p><em>Cons:</em></p>
+<ul>
+  <li>A new file is required for every change, this would lead to hundreds of version files</li>
+  <li>Inability to rollback to a specific version in time</li>
+  <li>Heavily limited functionality on the community edition</li>
+  <li>More complex implementation</li>
+</ul>
+
+<h3 id="liqibase">Liqibase</h3>
+
+<p>Liqibase was looking great, until I discovered that the main language used is XML, SQL is
+supported, however most documentation is XML based and I didn’t have the time to spend
+learning the XML format to eventually find out that some specific feature we use isn’t
+supported by this format.</p>
+
+<p>All in I found that it was more complex to get started than Flyway and the documentation
+wasn’t the best.</p>
+
+<p><em>Pros:</em></p>
+<ul>
+  <li>More features in the free version than Flyway</li>
+  <li>Diff feature to compare two databases</li>
+  <li>Rollback is free</li>
+  <li>Utilises one file for migrations</li>
+</ul>
+
+<p><em>Cons:</em></p>
+<ul>
+  <li>XML is the primary language used</li>
+  <li>Targeted rollback is an addon</li>
+</ul>
+
+<h3 id="sql-alchemy">SQL Alchemy</h3>
+
+<p>As this is an ORM it was removed from the running fairly quickly, there is no native SQL
+support, which means a high chance of missing SQL functionality, one such feature was
+the ability to create and update Postgres functions</p>
+
+<p><em>Pros:</em></p>
+<ul>
+  <li>Uses Python so can be baked into projects</li>
+  <li>Development Teams dont need to know/learn SQL</li>
+</ul>
+
+<p><em>Cons:</em></p>
+<ul>
+  <li>Functionality limited to what the developers implement</li>
+  <li>Risk of compatibility issues in the future</li>
+  <li>No support for native SQL files</li>
+</ul>
+
+<h3 id="sqitch">Sqitch</h3>
+
+<p>Sqitch was the last option on the table, I found this tool when searching YouTube when a
+very early version was being presented.</p>
+
+<p>The idea of Sqitch is to use Version control to track the changes in files, for
+our requirements this was perfect. It meant I could update existing SQL files and
+Sqitch would know a change was made and could then be deployed.</p>
+
+<p>One downside to this plan is that not all these features are implemented yet. Although
+the developers working on the project are making massive strides and I feel it wont
+be long until they have achieved the original goal they set out for.</p>
+
+<p><em>Pros:</em></p>
+<ul>
+  <li>Uses native SQL</li>
+  <li>Utilises a git like version control system</li>
+  <li>You always edit the original file</li>
+  <li>Open source allowing you to customise as needed</li>
+  <li>Very responsive community</li>
+  <li>Ability to support almost any database</li>
+</ul>
+
+<p><em>Cons:</em></p>
+<ul>
+  <li>Some expected features are not implemented yet</li>
+  <li>No commercial support, only community based</li>
+</ul>
+
+<h2 id="implementation">Implementation</h2>
+
+<p>Now that we have tested and decided that Sqitch is the product for us, its time to
+implement the solution.</p>
+
+<p>Installation is super simple, its written in Perl so can be installed on almost any
+system, or you can use it within a Docker container.</p>
+
+<p>I won’t cover the installation as its easy enough and documented well on the
+<a href="http://sqitch.org/">sqitch website</a>.</p>
+
+<p>One thing that I would recommend is to change the default location of the files, by
+default Sqitch will add <code class="highlighter-rouge">deploy</code>, <code class="highlighter-rouge">revert</code> and <code class="highlighter-rouge">verify</code> to the root directory. Your
+SQL goes inside these directories. I prefer to have these in a separate directory to
+keep the root directory tidy, to do this you would run a command similar to below when
+initialising your repository:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sqitch init myApp <span class="nt">--top-dir</span> sql <span class="nt">--uri</span> https://github.com/totaldebug/sqitch_demo <span class="nt">--engine</span> pg
+</code></pre></div></div>
+
+<p>This command will tell Sqitch that you want to <code class="highlighter-rouge">init</code> a sqitch project within the directory
+<code class="highlighter-rouge">sql</code> for the GitHub repository <code class="highlighter-rouge">sqitch_demo</code> and with the engine <code class="highlighter-rouge">pg</code> (PostgreSQL) there
+are other options and databases supported all listed <a href="http://sqitch.org/docs/manual/sqitch-init/">here</a></p>
+
+<p>Once you have initialised the project you are ready to add a change. The basic pattern is:</p>
+
+<ul>
+  <li>Create a branch</li>
+  <li>Add SQL changes</li>
+  <li>Modify the code as needed</li>
+  <li>Commit</li>
+  <li>Merge to master</li>
+</ul>
+
+<p>So when first starting out you would want to create the schema to do this you would:</p>
+
+<ol>
+  <li>Create a branch in your Git repo</li>
+  <li>Run <code class="highlighter-rouge">sqitch add appschema</code></li>
+  <li>Edit <code class="highlighter-rouge">sql/deploy/appschema.sql</code>, <code class="highlighter-rouge">sql/revert/appschema.sql</code> and <code class="highlighter-rouge">sql/verify/appschema.sql</code></li>
+  <li>Run <code class="highlighter-rouge">sqitch deploy db:pg://user@127.0.0.1:5432/sqitch_demo</code> to deploy the changes</li>
+  <li>Edit any code as normal</li>
+  <li>Run any tests</li>
+  <li>Commit your changes</li>
+  <li>Merge the changes back to the main branch</li>
+</ol>
+
+<p>In order to ensure that your revert SQL is working as expected, it is a good idea to
+revert and redeploy your changes:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sqitch rebase <span class="nt">--onto</span> @HEAD^ <span class="nt">-y</span>
+</code></pre></div></div>
+
+<p>This command will revert the last change, and redeploy it to the database. This is
+essentially a shorter way of running:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sqitch revert <span class="nt">--to</span> @HEAD^ <span class="nt">-y</span> <span class="o">&amp;&amp;</span> sqitch deploy db:pg://user@127.0.0.1:5432/sqitch_demo
+</code></pre></div></div>
+
+<p>When the <code class="highlighter-rouge">deploy</code> command is issued, sqitch will run down the plan file and execute each
+change that is required.</p>
+
+<p>If this is the first time deploying Sqitch to a database, it will automatically create
+all the required tables to track future deployments and changes.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>I’ve barely scratched the surface of Sqitch’s capabilities. To say how long Git and change
+management has been around, its amazing that its taken this long for someone to get it right.
+If you are having issues with managing database change, I highly suggest that you try Sqitch.</p>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2021-07-07 00:00">Wednesday, July  7, 2021</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,277 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>PHP Notice: Undefined index - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">PHP Notice: Undefined index</h1>
+      
+        
+<small>2 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>I have had a few times when coding where I get the error PHP Notice: Undefined Index, I found the below solution to this issue which is an extremely simple fix!
+<!--more--></p>
+
+<h2 id="how-to-fix">How to Fix</h2>
+
+<p>One simple answer – isset() !</p>
+
+<p>isset() function in PHP determines whether a variable is set and is not NULL. It returns a Boolean value, that is, if the variable is set it will return true and if the variable value is null it will return false. More details on this function can be found in PHP Manual</p>
+
+<h2 id="example">Example</h2>
+
+<p>Let us consider an example. Below is the HTML code for a comment form in a blog.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;form</span> <span class="na">name=</span><span class="s">"myform"</span> <span class="na">id=</span><span class="s">"myform"</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"add_comment.php"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;h2&gt;</span>Please leave a comment:<span class="nt">&lt;/h2&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">id=</span><span class="s">"username"</span> <span class="na">name=</span><span class="s">"username"</span> <span class="na">value=</span><span class="s">"Enter Username"</span> <span class="nt">/&gt;&lt;br</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">id=</span><span class="s">"email"</span> <span class="na">name=</span><span class="s">"email"</span> <span class="na">value=</span><span class="s">"Enter Email"</span> <span class="nt">/&gt;&lt;br</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;textarea</span> <span class="na">id=</span><span class="s">"comment"</span> <span class="na">name=</span><span class="s">"comment"</span><span class="nt">&gt;</span>Enter Comment<span class="nt">&lt;/textarea&gt;&lt;br</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;br</span> <span class="nt">/&gt;&lt;br</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"checkbox"</span> <span class="na">id=</span><span class="s">"notify_box"</span> <span class="na">name=</span><span class="s">"notify_box"</span> <span class="na">value=</span><span class="s">"Y"</span><span class="nt">&gt;</span>
+    Notify me when a new post is published. <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Post Comment"</span><span class="nt">&gt;&lt;/form&gt;</span>
+</code></pre></div></div>
+
+<p>Here is the PHP file ‘add_comment.php’ which takes the data passed from the comment form.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+    <span class="nv">$uName</span>  <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">'username'</span><span class="p">];</span>
+    <span class="nv">$eMail</span>  <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">'email'</span><span class="p">];</span>
+    <span class="nv">$comment</span><span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">'comment'</span><span class="p">];</span>
+    <span class="nv">$notify</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">'notify_box'</span><span class="p">];</span>
+    <span class="c1">// send the data to the database</span>
+<span class="cp">?&gt;</span>
+</code></pre></div></div>
+
+<p>What happens is, when the check-box is CHECKED, the code works fine. But when it is not, then I am getting the warning as mentioned above. “Warning: Undefined index:”</p>
+
+<p>So to fix this, let us make use of the magic function. Now the code appears like this.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+    <span class="nv">$notify</span> <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>
+    <span class="nv">$uName</span>  <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">'username'</span><span class="p">];</span>
+    <span class="nv">$eMail</span>  <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">'email'</span><span class="p">];</span>
+    <span class="nv">$comment</span><span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">'comment'</span><span class="p">];</span>
+    <span class="k">if</span><span class="p">(</span><span class="k">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">'notify_box'</span><span class="p">])){</span> <span class="nv">$notify</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s1">'notify_box'</span><span class="p">];</span> <span class="p">}</span>
+    <span class="c1">// send the data to the database</span>
+<span class="cp">?&gt;</span>
+</code></pre></div></div>
+
+<p>What happens here is, I am checking first whether the check box is CHECKED (or set) using a condition. And if the condition is true I am getting the value passed.</p>
+
+<p>The same fix can be used for the above warning when working with $_SESSION, $_POST arrays.
+But, there instances where harmless notices can be ignored.
+For an example,
+I have a page which can be accesses in below 3 ways.
+www.someexample.com/comments.php
+www.someexample.come/comments.php?action=add
+www.someexample.com/comments.php?action=delete
+All these URL’s go to the same page but each time performs a different task.
+So when I try to access the page through the first URL, it will give me the ‘Undefined index’ notice since the parameter ‘action’ is not set.</p>
+
+<p>We can fix this using the isset() function too. But on this instance, we can just ignore it by hiding the notices like this.
+error_reporting(E_ALL ^ E_NOTICE);</p>
+
+<p>You can also turn off error reporting in your php.ini file or .htaccess file, but it is not considered as a wise move if you are still in the testing stage.</p>
+
+<p>This is another simple solution in PHP for a common complex problem. Hope it is useful.</p>
+
+<hr />
+<p><strong>NOTE:</strong></p>
+
+<p>This is an example only my form has no security hardening. Use at own risk.</p>
+
+<hr />
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2014-01-05 00:00">Sunday, January  5, 2014</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

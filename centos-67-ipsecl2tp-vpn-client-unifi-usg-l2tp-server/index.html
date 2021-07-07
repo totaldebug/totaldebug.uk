@@ -1,0 +1,445 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>CentOS 6/7 IPSec/L2TP VPN client to UniFi USG L2TP Server - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">CentOS 6/7 IPSec/L2TP VPN client to UniFi USG L2TP Server</h1>
+      
+        
+<small>3 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>Working with CentOS quite a lot I have spent time looking for configurations that work for various issues, one I have seen recently that took me a long time to resolve and had very poor documentation around the net was setting up an L2TP VPN.</p>
+
+<p>In Windows or iOS its a nice simple setup where you enter all the required details and it sorts out the IPsec and L2TP VPN for you, In CentOS this is much different.</p>
+
+<!--more-->
+
+<p>First we need to add the EPEL Repository:<br />
+Now we need to install the software:</p>
+
+<pre class="lang:default decode:true">yum -y install epel-releasen</pre>
+
+<p>Now we need to install the software:</p>
+
+<pre class="lang:default decode:true">sudo yum -y install xl2tpd openswan</pre>
+
+<p>Make sure to start the openswan service:</p>
+
+<pre class="lang:default decode:true" title="Centos 7">systemctl start ipsec.service</pre>
+
+<pre class="lang:default decode:true" title="CentOS 6">service ipsec start</pre>
+
+<p>NOTE: if you dont start this service first you will receive the error <span class="lang:default decode:true crayon-inline ">connect(pluto_ctl) failed: No such file or directory</span></p>
+
+<h2 id="openswan-ipsec">OpenSwan (IPSec)</h2>
+
+<p>NOTE: where you see <span class="lang:default decode:true crayon-inline ">%local</span>  change this to your Client local IP Address, where you see <span class="lang:default decode:true crayon-inline ">%server</span>  change this to the FQDN / IP of the VPN Server public IP</p>
+
+<p>Configure IPSec VPN:</p>
+
+<pre class="lang:default mark:21,24 decode:true">vi /etc/ipsec.conf
+------------------------------
+config setup
+     virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12
+     nat_traversal=yes
+     protostack=netkey
+conn L2TP-PSK
+     authby=secret
+     pfs=no
+     auto=add
+     keyingtries=3
+     dpddelay=30
+     dpdtimeout=120
+     dpdaction=clear
+     rekey=yes
+     ikelifetime=8h
+     keylife=1h
+     type=transport
+# Replace %local below with your local IP address (private, behind NAT IP is okay as well)
+     left=%local
+     leftprotoport=17/1701
+# Replace IP address with your VPN server's IP
+     right=%server
+     rightprotoport=17/1701</pre>
+
+<p>This file contains the basic information to establish a secure IPsec tunnel to the VPN server. It enables NAT Traversal for if your machine is behind a NAT’ing router (most people are), and other options that are required to connect correctly to the remote IPsec server.</p>
+
+<p>Create a file to contain the Pre-Shared Key for the VPN:</p>
+
+<pre class="lang:default mark:3 decode:true">vi /etc/ipsec.secrets
+----------------------------
+%local %server : PSK "your_pre_shared_key"</pre>
+
+<p>Remember to replace the local (%local) and server (%server) IP addresses with the correct numbers for your location. The pre-shared key will be supplied by the VPN provider and will need to be placed in this file in cleartext form.</p>
+
+<p>Add the connection so that we can use it:</p>
+
+<pre class="lang:default decode:true ">ipsec auto --add L2TP-PSK</pre>
+
+<h2 id="xl2tpd-l2tp">xl2tpd (L2TP)</h2>
+
+<p>First we need to edit the configuration of xl2tpd with our new VPN:</p>
+
+<pre class="lang:default mark:4 decode:true">vi /etc/xl2tpd/xl2tpd.conf
+--------------------------
+[lac vpn-connection]
+lns = %server
+ppp debug = yes
+pppoptfile = /etc/ppp/options.l2tpd.client
+length bit = yes</pre>
+
+<p>Now we need to create our options file:</p>
+
+<pre class="lang:default mark:16,17 decode:true">vi /etc/ppp/options.l2tpd.client
+-----------------------
+ipcp-accept-local
+ipcp-accept-remote
+refuse-eap
+require-mschap-v2
+noccp
+noauth
+idle 1800
+mtu 1410
+mru 1410
+defaultroute
+usepeerdns
+debug
+logfile /var/log/xl2tpd.log
+connect-delay 5000
+proxyarp
+name your_vpn_username
+password your_password</pre>
+
+<p>Place your assigned username and password for the VPN server in this file.</p>
+
+<p>Create the control file for xl2tpd:</p>
+
+<pre class="lang:default decode:true ">mkdir -p /var/run/xl2tpd
+touch /var/run/xl2tpd/l2tp-control</pre>
+
+<p>This completes the configuration of the applicable software suites to connect to a L2TP/IPsec server. To start the connection do the following:</p>
+
+<pre class="lang:default decode:true" title="CentOS">systemctl start ipsec
+systemctl start xl2tpd
+systemctl enable ipsec.service
+systemctl enable xl2tpd.service
+</pre>
+
+<pre class="lang:default decode:true" title="Centos 6">service openswan start
+service xl2tpd start
+chkconfig openswan on
+chkconfig xl2tpd on</pre>
+
+<pre class="lang:default decode:true">ipsec auto --up L2TP-PSK
+echo "c vpn-connection" &gt; /var/run/xl2tpd/l2tp-control</pre>
+
+<p>At this point the tunnel is up and you should be able to see the interface for it if you type:</p>
+
+<pre class="lang:default decode:true">ifconfig ppp0</pre>
+
+<h2 id="routing">Routing</h2>
+
+<p>Now that our tunnel is up and running we need to be able to route to our respective networks, this can be done two ways:</p>
+
+<p>Add the route manually each time the VPN restarts:</p>
+
+<pre class="lang:default decode:true" style="padding-left: 60px;">route add -net xxx.xxx.xxx.xxx/xx dev ppp0</pre>
+
+<p style="padding-left: 30px;">
+  Replace the <em><strong>x</strong> </em>with the server local network and subnet mask e.g. 192.168.10.0/24
+</p>
+
+<p>Add the route automatically:</p>
+
+<p style="padding-left: 30px;">
+  Edit the if-up file and add this before exit 0:
+</p>
+
+<pre class="lang:default mark:4,6 decode:true">vi /etc/ppp/if-up
+---------------------
+case  in
+        192.168.10.1)
+        # VPN - IP ROUTE BEING ADDED AT RECONNECTION
+                route add -net xxx.xxx.xxx.xxx/xxx dev ppp0;
+        ;;
+esac
+</pre>
+
+<p style="padding-left: 30px;">
+  Here we need to change <em><strong>192.168.10.1</strong></em> to the ppp0 gateway, also change the <em><strong>x</strong> </em>with the server local network and subnet mask e.g. 192.168.10.0/24
+</p>
+
+<p>To check the route is added simply type:</p>
+
+<pre class="lang:default decode:true ">route</pre>
+
+<p>This will display a list of routes and your new route should be listed</p>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<p>The main logs to check are:</p>
+
+<p style="padding-left: 30px;">
+  /var/log/xl2tpd.log<br /> /var/log/messages
+</p>
+
+<h3 id="openswan-ipsec-1">OpenSwan IPSec</h3>
+
+<p>To check that OpenSwan IPSec is working as expected run <span class="lang:default decode:true crayon-inline ">ipsec verify</span> this will output similar to below:</p>
+
+<pre class="lang:default decode:true ">Verifying installed system and configuration files
+
+Version check and ipsec on-path                         [OK]
+Libreswan 3.15 (netkey) on 2.6.32-696.3.1.el6.x86_64
+Checking for IPsec support in kernel                    [OK]
+ NETKEY: Testing XFRM related proc values
+         ICMP default/send_redirects                    [NOT DISABLED]
+
+  Disable /proc/sys/net/ipv4/conf/*/send_redirects or NETKEY will act on or cause sending of bogus ICMP redirects!
+
+         ICMP default/accept_redirects                  [NOT DISABLED]
+
+  Disable /proc/sys/net/ipv4/conf/*/accept_redirects or NETKEY will act on or cause sending of bogus ICMP redirects!
+
+         XFRM larval drop                               [OK]
+Pluto ipsec.conf syntax                                 [OK]
+Hardware random device                                  [N/A]
+Checking rp_filter                                      [ENABLED]
+ /proc/sys/net/ipv4/conf/default/rp_filter              [ENABLED]
+ /proc/sys/net/ipv4/conf/lo/rp_filter                   [ENABLED]
+ /proc/sys/net/ipv4/conf/eth0/rp_filter                 [ENABLED]
+  rp_filter is not fully aware of IPsec and should be disabled
+Checking that pluto is running                          [OK]
+ Pluto listening for IKE on udp 500                     [OK]
+ Pluto listening for IKE/NAT-T on udp 4500              [OK]
+ Pluto ipsec.secret syntax                              [OK]
+Checking 'ip' command                                   [OK]
+Checking 'iptables' command                             [OK]
+Checking 'prelink' command does not interfere with FIPSChecking for obsolete ipsec.conf options                 [OK]
+Opportunistic Encryption                                [DISABLED]
+
+ipsec verify: encountered 9 errors - see 'man ipsec_verify' for help
+</pre>
+
+<p>If you see the same results as above create the following script to resolve this:</p>
+
+<pre class="lang:default decode:true ">#!/bin/bash
+echo 1 &gt; /proc/sys/net/ipv4/ip_forward
+for each in /proc/sys/net/ipv4/conf/*
+do
+    echo 0 &gt; $each/accept_redirects
+    echo 0 &gt; $each/send_redirects
+    echo 0 &gt; $each/rp_filter
+done</pre>
+
+<p>Run <span class="lang:default decode:true crayon-inline ">ipsec verify</span> again to make sure all are green, ideally you shouldnt encounter any errors.</p>
+
+<h2 id="startup--shutdown-script">Startup / Shutdown Script</h2>
+
+<pre class="lang:default decode:true">#!/bin/bash
+
+if ! ifconfig | grep ppp0;
+then
+        sudo ipsec auto --up L2TP-PSK
+        sleep 3
+        sudo echo "c vpn-connection" &gt; /var/run/xl2tpd/l2tp-control
+fi
+if ! route | grep xxx.xxx.xxx.xxx;
+then
+        sudo route add -net xxx.xxx.xxx.xxx/xx dev ppp0
+fi
+</pre>
+
+<p>This can then be created as a cron job to make sure the vpn is always up and running.</p>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2017-08-06 20:30">Sunday, August  6, 2017</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

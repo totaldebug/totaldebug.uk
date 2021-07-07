@@ -1,0 +1,286 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>Use GitHub pages with unsupported plugins - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">Use GitHub pages with unsupported plugins</h1>
+      
+        
+<small>2 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-thumbnail">
+      
+          <picture>
+            <source type="image/webp" srcset="/assets/images/posts/use-github-pages-with-unsupported-plugins/thumb.webp" >
+            <img src="/assets/images/posts/use-github-pages-with-unsupported-plugins/thumb.png" class="thumbnail" alt="Use GitHub pages with unsupported plugins" />
+          </picture>
+    </div><!-- .post-thumbnail -->
+    
+    <div class="post-content">
+      <p>I have recently migrated my website over to Github Pages, however in doing so I have found that there are some limitations, the main one being that not all Jekyll plugins are supported.</p>
+
+<p>Due to this I needed to find a workaround, which I wanted to share with you all</p>
+
+<h2 id="advantages-of-this-method">Advantages of this method</h2>
+
+<h3 id="control-over-gemset">Control over gemset</h3>
+
+<ul>
+  <li>Jekyll Version - Instead of using the version forced upon you by GitHub, you can use any version you want</li>
+  <li>Plugins - You can use any Jekyll plugins irrespective of them being supported by GitHub</li>
+</ul>
+
+<h3 id="workflow-management">Workflow Management</h3>
+
+<ul>
+  <li>Customization - By using GitHub Actions, you are able to customize the build steps however you need them</li>
+  <li>Logging - The build log is visible and can be adjusted, so it is much easier to debug errors</li>
+</ul>
+
+<h2 id="setting-up-the-github-action">Setting up the GitHub Action</h2>
+
+<p>GitHub actions are created by adding a YAML file in the directory <code class="highlighter-rouge">.github/workflows</code>. Here we will create our action using the Jekyll Action from the Marketplace.</p>
+
+<p>Create a workflow file <code class="highlighter-rouge">github-pages.yml</code>, then add the below information:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name: Build and deploy Jekyll site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  github-pages:
+    runs-on: ubuntu-16.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: helaili/jekyll-action@2.0.1
+        env:
+          JEKYLL_PAT: $
+</code></pre></div></div>
+
+<p>This workflow is doing the following:</p>
+
+<ul>
+  <li>We trigger <code class="highlighter-rouge">on.push</code> to <code class="highlighter-rouge">master</code>, or by a manual dispatch <code class="highlighter-rouge">workflow_dispatch</code></li>
+  <li>The <code class="highlighter-rouge">checkout</code> action clones your repository.</li>
+  <li>Our action is specified along with the required version <code class="highlighter-rouge">helaili/jekyll-action@2.0.1</code></li>
+  <li>We set an environment variable for the action to use <code class="highlighter-rouge">JEKYLL_PAT</code> a Personal Access Token</li>
+</ul>
+
+<h2 id="providing-permissions">Providing permissions</h2>
+
+<p>The action needs permissions to push the Jekyll data to your <code class="highlighter-rouge">gh-pages</code> branch (this will be created if it doesn’t exist)</p>
+
+<p>In order to do this, you must create a GitHub Personal Access Token on your GitHub profile, then set this as an environment variable using Secrets.</p>
+
+<ol>
+  <li>On your GitHub profile, under Developer Settings, go to the Personal Access Tokens section.</li>
+  <li>Create a token. Give it a name like “GitHub Actions” and ensure it has permissions to public_repos (or the entire repo scope for private repository) — necessary for the action to commit to the gh-pages branch.</li>
+  <li>Copy the token value.</li>
+  <li>Go to your repository’s Settings and then the Secrets tab.</li>
+  <li>Create a token named <code class="highlighter-rouge">JEKYLL_PAT</code> (important) and paste your token into the value</li>
+</ol>
+
+<h2 id="deployment">Deployment</h2>
+
+<p>On pushing changes onto <code class="highlighter-rouge">master</code> the action will be triggered and the build will start.</p>
+
+<p>You can watch the progress by looking at the actions that are currently running via your repository</p>
+
+<p>If all goes well you should see a green build status on the <code class="highlighter-rouge">gh-pages</code> branch.</p>
+
+<p>If this is a new repository you will also need to setup the pages to use the new <code class="highlighter-rouge">gh-pages</code> branch instead of master. this can be found in the repository settings.</p>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2020-12-09 00:00">Wednesday, December  9, 2020</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

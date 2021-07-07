@@ -1,0 +1,297 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>Install UniFi Controller on CentOS 7 - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">Install UniFi Controller on CentOS 7</h1>
+      
+        
+<small>1 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>This is a short simple guide to assist users with installing the Ubiquiti UniFi Controller required for all UniFi devices on a CentOS 7 Server.</p>
+
+<!--more-->
+
+<h3 id="first-we-need-to-update-our-centos-server-and-disable-selinux">First we need to update our CentOS server and disable SELinux:</h3>
+
+<pre class="lang:default decode:true ">yum -y update
+sed -i /etc/selinux/config -r -e 's/^SELINUX=.*/SELINUX=disabled/g'
+systemctl reboot</pre>
+
+<p>NOTE: you dont need to disable SELinux however may experience issues if it isn’t setup correctly.</p>
+
+<h3 id="now-we-need-to-make-sure-we-have-epel-repo">Now we need to make sure we have EPEL Repo:</h3>
+
+<pre class="lang:default decode:true ">yum -y install epel-release</pre>
+
+<h3 id="install-services-required-by-the-controller">Install services required by the Controller:</h3>
+
+<pre class="lang:default decode:true ">yum -y install mongodb-server java-1.8.0-openjdk unzip wget</pre>
+
+<h3 id="create-our-service-user-account">Create our service user account:</h3>
+
+<pre class="lang:default decode:true ">useradd -r ubnt -s /sbin/nologin</pre>
+
+<p>We put the -s /sbin/nologin so that this user cannot be logged in as a user, only the service will be able to use this account.</p>
+
+<h3 id="download-and-extract-the-unifi-controller-software">Download and extract the UniFi Controller software:</h3>
+
+<pre class="lang:default decode:true ">cd ~ &amp;&amp; wget http://dl.ubnt.com/unifi/5.3.11/UniFi.unix.zip
+unzip -q UniFi.unix.zip -d /opt
+chown -R ubnt:ubnt /opt/UniFi</pre>
+
+<p>At the time of writing the latest version was v5.3.11, change the version number in the download link to the latest version.</p>
+
+<h3 id="create-a-startup-script-for-use-with-systemd">Create a startup script for use with Systemd:</h3>
+
+<pre class="lang:default decode:true ">vi /etc/systemd/system/unifi.service
+---
+#
+# Systemd unit file for UniFi Controller
+#
+
+[Unit]
+Description=UniFi Controller
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=ubnt
+WorkingDirectory=/opt/UniFi
+ExecStart=/usr/bin/java -Xmx1024M -jar /opt/UniFi/lib/ace.jar start
+ExecStop=/usr/bin/java -jar /opt/UniFi/lib/ace.jar stop
+SuccessExitStatus=143
+
+
+[Install]
+WantedBy=multi-user.target
+---</pre>
+
+<h3 id="configure-firewalld">Configure Firewalld:</h3>
+
+<pre class="lang:default decode:true ">systemctl stop firewalld.service
+vi /etc/firewalld/services/unifi.xml
+---
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;service version="1.0"&gt;
+    &lt;short&gt;unifi&lt;/short&gt;
+    &lt;description&gt;UniFi Controller&lt;/description&gt;
+    &lt;port port="8081" protocol="tcp"/&gt;
+    &lt;port port="8080" protocol="tcp"/&gt;
+    &lt;port port="8443" protocol="tcp"/&gt;
+    &lt;port port="8880" protocol="tcp"/&gt;
+    &lt;port port="8843" protocol="tcp"/&gt;
+    &lt;port port="10001" protocol="udp"/&gt;
+    &lt;port port="3478" protocol="udp"/&gt;
+&lt;/service&gt;
+---</pre>
+
+<p>Once the firewall rules xml file is created we need to add this to our firewall zones, the default zone will be public but you should know for your firewall.</p>
+
+<pre class="lang:default decode:true ">systemctl start firewalld.service
+firewall-cmd --permanent --zone=public --add-service=unifi</pre>
+
+<h3 id="enable-the-service-to-run-when-the-server-boots">Enable the service to run when the server boots:</h3>
+
+<pre class="lang:default decode:true ">systemctl enable unifi.service</pre>
+
+<h3 id="remove-the-zip-and-reboot-the-server">Remove the zip and reboot the server:</h3>
+
+<pre class="lang:default decode:true ">rm -rf ~/UniFi.unix.zip
+systemctl reboot</pre>
+
+<p>Once the server is back online you should be able to access the controller via the URL: https://FQDN_or_IP:8443 Follow the simple wizard to complete the setup of your controler, I would also recommend you register with Ubiquiti when you setup the controller, this will allow you to manage it remotely on a mobile device.</p>
+
+<p>Credit to: <a href="https://deviantengineer.com">https://deviantengineer.com</a></p>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2017-02-01 09:50">Wednesday, February  1, 2017</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

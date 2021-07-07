@@ -1,0 +1,335 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>How to recreate all Virtual Directories for Exchange 2007 - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">How to recreate all Virtual Directories for Exchange 2007</h1>
+      
+        
+<small>3 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>Here you will find all commands what would help you to recreate all Virtual Directories for Exchange 2007. You can also use just a few of them. But never delete or create it in IIS. This has to be done under Exchange Management Shell (don’t get mixed with the Windows Powershell):
+<!--more--></p>
+
+<p>Here you will find all commands what would help you to recreate all Virtual Directories for Exchange 2007. You can also use just a few of them. But never delete or create it in IIS. This has to be done under Exchange Management Shell (don’t get mixed with the Windows Powershell):</p>
+
+<p><strong>First you shall write down the information what you will get (for example: if it “Default Web Site” or “SBS Web Applications” and if they have the information, what INTERNURL or External URL is configured)</strong>:</p>
+
+<p>– Open Exchange Management Shell with <strong>elevated permission</strong>
+– Run the following commands:</p>
+
+<p>Get-AutodiscoverVirtualDirectory
+Get-OABVirtualDirectory
+Get-OWAVirtualDirectory
+Get-WebServicesVirtualDirectory
+Get-ActiveSyncVirtualDirectory
+Get-UMVirtualDirectory</p>
+
+<p>Then you can remove the Virtual Directories but change the XXXXXXX to the information you got earlier<strong>(AND DON’T JUST COPY AND PASTE INTO POWERSHELL! COPY IT INTO NOTEPAD AND THEN READ THE COMMAND AND CHANGE SERVERNAME OR OTHER RELATED INFORMATION)</strong></p>
+
+<p>Remove-OWAVirtualDirectory -Identity “Owa (XXXXXXX)” -Confirm:$false
+Remove-OWAVirtualDirectory -Identity “Exadmin (XXXXXXX)” -Confirm:$false
+Remove-OWAVirtualDirectory -Identity “Exchange (XXXXXXX)” -Confirm:$false
+Remove-OWAVirtualDirectory -Identity “Exchweb (XXXXXXX)” -Confirm:$false
+Remove-OWAVirtualDirectory -Identity “Public (XXXXXXX)” -Confirm:$false
+Remove-WebServicesVirtualDirectory -Identity “EWS (XXXXXXX)” -Confirm:$false
+Remove-ActiveSyncVirtualDirectory -Identity “Microsoft-Server-ActiveSync (XXXXXXX)” -Confirm:$false
+Remove-OabVirtualDirectory -Identity “OAB (XXXXXXX)” -Force:$true -Confirm:$false
+Remove-UMVirtualDirectory -Identity “UnifiedMessaging (XXXXXXX)” -Confirm:$false
+Remove-AutodiscoverVirtualDirectory -Identity “Autodiscover (XXXXXXX)” -Confirm:$false</p>
+
+<p>To verify that the directories have been removed, run the following commands. You should receive no output:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Get-AutodiscoverVirtualDirectory
+Get-OABVirtualDirectory
+Get-OWAVirtualDirectory
+Get-WebServicesVirtualDirectory
+Get-ActiveSyncVirtualDirectory
+Get-UMVirtualDirectory
+</code></pre></div></div>
+
+<p>To properly create these virtual directories, run the following commands (Please keep the information what you got earlier for XXXXXXX and change it here to):</p>
+
+<p>– Open Exchange Management Shell with elevated permission
+– Run the following commands (<strong>THE COMMANDS ARE A ONE-LINER. THE NEXT COMMAND IS SEPERATED WITH —————————–. So copy and paste it into notepad, check if it is one line, read it carefully and change the information you have to provide. Information you have to provide is in BIG LETTERS or XXXXXXX)</strong>:</p>
+
+<p>New-OWAVirtualDirectory -WebsiteName “XXXXXXX” -OwaVersion “Exchange2007”
+-ExternalAuthenticationMethods Fba
+—————————–
+Set-OWAVirtualDirectory -InternalUrl “<a href="https://internal_fqdn_of_exchange/owa/" rel="nofollow" target="_blank">https://INTERNAL_FQDN_OF_EXCHANGE/owa/</a>”
+-ClientAuthCleanupLevel “Low” -LogonFormat “UserName” -DefaultDomain “NETBIOSDOMAINNAME”
+-Identity “Owa (XXXXXXX)”
+—————————–
+New-OWAVirtualDirectory -WebsiteName “XXXXXXX” -OwaVersion “Exchange2003or2000”
+-VirtualDirectoryType “Exadmin” -ExternalAuthenticationMethods Fba
+—————————–
+New-OWAVirtualDirectory -WebsiteName “XXXXXXX” -OwaVersion “Exchange2003or2000”
+-VirtualDirectoryType “Mailboxes” -ExternalAuthenticationMethods Fba
+—————————–
+New-OWAVirtualDirectory -WebsiteName “XXXXXXX” -OwaVersion “Exchange2003or2000”
+-VirtualDirectoryType “Exchweb” -ExternalAuthenticationMethods Fba
+—————————–
+New-OWAVirtualDirectory -WebsiteName “XXXXXXX” -OwaVersion “Exchange2003or2000”
+-VirtualDirectoryType “PublicFolders” -ExternalAuthenticationMethods Fba
+—————————–
+New-WebServicesVirtualDirectory -WebsiteName “XXXXXXX”
+-InternalUrl “<a href="https://internal_fqdn_of_exchange/EWS/Exchange.asmx" rel="nofollow" target="_blank">https://INTERNAL_FQDN_OF_EXCHANGE/EWS/Exchange.asmx</a>” -basicauthentication 1
+-windowsauthentication 1
+—————————–
+New-ActiveSyncVirtualDirectory -WebsiteName “XXXXXXX”
+-InternalUrl “<a href="https://internal_fqdn_of_exchange/Microsoft-Server-ActiveSync" rel="nofollow" target="_blank">https://INTERNAL_FQDN_OF_EXCHANGE/Microsoft-Server-ActiveSync</a>”
+-ExternalAuthenticationMethods Basic -InternalAuthenticationMethods Basic
+—————————–
+New-OabVirtualDirectory -WebsiteName “XXXXXXX” -InternalUrl “<a href="https://internal_fqdn_of_exchange/OAB" rel="nofollow" target="_blank">https://INTERNAL_FQDN_OF_EXCHANGE/OAB</a>”
+—————————–
+Set-OabVirtualDirectory -PollInterval “30” -Identity “oab (XXXXXXX)”
+—————————–
+New-UMVirtualDirectory -WebsiteName “XXXXXXX”
+-InternalUrl “<a href="https://internal_fqdn_of_exchange/UnifiedMessaging/Service.asmx" rel="nofollow" target="_blank">https://INTERNAL_FQDN_OF_EXCHANGE/UnifiedMessaging/Service.asmx</a>”
+—————————–
+New-AutodiscoverVirtualDirectory -WebsiteName “XXXXXXX”
+-InternalUrl “<a href="https://internal_fqdn_of_exchange/Autodiscover/Autodiscover.xml" rel="nofollow" target="_blank">https://INTERNAL_FQDN_OF_EXCHANGE/Autodiscover/Autodiscover.xml</a>”
+-BasicAuthentication 1 -WindowsAuthentication 1
+—————————–
+Set-ClientAccessServer -Identity “Servername”
+-AutoDiscoverServiceInternalUri “<a href="https://internal_fqdn_of_exchange/Autodiscover/Autodiscover.xml" rel="nofollow" target="_blank">https://INTERNAL_FQDN_OF_EXCHANGE/Autodiscover/Autodiscover.xml</a>”
+—————————–
+Set-OfflineAddressBook “Default Offline Address Book”
+-VirtualDirectories “Servername\OAB (XXXXXXX)” -Versions Version2,Version3,Version4)”</p>
+
+<p>– To check if we were successful in creating the virtual directories correctly type in the commands:</p>
+
+<p>Get-AutodiscoverVirtualDirectory
+Get-OABVirtualDirectory
+Get-OWAVirtualDirectory
+Get-WebServicesVirtualDirectory
+Get-ActiveSyncVirtualDirectory
+Get-UMVirtualDirectory</p>
+
+<p>For example, you should receive the following for Get-OWAVirtualDirectory</p>
+
+<p>Name Server OwaVersion
+——– ——- ———–</p>
+
+<p>Owa (XXXXXXX) Server Name Exchange2007
+Exadmin (XXXXXXX) Server Name Exchange2003or2000
+Public (XXXXXXX) Server Name Exchange2003or2000
+Exchweb (XXXXXXX) Server Name Exchange2003or2000
+Exchange(XXXXXXX) Server Name Exchange2003or2000</p>
+
+<p>– Then run the following commands to disable the Kernel Mode Authentication on EWS, Autodiscover, and OAB virtual directories (<strong>THE COMMANDS ARE A ONE-LINER. THE NEXT COMMAND IS SEPERATED WITH —————————–. So copy and paste it into notepad, check if it is one line, read it carefully and change the information you have to provide. Information you have to provide is in BIG LETTERS or XXXXXXX)</strong>:</p>
+
+<p>cd $env:windir\system32\inetsrv
+—————————-
+.\appcmd.exe unlock config “-section:system.webserver/security/authentication/windowsauthentication”
+—————————–
+.\appcmd.exe set config “XXXXXXX/ews” “-section:windowsAuthentication” “-useKernelMode:False” /commit:apphost
+—————————–
+.\appcmd.exe set config “XXXXXXX/AutoDiscover” “-section:windowsAuthentication” “-useKernelMode:False” /commit:apphost
+—————————–
+.\appcmd.exe set config “XXXXXXX/oab” “-section:windowsAuthentication” “-useKernelMode:False” /commit:apphost</p>
+
+<p>– Run: <code class="highlighter-rouge">iisreset /noforce</code></p>
+
+<p>– You must rerun the Internet Address Management Wizard to stamp the new virtual directories with the proper external URL and maybe you have to check the certificates.</p>
+
+<p>======================================
+Troubleshooting for useKernelMode</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%windir%\system32\inetsrv\appcmd.exe set config /section:system.webServer/security/authentication/windowsAuthentication /useKernelMode:false
+</code></pre></div></div>
+
+<p>With the following command you should see something like this:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%windir%\system32\inetsrv\appcmd.exe list config /section:system.webServer/security/authentication/windowsAuthentication
+</code></pre></div></div>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2012-11-22 00:00">Thursday, November 22, 2012</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

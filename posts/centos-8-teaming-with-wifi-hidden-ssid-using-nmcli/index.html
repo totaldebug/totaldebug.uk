@@ -1,0 +1,395 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>CentOS 8 Teaming with WiFi Hidden SSID using nmcli - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">CentOS 8 Teaming with WiFi Hidden SSID using nmcli</h1>
+      
+        
+<small>3 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>I have had a lot of issues when setting up teaming with WiFi, mainly because of lack of documentation around this, im guessing that teaming ethernet and WiFi is not a common occurrence especially with a hidden SSID.</p>
+
+<p>As part of my home systems I am utilising an old laptop as my home assistant server, this allows for battery backup and network teaming, if my switch dies, my WiFi will still work etc.</p>
+
+<h2 id="lets-get-to-the-meat-and-potatoes">Lets get to the meat and potatoes!</h2>
+
+<p>So the first thing that we need to do is check our devices are available:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># nmcli d status
+DEVICE   TYPE      STATE      CONNECTION
+eno1     ethernet  connected  Ethernet connection 1
+wlp3s0   wifi      connected  Wi-Fi connection 1
+lo       loopback  unmanaged  --
+</code></pre></div></div>
+
+<p>Now that we see all our devices (they may not all be listed as connected yet) we can create our team:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>]# nmcli c a type team con-name team0
+Connection 'team-TeamA' (4387966d-715b-4636-b307-03d2b92476bf) successfully added.
+</code></pre></div></div>
+
+<p>NetworkManager will set its internal parameter <strong><em>connection.autoconnect</em></strong> to yes and as no IP address was given <strong><em>ipv4.method</em></strong> will be set to auto. NetworkManager will also write a configuration file to /etc/sysconfig/network-scripts/ifcfg-team-TeamA where the corresponding <strong>ONBOOT</strong> will be set to yes and <strong>BOOTPROTO</strong> will be set to dhcp.</p>
+
+<p>Now if we show the connections we should see team0 listed:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>]# nmcli c show
+NAME                   UUID                                  TYPE      DEVICE
+Ethernet connection 1  520e1441-f8d9-43c1-8c3d-a0d56227b6b9  ethernet  eno1
+Wi-Fi connection 1     ddef5993-b469-4916-961d-3082b1f41ec1  wifi      wlp3s0
+team0                  c742d9e4-73ec-4506-82ff-b2a93727cc3a  team      nm-team
+</code></pre></div></div>
+
+<p>Currently the team isnt doing anything, so we need to add our ethernet interface:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>]# nmcli c a type team-slave ifname eno1 master team0
+Connection 'team-slave-eno1' (d2f0f253-0b42-4fdb-828b-c983b7ad59f4) successfully added.
+</code></pre></div></div>
+
+<p>Once done if we show the connections again we will see the two team-slaves:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NAME                   UUID                                  TYPE      DEVICE
+Ethernet connection 1  520e1441-f8d9-43c1-8c3d-a0d56227b6b9  ethernet  eno1
+Wi-Fi connection 1     ddef5993-b469-4916-961d-3082b1f41ec1  wifi      wlp3s0
+team0                  c742d9e4-73ec-4506-82ff-b2a93727cc3a  team      nm-team1
+team-slave-eno1        d2f0f253-0b42-4fdb-828b-c983b7ad59f4  ethernet  --
+</code></pre></div></div>
+
+<p>These commands automatically create corresponding files for the team under:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/sysconfig/network-scripts/ifcfg-team0
+/etc/sysconfig/network-scripts/ifcfg-team-slave-en01
+</code></pre></div></div>
+
+<hr />
+<p><strong>NOTE</strong></p>
+
+<h2 id="if-you-edit-these-files-manually-you-will-need-to-run-nmcli-con-reload-so-that-network-manager-reads-the-config-changes">If you edit these files manually, you will need to run nmcli con reload so that network manager reads the config changes.</h2>
+
+<p>The team is now setup… however it is recommended to use a static IP Address, we can manually specify this by running the below commands:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nmcli c m team0 ipv4.method manual
+nmcli c m team0 ipv4.addresses 10.10.10.20/24
+nmcli c m team0 ipv4.gateway 10.10.10.1
+nmcli c m team0 ipv4.dns 10.10.10.1, 1.1.1.1
+</code></pre></div></div>
+
+<h2 id="enabling-the-team">Enabling the team</h2>
+
+<p>To enable the team we must bring up our Ethernet interface with this command:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>]# nmcli c up team-slave-eno1
+Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/5)
+</code></pre></div></div>
+
+<h2 id="what-about-the-wifi">What about the WiFi?</h2>
+
+<p>So we have setup our connections and our team with an IP Address, however we havent specified any WiFi configurations at all, so lets do that…</p>
+
+<p>First lets make sure the wifi module is installed, by default this isn’t:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dnf install NetworkManager-wifi
+systemctl restart NetworkManager
+</code></pre></div></div>
+
+<p>We can discover any wifi in the area by running:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>]# nmcli d wifi list
+IN-USE  SSID                   MODE   CHAN  RATE        SIGNAL  BARS  SECURITY
+        my_wifi_net            Infra  1     195 Mbit/s  34      ▂▄__  WPA2
+</code></pre></div></div>
+
+<p>to connect to one of these networks simply type:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nmcli d wifi connect my_wifi_net password &amp;lt;wifi-password
+</code></pre></div></div>
+
+<h3 id="hidden-wifi-network">Hidden WiFi Network</h3>
+
+<p>A hidden network is a standard WiFi network that doesnt broadcast its SSID, this means that its name cannot be searched and must be known in order to configure it.</p>
+
+<p>To do this we must enter the following commands:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nmcli c a type 802-11-wireless ifname wlp3s0 master team0 utoconnect yes ssid &amp;lt;your-Wifi-SSID&gt; 802-11-wireless-security.key-mgmt wpa-psk 802-11-wireless-security.psk &amp;lt;wifi-password&gt; 802-11-wireless.hidden yes
+</code></pre></div></div>
+
+<hr />
+<p><strong>NOTE</strong></p>
+
+<h2 id="wlp3s0-may-be-different-in-your-command-it-will-depend-what-your-wireless-slave-connection-is-called">wlp3s0 may be different in your command, it will depend what your wireless slave connection is called</h2>
+
+<p>Now that we have our wifi interface connected and configured we can bring it online with the below command</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>]# nmcli c up team-slave-wlp3s0
+Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/6)
+</code></pre></div></div>
+
+<p>After you have brought the connections up your team should automatically come online, to test you can run the following:</p>
+
+<p>This command will list the team and connections, all should be up and the team should show an IP Address</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>]# ip a
+</code></pre></div></div>
+<p>This command will show all your connections, the ones for the team should all be green</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>]# nmcli c
+</code></pre></div></div>
+<p>I would also recommend doing some testing with the team to make sure it functions as expected, I normally run a continuous ping and then disconnect one of the interfaces, if all is well you should only see increased latency for one ping or a single dropped ping.</p>
+
+<h2 id="modifying-the-team">Modifying the team</h2>
+
+<p>When we first setup a team it will default to <strong><em>roundrobin</em></strong> this can be seen by running the below command: (substitute nm-team with your team)</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>]# teamdctl nm-team state
+setup:
+  runner: roundrobin
+ports:
+  eno1
+    link watches:
+      link summary: up
+      instance[link_watch_0]:
+        name: ethtool
+        link: up
+        down count: 0
+  wlp3s0
+    link watches:
+      link summary: up
+      instance[link_watch_0]:
+        name: ethtool
+        link: up
+        down count: 0
+</code></pre></div></div>
+
+<p>This shows the <strong>runner</strong> which is how the traffic is managed across the interfaces, we can also see the interfaces that are part of the team, along with their states.</p>
+
+<p>The possible runners are:</p>
+
+<ul>
+  <li><strong>roundrobin:</strong> This is the default option, it will send packets to all interfaces one at a time per interface, in a round robin manner</li>
+  <li><strong>broadcast:</strong> All traffic will be sent over all ports</li>
+  <li><strong>activebackup:</strong> One interface will be used as the Active interface and the rest as a backup, the team will monitor for failures and automatically failover the link should one go offline</li>
+  <li><strong>loadbalance:</strong> Traffic will be balanced across all interfaces based on Tx traffic, the load should be equal across all interfaces</li>
+</ul>
+
+<p>You can change the runner that you are using when you create the team:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>]# nmcli c a type team con-name team0 config '{"runner": {"name": "broadcast"}, "link_watch": {"name": "ethtool"}}'
+</code></pre></div></div>
+
+<p>or you can modify the connection with this command:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>]# nmcli c m team0 config  '{"runner": {"name": "broadcast"}, "link_watch": {"name": "ethtool"}}'
+</code></pre></div></div>
+
+<p>once the above command is run a reboot will be required to apply the changes, now we can confirm the changes using:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>]# teamdctl nm-team state
+setup:
+  runner: broadcast
+ports:
+  eno1
+    link watches:
+      link summary: up
+      instance[link_watch_0]:
+        name: ethtool
+        link: up
+        down count: 0
+runner:
+  active port: eno1
+</code></pre></div></div>
+
+<hr />
+<p><strong>NOTE</strong></p>
+
+<p>more information on runners can be found <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_teamd_runners">here </a></p>
+
+<hr />
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2019-11-02 00:00">Saturday, November  2, 2019</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

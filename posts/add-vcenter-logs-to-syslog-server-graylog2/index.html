@@ -1,0 +1,348 @@
+<!doctype html>
+<html>
+    <head>
+        
+<script data-ad-client="ca-pub-1785931800967089" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+
+        
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZDGYQV98HT');
+</script>
+
+
+        <title>Add vCenter Logs to Syslog Server (GrayLog2) - TotalDebug</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <link rel="stylesheet" href="/assets/css/fontawesome.css">
+        <link rel="stylesheet" href="/assets/css/brands.css">
+        <link rel="stylesheet" href="/assets/css/solid.css">
+
+    </head>
+    <body>
+
+        <div id="page" class="site style-overflow palette-orange">
+  <header id="masthead" class="site-header dark">
+  <div class="site-header-wrap">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        
+        <p class="profile">
+          <a href='/'>
+            
+            <picture>
+              <source type="image/webp" srcset="/assets/images/logo.webp" >
+              <img src="/assets/images/logo.png" class="avatar" width="45px" height="45px" alt="Author Avatar" />
+            </picture>
+          </a>
+        </p><!-- .profile -->
+        
+        <div class="site-identity">
+          
+          <p class="site-title"><a href='/'>TotalDebug</a></p>
+          
+          
+          
+          <p class="site-description">Technology. Inside Out</p>
+          
+        </div><!-- .site-identity -->
+
+        
+        <button id="menu-toggle" class="menu-toggle"><span class="screen-reader-text">Menu</span><span class="icon-menu"
+            aria-hidden="true"></span></button>
+        
+      </div><!-- .site-branding -->
+      <form class="search__header_form" action="/search" method="get">
+        <input class="search__header_input" type="search"  type="text" id="search-box" placeholder="Search" name="query">
+        <i class="fa fa-search"></i>
+      </form>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-wrap">
+          <div class="site-nav-inside">
+            <ul class="menu">
+              
+              <li class="menu-item ">
+                <a href="/">Home</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/blog/">Blog</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="/about/">About</a>
+              </li>
+              
+              <li class="menu-item ">
+                <a href="https://projects.totaldebug.uk">Projects</a>
+              </li>
+              
+            </ul><!-- .menu -->
+            
+            
+            <div class="social-links">
+  
+  <a href="https://twitter.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-twitter" aria-hidden="true"></span><span class="screen-reader-text">Twitter</span></a>
+  
+  <a href="https://github.com/marksie1988" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://github.com/totaldebug" target="_blank" rel="noopener"><span class="fab fa-github" aria-hidden="true"></span><span class="screen-reader-text">GitHub</span></a>
+  
+  <a href="https://www.linkedin.com/in/marksie1988/" target="_blank" rel="noopener"><span class="fab fa-linkedin" aria-hidden="true"></span><span class="screen-reader-text">LinkedIn</span></a>
+  
+  <a href="https://discord.gg/6fmekudc8Q" target="_blank" rel="noopener"><span class="fab fa-discord" aria-hidden="true"></span><span class="screen-reader-text">Discord</span></a>
+  
+</div><!-- .social-links -->
+
+            
+          </div><!-- .site-nav-inside -->
+        </div><!-- .site-nav-wrap -->
+      </nav><!-- .site-navigation -->
+      
+    </div><!-- .site-header-inside -->
+  </div><!-- .site-header-wrap -->
+</header><!-- .site-header -->
+
+  <div id="content" class="site-content">
+    <div class="inner">
+      <main id="main" class="site-main">
+          <article class="post post-full">
+    <header class="post-header">
+      <h1 class="post-title underline">Add vCenter Logs to Syslog Server (GrayLog2)</h1>
+      
+        
+<small>2 minute read.</small>
+
+      
+    </header><!-- .post-header -->
+
+    
+    
+    
+    
+    <div class="post-content">
+      <p>In this article I will be showing you how to add vCenter logs to a syslog server, I currently use GrayLog2 as its a great free syslog server and does everything that I require.
+<!--more--></p>
+
+<p>First we want to install <a href="http://nxlog.org">NxLog</a> on our vCenter Server, This will be our syslog client.</p>
+
+<p>To configure NxLog go to: <code class="highlighter-rouge">c:\Program Files (x86)\nxlog\conf</code> and edit <code class="highlighter-rouge">nxlog.conf</code> with a word editor.</p>
+
+<p>Add the following configuration into the file:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>define ROOT C:<span class="se">\P</span>rogram Files <span class="o">(</span>x86<span class="o">)</span><span class="se">\n</span>xlog
+
+Moduledir %ROOT%<span class="se">\m</span>odules
+CacheDir %ROOT%<span class="se">\d</span>ata
+Pidfile %ROOT%<span class="se">\d</span>ata<span class="se">\n</span>xlog.pid
+SpoolDir %ROOT%<span class="se">\d</span>ata
+LogFile %ROOT%<span class="se">\d</span>ata<span class="se">\n</span>xlog.log
+
+&lt;Extension gelf&gt;
+    Module      xm_gelf
+&lt;/Extension&gt;
+
+&lt;Input EventLog_In&gt;
+    Module	im_msvistalog
+<span class="c"># For windows 2003 and earlier use the following:</span>
+<span class="c">#   Module      im_mseventlog</span>
+&lt;/Input&gt;
+&lt;Input Vpxd_In&gt;
+    Module	im_file
+    File	<span class="s2">"C:</span><span class="se">\\</span><span class="s2">ProgramData</span><span class="se">\\</span><span class="s2">VMware</span><span class="se">\\</span><span class="s2">VMware VirtualCenter</span><span class="se">\\</span><span class="s2">Logs</span><span class="se">\\</span><span class="s2">vpxd-*.log"</span>
+    SavePos      TRUE
+    Exec	<span class="nv">$Hostname</span> <span class="o">=</span> <span class="s1">'myserver.local.com'</span><span class="p">;</span>
+    Exec	<span class="k">if</span> <span class="nv">$raw_event</span> <span class="o">=</span>~ /<span class="se">\s</span><span class="o">([</span>a-z]+<span class="o">)</span><span class="se">\s</span>/ <span class="o">{</span> 	<span class="se">\</span>
+			<span class="nv">$Severity</span> <span class="o">=</span> <span class="nv">$1</span><span class="p">;</span>			<span class="se">\</span>
+		<span class="o">}</span>
+    Exec	<span class="k">if</span> <span class="nv">$raw_event</span> <span class="o">=</span>~ /<span class="se">\'</span><span class="o">([</span>a-zA-Z<span class="se">\.</span><span class="o">]</span>+<span class="o">)</span><span class="se">\'</span>/ <span class="o">{</span> 	<span class="se">\</span>
+			<span class="nv">$Component</span> <span class="o">=</span> <span class="nv">$1</span><span class="p">;</span>		<span class="se">\</span>
+		<span class="o">}</span>
+    Exec	<span class="nv">$FileName</span> <span class="o">=</span> file_name<span class="o">()</span><span class="p">;</span>
+    Exec	<span class="nv">$SourceName</span> <span class="o">=</span> <span class="s1">'vCenter VPXD'</span><span class="p">;</span>
+&lt;/Input&gt;
+
+&lt;Output EventLog_Out&gt;
+    Module      om_udp
+    Host        192.168.88.30
+    Port        60001
+    OutputType	GELF
+&lt;/Output&gt;
+&lt;Output Vpxd_Out&gt;
+    Module      om_udp
+    Host        192.168.88.30
+    Port        60002
+    OutputType	GELF
+&lt;/Output&gt;
+
+&lt;Route 1&gt;
+    Path        EventLog_In <span class="o">=&gt;</span> EventLog_Out
+&lt;/Route&gt;
+&lt;Route 2&gt;
+    Path	Vpxd_In <span class="o">=&gt;</span> Vpxd_Out
+&lt;/Route&gt;
+</code></pre></div></div>
+
+<p>If you don’t want to log EventLogs to the Syslog Server just remove route 1 from the file or place # before each line.</p>
+
+<p>The Config Explained:</p>
+
+<p>The below code will load the module for Gelf communications, if you didn’t want to use gelf this could be changed to syslog.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Extension gelf&gt;
+    Module      xm_gelf
+&lt;/Extension&gt;
+</code></pre></div></div>
+
+<p>We then set our inputs, inputs provide information that we want to log to our syslog server, they are then translated by nxlog into a format that our syslog server will understand. As you can see from the code the EventLog is quite simple as there is a plugin specifically for this, but for vCenter Log Files we need to use the im_file module that will allow us to parse a text log file, we can then specify custom parameters to meet our requirements, i have included hostname, message, filename and sourcename but you could also split the $raw_event (your raw data) and log many more fields if required.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Input EventLog_In&gt;
+    Module	im_msvistalog
+<span class="c"># For windows 2003 and earlier use the following:</span>
+<span class="c">#   Module      im_mseventlog</span>
+&lt;/Input&gt;
+&lt;Input Vpxd_In&gt;
+    Module	im_file
+    File	<span class="s2">"C:</span><span class="se">\\</span><span class="s2">ProgramData</span><span class="se">\\</span><span class="s2">VMware</span><span class="se">\\</span><span class="s2">VMware VirtualCenter</span><span class="se">\\</span><span class="s2">Logs</span><span class="se">\\</span><span class="s2">vpxd-*.log"</span>
+    SavePos      TRUE
+    Exec	<span class="nv">$Hostname</span> <span class="o">=</span> <span class="s1">'myserver.local.com'</span><span class="p">;</span>
+    Exec	<span class="k">if</span> <span class="nv">$raw_event</span> <span class="o">=</span>~ /<span class="se">\s</span><span class="o">([</span>a-z]+<span class="o">)</span><span class="se">\s</span>/ <span class="o">{</span> 	<span class="se">\</span>
+			<span class="nv">$Severity</span> <span class="o">=</span> <span class="nv">$1</span><span class="p">;</span>			<span class="se">\</span>
+		<span class="o">}</span>
+    Exec	<span class="k">if</span> <span class="nv">$raw_event</span> <span class="o">=</span>~ /<span class="se">\'</span><span class="o">([</span>a-zA-Z<span class="se">\.</span><span class="o">]</span>+<span class="o">)</span><span class="se">\'</span>/ <span class="o">{</span> 	<span class="se">\</span>
+			<span class="nv">$Component</span> <span class="o">=</span> <span class="nv">$1</span><span class="p">;</span>		<span class="se">\</span>
+		<span class="o">}</span>
+    Exec	<span class="nv">$FileName</span> <span class="o">=</span> file_name<span class="o">()</span><span class="p">;</span>
+    Exec	<span class="nv">$SourceName</span> <span class="o">=</span> <span class="s1">'vCenter VPXD'</span><span class="p">;</span>
+&lt;/Input&gt;
+</code></pre></div></div>
+
+<p>We then set where each log should be sent, as you can see i have a different output for each log type, you don’t need to do this but it makes it easier to see what is logging where in GrayLog2. You should only need to change the host to your syslog server and the port to your port (default 514) I change mine as each type of log has its own port.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Output EventLog_Out&gt;
+    Module      om_udp
+    Host        192.168.88.30
+    Port        60001
+    OutputType	GELF
+&lt;/Output&gt;
+&lt;Output Vpxd_Out&gt;
+    Module      om_udp
+    Host        192.168.88.30
+    Port        60002
+    OutputType	GELF
+&lt;/Output&gt;
+</code></pre></div></div>
+
+<p>The Route tells NxLog which output to send inputs to. In my example I have 2 routes the 1st one tells the eventlogs_in to be sent to eventlogs_out and the 2nd does the same but for the VPXD logs, you could use one route if you were only having one output by using a comma to seperate vpxd_in and eventlog_in (e.g. EventLog_in,VPXD_In =&gt; MyCustom_Out)</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Output EventLog_Out&gt;
+    Module      om_udp
+    Host        10.255.0.38
+    Port        60001
+    OutputType	GELF
+&lt;/Output&gt;
+&lt;Output Vpxd_Out&gt;
+    Module      om_udp
+    Host        10.255.0.38
+    Port        60002
+    OutputType	GELF
+&lt;/Output&gt;
+</code></pre></div></div>
+
+<p>Once this configuration has been completed we need to configure an output in GrayLog2 for each of our NxLog outputs, My example just shows how to do this for the VPXD log but it is the same for any log.</p>
+
+<ul>
+  <li>Login to GrayLog2 Web Interface</li>
+  <li>Go To System &gt; Inputs</li>
+  <li>Select GELF UDP from the dropdown</li>
+  <li>Click Launch New Input</li>
+  <li>Tick Global Input or a specific GrayLog2 Server depending on your setup</li>
+  <li>Enter a Title e.g. VPXD Logs</li>
+  <li>Enter a port that you specified in the NxLog configuration (this must be unique)</li>
+  <li>Click Launch</li>
+</ul>
+
+<p>You should now start to see the logs pouring in, vCenter does generate a LOT of logs so you may want to keep an eye on your syslog server as it could get overloaded with data.</p>
+
+<p>Hope this helped you, any issues or questions please let me know over on my <a href="https://discord.gg/6fmekudc8Q">Discord</a></p>
+
+<p>Steve</p>
+
+    </div><!-- .post-content -->
+    <footer class="post-meta">
+      <time class="published"
+        datetime="2015-07-06 00:00">Monday, July  6, 2015</time>
+    </footer><!-- .post-meta -->
+  </article><!-- .post -->
+
+  <!-- Next/previous post navigation TBD -->
+  <!--
+  <nav class="block read-next">
+    <h2 class="block-title underline">Read Next</h2>
+    <div class="post-feed">
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Previous Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Previous post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Previous post date</time>
+          </footer>
+        </div>
+      </article>
+      <article class="post">
+        <div class="post-inside">
+          <a class="post-thumbnail" href="#"><img src="#" alt="" /></a>
+          <header class="post-header">
+            <h3 class="post-title"><a href="#" rel="bookmark">Next Post Title</a></h3>
+          </header>
+          <div class="post-content">
+            <p>Next post excerpt...</p>
+          </div>
+          <footer class="post-meta">
+            <time class="published" datetime="">Next post date</time>
+          </footer>
+        </div>
+      </article>
+    </div>
+  </nav>
+  -->
+
+      </main><!-- .site-main -->
+      <footer id="colophon" class="site-footer">
+  <p class="site-info">
+    &copy; TotalDebug. All rights reserved.
+    &nbsp;
+    
+    <a href="https://totaldebug.uk" 
+      target="_blank" rel="noopener"
+      >TotalDebug</a>.
+    
+  </p><!-- .site-info -->
+  <a id="to-top" class="to-top" href="#page"><span class="icon-arrow-up" aria-hidden="true"></span><span
+      class="screen-reader-text">Back to top</span></a>
+</footer><!-- .site-footer -->
+
+    </div><!-- .inner -->
+  </div><!-- .site-content -->
+</div><!-- .site -->
+
+        <!-- Scripts -->
+        <script src="/assets/js/plugins.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>
