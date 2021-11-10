@@ -110,6 +110,7 @@ a new location using the data provided during the prompts.
 
 A basic Cookiecutter template looks like this:
 
+```
 📦template
  ┣ 📂hooks
  ┃ ┣ 📜pre_get_project.py
@@ -119,6 +120,7 @@ A basic Cookiecutter template looks like this:
  ┃ ┣ 📂{{cookiecutter.project_slug}}
  ┃ ┃ ┗ 📂3d-printer-axes-calibration
  ┗ 📜cookiecutter.json
+```
 
 What happens here:
 
