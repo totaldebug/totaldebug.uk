@@ -110,14 +110,15 @@ a new location using the data provided during the prompts.
 
 A basic Cookiecutter template looks like this:
 
-| template
-| ├── hooks
-| |   ├── pre_get_project.py
-| |   └── post_get_project.py
-| ├── {{ cookiecutter.project_slug }}
-| |   ├── your-project-files-here
-| |   └── {{cookiecutter.project_slug}}
-| └── cookiecutter.json
+📦template
+ ┣ 📂hooks
+ ┃ ┣ 📜pre_get_project.py
+ ┃ ┗ 📜post_get_project.py
+ ┗ 📂{{ cookiecutter.project_slug }}
+ ┃ ┣ 📜your-project-files-here
+ ┃ ┣ 📂{{cookiecutter.project_slug}}
+ ┃ ┃ ┗ 📂3d-printer-axes-calibration
+ ┗ 📜cookiecutter.json
 
 What happens here:
 
@@ -126,11 +127,11 @@ What happens here:
 **hooks:** Python scripts that execute before and after the generation of the repository. Pre-hooks are generally used to validate inputs from the prompts
 and the post-hooks to remove files that are not require for this specific project.
 
-**{{ cookiecutter.project_slit }}**: is the directory for your project to be stored.
+**{% raw %}{{ cookiecutter.project_slug }}{% endraw %}**: is the directory for your project to be stored.
 Anything stored in this directory will be copied to the new project.
 
 For a python package you would have another subdirectory with the package name
-this would usually be the **{{ cookiecutter.project_slit }}/{{ cookiecutter.project_slit }}** directory.
+this would usually be the **{% raw %}{{ cookiecutter.project_slug }}/{{ cookiecutter.project_slug }}{% endraw %}** directory.
 
 This is the minumum required file structure, you can then add as required for
 your projects, or copy an existing template and amend the areas that you require.
