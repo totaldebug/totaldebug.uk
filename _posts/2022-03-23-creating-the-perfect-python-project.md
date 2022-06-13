@@ -30,7 +30,7 @@ it removes the need to `freeze` and potentially include packages that are not re
 for the specific project. Poetry only adds the libraries that you require for that
 specific project.
 
-No more need for the unmanagale `requirements.txt` file.
+No more need for the unmanageable `requirements.txt` file.
 
 Poetry will also add a `venv` to ensure only the required packages are loaded.
 with one simple command `poetry shell` you enter the `venv` with all the
@@ -46,9 +46,9 @@ poetry shell
 poetry run python your_script.py
 ```
 
-So, thats a few commands! but what do they all do?
+So, that's a few commands! but what do they all do?
 
-* `pip install poetry` - Installs the poetry package to you macine
+* `pip install poetry` - Installs the poetry package to your machine
 * `poetry init` - Adds poetry to an existing project (for a new project use `poetry new <projectName>`)
 * `poetry add <package>` - Adds a single or multiple python packages
 * `poetry shell` - Activates the poetry `venv`
@@ -117,7 +117,7 @@ Lets get that installed as a development dependency:
 poetry add isort --dev
 ```
 
-isort and black dont get along, their configurations conflict with eachother, so to get
+isort and black don't get along, their configurations conflict with each other, so to get
 around this issue we need to add some configuration to the end of `pyproject.toml`:
 
 ```bash
@@ -171,7 +171,7 @@ ignore = E203, E266, E501, W503, W605
 select = B,C,E,F,W,T4
 ```
 
-This configuration will ensure that stype errors that conflict with black will be
+This configuration will ensure that type errors that conflict with black will be
 ignored.
 
 To use flake8 you can run the below command:
@@ -266,7 +266,7 @@ Remove the `-vv` to just see a success or fail message without a list of files
 
 # Pre-Commit hooks
 
-Now we have all of these tests, but we dont want to run them manually every time we
+Now we have all of these tests, but we don't want to run them manually every time we
 make changes to code. This is where pre-commit hooks come into play.
 
 Pre-commit hooks allow you to run multiple checks against code before `git commit`
@@ -275,7 +275,7 @@ issues raised are resolved.
 
 This feature is great for a few reasons:
 
-1. You dont need to remember to run all of the above manually each time you wish to check code
+1. You don't need to remember to run all of the above manually each time you wish to check code
 1. Github Actions based on code quality should continue to succeed
 
 ## Setup pre-commit hooks
@@ -340,7 +340,7 @@ With these methods I know my commit messages are tidy, and my code is cleaner th
 its a great start with more to come.
 
 I also execute these as github actions on my projects, that way anyone else who contributes
-but doesnt install the pre-commit hooks will be held accountable to resolve any issues prior
+but doesn't install the pre-commit hooks will be held accountable to resolve any issues prior
 to merging their pull requests.
 
 Hopefully some of this information was useful for you, If you have any questions about this article and share your thoughts head over to my [Discord](https://discord.gg/6fmekudc8Q).

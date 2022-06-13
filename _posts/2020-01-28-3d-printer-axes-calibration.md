@@ -5,7 +5,7 @@ layout: post
 thumb_img_path: thumb.jpg
 content_img_path: thumb.jpg
 ---
-One of the most difficult things I found out about 3d printing was that you must calibrate it! This isnt something that I was aware of, I assumed once everything was tightened that it would just work, I was so wrong!
+One of the most difficult things I found out about 3d printing was that you must calibrate it! This isn't something that I was aware of, I assumed once everything was tightened that it would just work, I was so wrong!
 
 The good news is, its quite a simple process once you know how and in this article im going to share with you, how I calibrate my printer and get perfect prints almost every time.
 
@@ -54,13 +54,13 @@ Now we can begin to calibrate each of our motors.
 
 ## X&Z-Axis Calibration
 
-First start by homing your X axis and the Z axis. I will use the stop switch as the measuring point as this doesn&#8217;t move, however you can use any fixed point from the relevant axis.
+First start by homing your X axis and the Z axis. I will use the stop switch as the measuring point as this doesn't move, however you can use any fixed point from the relevant axis.
 
 First measure the distance from the stop switch to the edge of the moving part (X = Printhead, Z = Gantry) , if yours is touching the stop switch then the distance is 0mm.
 
 Now tell your printer to move the Axis 100mm (you can set this to smaller or larger number as the calculation will still work) The further you move the axis the more accurate your calibration should be. Now with your calipers measure from the stop switch to the same point on the printhead, write down the measurement as &#8220;ActualDistance&#8221; you will need to do this for both the X & Z Axis
 
-If you measured 100mm then you dont need to do anything else, your axis is calibrated. However, you likely wont get exactly 100mm so we will need to adjust for this.
+If you measured 100mm then you don't need to do anything else, your axis is calibrated. However, you likely wont get exactly 100mm so we will need to adjust for this.
 
 ## E Axis Calibration
 

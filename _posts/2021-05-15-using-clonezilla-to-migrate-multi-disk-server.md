@@ -10,7 +10,7 @@ layout: post
 
 ## Overview
 
-I recently decided to migrate all of my home servers to Proxmox from VMware ESXi, many factors at play but the main being that new versions of ESXi dont support my hardware.
+I recently decided to migrate all of my home servers to Proxmox from VMware ESXi, many factors at play but the main being that new versions of ESXi don't support my hardware.
 
 For a normal migration I would just use CloneZilla's remote-source to remote-dest feature, however I could only get this to work for a single source disk, which is fine for the majority of my servers, however I do have some with multiple disks which became an issue.
 
@@ -27,7 +27,7 @@ Its easy to see how this could be difficult for [CloneZilla](https://clonezilla.
 
 In order to overcome this issue, I created a [CloneZilla](https://clonezilla.org/) image this was cloned onto an NFS share. Once complete, I was able to load the image on the destination machine, as there were only two disks in the destination server the image was applied without any issue, on boot I could see that both disks had been cloned over from the image.
 
-The only thing I didnt like about this is that I had to first create the image, then deploy that image, when I only have one server to clone and not need for an image it would be nice for [CloneZilla](https://clonezilla.org/) to implement something in the remote-source / remote-dest that allows this functionality.
+The only thing I didn't like about this is that I had to first create the image, then deploy that image, when I only have one server to clone and not need for an image it would be nice for [CloneZilla](https://clonezilla.org/) to implement something in the remote-source / remote-dest that allows this functionality.
 
 ## Final Thoughts
 

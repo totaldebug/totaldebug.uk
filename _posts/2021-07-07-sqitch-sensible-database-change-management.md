@@ -80,7 +80,7 @@ the ability to create and update Postgres functions
 
 *Pros:*
 - Uses Python so can be baked into projects
-- Development Teams dont need to know/learn SQL
+- Development Teams don't need to know/learn SQL
 
 *Cons:*
 - Functionality limited to what the developers implement

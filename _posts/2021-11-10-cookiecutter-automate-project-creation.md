@@ -14,7 +14,7 @@ looking for more efficient ways to spend my time, along with assisting my collea
 and myself follow the programming, documenting and best practices we have set.
 
 When we create a new project there are many repetitive tasks that take place,
-such as createing `pyproject.toml`, directory structures, documentation folders
+such as creating `pyproject.toml`, directory structures, documentation folders
 and many other tasks, these tasks are time consuming, repetitive and prone to
 user error.
 
@@ -27,7 +27,7 @@ what is happening.
 
 Working in large teams means that with many different projects and repositories
 it is very likely that none of them will follow the same base structure that is
-expected. To help aleviate this problem and fulfill these expectations I created
+expected. To help alleviate this problem and fulfil these expectations I created
 project templates that anyone can follow to ensure all base projects are the same.
 
 # What is Cookiecutter
@@ -49,11 +49,11 @@ missing files or commit checks and probably one important step, to make
 life easier for new team members who will be expected to create projects.
 
 We also use it as a way to enforce standards, providing the developer with
-the necissary structure to ensure the rules are followed: write documentation
-performe tests, follow specific syntax standards by giving them the base structure
+the necessary structure to ensure the rules are followed: write documentation
+perform tests, follow specific syntax standards by giving them the base structure
 in a boilerplate code, it makes it easier for developers to follow standards.
 
-In certain projects you may have a lot of repetative code, such as creating Flask
+In certain projects you may have a lot of repetitive code, such as creating Flask
 websites, with a cookiecutter template, you would be able to duplicate that
 code with ease and little time spent.
 
@@ -135,7 +135,7 @@ Anything stored in this directory will be copied to the new project.
 For a python package you would have another subdirectory with the package name
 this would usually be the **{% raw %}{{ cookiecutter.project_slug }}/{{ cookiecutter.project_slug }}{% endraw %}** directory.
 
-This is the minumum required file structure, you can then add as required for
+This is the minimum required file structure, you can then add as required for
 your projects, or copy an existing template and amend the areas that you require.
 
 ## cookiecutter.json
@@ -144,7 +144,7 @@ To allow flexibility with a template you add variables to ``cookiecutter.json``
 this will create a prompt when executing the template for a value which will change
 the output to the template.
 
-For each variable within here a dafault text value, boolean or list of options
+For each variable within here a default text value, boolean or list of options
 are required. Example:
 
 ```json
@@ -163,7 +163,7 @@ are required. Example:
 }
 ```
 
-Input validity can be checked with pre_gen_project hooks, the below example valudates
+Input validity can be checked with pre_gen_project hooks, the below example validates
 the data supplied in the project_slug value:
 
 ```python

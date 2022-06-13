@@ -1,11 +1,6 @@
 {
     "links": [
-        {
-            "type": "twitter",
-            "title": "Twitter",
-            "icon": "fa-twitter",
-            "url": "https://twitter.com/marksie1988"
-        },
+
         {
             "type": "github",
             "title": "GitHub",
@@ -29,6 +24,12 @@
             "title": "Discord",
             "icon": "fa-discord",
             "url": "https://discord.gg/6fmekudc8Q"
+        },
+        {
+            "type": "twitter",
+            "title": "Twitter",
+            "icon": "fa-twitter",
+            "url": "https://twitter.com/marksie1988"
         }
     ]
 }
