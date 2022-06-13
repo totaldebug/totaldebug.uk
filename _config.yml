@@ -11,7 +11,7 @@ description: >-
   Steven Marks. Dev blog. Linux, workflow optimisation, programming,
   software development, Python, Typescript.
 
-url: "https://totaldebug.uk"
+url: 'https://totaldebug.uk'
 author: Steven Marks
 
 github:
@@ -139,6 +139,10 @@ webp:
   append_ext: false
 
 plugins:
+  - jekyll-paginate
+  - jekyll-redirect-from
+  - jekyll-seo-tag
+  - jekyll-archives
   - jekyll-remote-theme
   - jekyll-feed
   - jekyll-sitemap
