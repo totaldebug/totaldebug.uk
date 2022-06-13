@@ -1,7 +1,0 @@
----
-main:
-  - url: https://projects.totaldebug.uk
-    title: Projects
-    identifier: projects
-    weight: 4
----
