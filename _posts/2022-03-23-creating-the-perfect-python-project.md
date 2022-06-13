@@ -4,8 +4,6 @@ excerpt: >-
   Best practices to setup the perfect Python project for code quality
   and team standards
 date: 2022-03-23 00:00:00 +0100
-thumb_img: thumb.png
-content_img: thumb.png
 image:
   name: thumb.png
 categories: [Python]
