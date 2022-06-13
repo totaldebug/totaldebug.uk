@@ -13,7 +13,7 @@ Eventually if you were unable to merge the snapshots to the base disk the server
 
 In vSphere 6.0 with VVols this has totally changed!
 
-{% include picture.html img="newsnapshots.png" alt="newsnapshots" %}
+{% include post-picture.html img="newsnapshots.png" alt="newsnapshots" %}
 
 As you can see we now take a snapshot, but the base disk is still Read/Write, multiple delta files are created with the changed original data. This means that when we remove the snapshot all we need to do is tell VMware to delete the deltas, no need to write it all to the base VMDK as its already there. This technique was first implemented for the VMware Mirror Driver in vMotion, VMware have now utilised this to provide a near seamless snapshot capability in v6.0 stopping large amounts of downtime all together. There should no longer be any noticeable stun time as we are only removing the references to the snapshot.
 

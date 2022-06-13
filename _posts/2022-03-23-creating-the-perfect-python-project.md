@@ -3,7 +3,7 @@ title: "Creating the perfect Python project"
 excerpt: >-
   Best practices to setup the perfect Python project for code quality
   and team standards
-date: '2022-03-23'
+date: "2022-03-23"
 thumb_img: thumb.png
 content_img: thumb.png
 layout: post
@@ -48,12 +48,11 @@ poetry run python your_script.py
 
 So, that's a few commands! but what do they all do?
 
-* `pip install poetry` - Installs the poetry package to your machine
-* `poetry init` - Adds poetry to an existing project (for a new project use `poetry new <projectName>`)
-* `poetry add <package>` - Adds a single or multiple python packages
-* `poetry shell` - Activates the poetry `venv`
-* `poetry run python your_script.py` - Runs the script `your_script.py` within the poetry `venv`
-
+- `pip install poetry` - Installs the poetry package to your machine
+- `poetry init` - Adds poetry to an existing project (for a new project use `poetry new <projectName>`)
+- `poetry add <package>` - Adds a single or multiple python packages
+- `poetry shell` - Activates the poetry `venv`
+- `poetry run python your_script.py` - Runs the script `your_script.py` within the poetry `venv`
 
 # Black: Code Formatting
 
@@ -67,7 +66,7 @@ poetry add black --dev
 ```
 
 We also need to add some additional configuration for Black to the end of
- `pyproject.toml`
+`pyproject.toml`
 
 ```bash
 [tool.black]
@@ -104,7 +103,7 @@ black . --check
 This will check the formatting of the files in the current directory and its subfolders,
 if you remove the `--check` option, it will automatically reformat your python code.
 
-{% include picture.html img="blackoutput.png" alt="Example Black Output" %}
+{% include post-picture.html img="blackoutput.png" alt="Example Black Output" %}
 
 # isort: Import Sorting
 
@@ -183,7 +182,7 @@ flake8 . --fix
 This will run flake8 and fix any issues on all files in the current directory and
 subdirectories, if you just want to see the issues remove the `--fix` option.
 
-{% include picture.html img="flake8output.png" alt="Example Flake8 Output" %}
+{% include post-picture.html img="flake8output.png" alt="Example Flake8 Output" %}
 
 # MyPy: Static Types Checker
 
@@ -262,7 +261,7 @@ interrogate -vv
 
 Remove the `-vv` to just see a success or fail message without a list of files
 
-{% include picture.html img="interrogateoutput.png" alt="Example Interrogate Output" %}
+{% include post-picture.html img="interrogateoutput.png" alt="Example Interrogate Output" %}
 
 # Pre-Commit hooks
 
@@ -328,7 +327,7 @@ You can also see I have `conventional-pre-commit` applied with the `-t commit-ms
 this enforces the use of [conventional commit](https://www.conventionalcommits.org) messages for all commits, ensuring that
 our commit messages all follow the same standard.
 
-{% include picture.html img="pre-commitoutput.png" alt="Example pre-commit Output" %}
+{% include post-picture.html img="pre-commitoutput.png" alt="Example pre-commit Output" %}
 
 # Final Thoughts
 

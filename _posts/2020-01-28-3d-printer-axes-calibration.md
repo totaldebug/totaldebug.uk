@@ -24,7 +24,7 @@ I use an Ender 3 with a lot of upgrades, but the process is the same for almost 
 
 ## Axes Diagram:<figure class="wp-block-image size-large">
 
-{% include picture.html img="2020-01-28-3d-printer-axes-diagram.png" alt="3d printer axes Source: StackExchange.com" %}
+{% include post-picture.html img="2020-01-28-3d-printer-axes-diagram.png" alt="3d printer axes Source: StackExchange.com" %}
 
 ## Setup Software:
 
