@@ -9,4 +9,5 @@ group :jekyll_plugins do
     gem "jekyll-feed"
     gem "jekyll-webp"
     gem "jemoji"
+    gem "jekyll-paginate"
 end
