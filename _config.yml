@@ -96,10 +96,6 @@ defaults:
       permalink: "/:title/"
       dynamic_title: true    # Hide title in mobile screens.
 
-
-sass:
-  style: compressed
-
 compress_html:
   clippings: all
   comments: all
