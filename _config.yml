@@ -45,7 +45,7 @@ google_analytics:
 
 theme_mode: dark
 img_cdn: ''
-avatar: /assets/images/logo.png
+avatar: /assets/img/logo.png
 toc: true
 
 disqus:
@@ -112,7 +112,7 @@ compress_html:
 webp:
   enabled: true
   quality: 75
-  img_dir: ["/assets/images/"]
+  img_dir: ["/assets/img/"]
   nested: true
   formats: [".jpeg", ".jpg", ".png", ".tiff"]
   gifs: [".gif"]
@@ -122,6 +122,7 @@ webp:
   append_ext: false
 
 plugins:
+  - jekyll-remote-theme
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-webp
