@@ -6,7 +6,7 @@ excerpt: >-
 date: 2022-03-23 00:00:00 +0100
 image:
   name: thumb.png
-categories: [Python]
+categories: [Python, Code Quality]
 tags: [python, project, best practices, code quality, team, standards]
 ---
 

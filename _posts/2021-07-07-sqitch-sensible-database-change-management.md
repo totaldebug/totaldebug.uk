@@ -3,10 +3,11 @@ title: Sqitch, Sensible database change management
 excerpt: >-
   Sqitch is a fairly new open source database change management tool, allowing for easy
   version control without having to manage hundreds of files.
-date: '2021-07-07'
-thumb_img: thumb.png
-content_img: thumb.png
-layout: post
+date: 2021-07-07 00:00:00 +0100
+image:
+  name: thumb.png
+categories: [Database, Automation]
+tags: [sqitch, db, change, management, database, automation]
 ---
 
 ## Overview
@@ -42,11 +43,13 @@ Over about a month I tested the following products:
 Flyway was very close to being the chosen product, it had most of our requirements with a
 few limitations, but it was the best I had found.
 
-*Pros:*
+_Pros:_
+
 - Uses native SQL
 - Easy file naming
 
-*Cons:*
+_Cons:_
+
 - A new file is required for every change, this would lead to hundreds of version files
 - Inability to rollback to a specific version in time
 - Heavily limited functionality on the community edition
@@ -62,13 +65,15 @@ supported by this format.
 All in I found that it was more complex to get started than Flyway and the documentation
 wasn't the best.
 
-*Pros:*
+_Pros:_
+
 - More features in the free version than Flyway
 - Diff feature to compare two databases
 - Rollback is free
 - Utilises one file for migrations
 
-*Cons:*
+_Cons:_
+
 - XML is the primary language used
 - Targeted rollback is an addon
 
@@ -78,11 +83,13 @@ As this is an ORM it was removed from the running fairly quickly, there is no na
 support, which means a high chance of missing SQL functionality, one such feature was
 the ability to create and update Postgres functions
 
-*Pros:*
+_Pros:_
+
 - Uses Python so can be baked into projects
 - Development Teams don't need to know/learn SQL
 
-*Cons:*
+_Cons:_
+
 - Functionality limited to what the developers implement
 - Risk of compatibility issues in the future
 - No support for native SQL files
@@ -100,7 +107,8 @@ One downside to this plan is that not all these features are implemented yet. Al
 the developers working on the project are making massive strides and I feel it wont
 be long until they have achieved the original goal they set out for.
 
-*Pros:*
+_Pros:_
+
 - Uses native SQL
 - Utilises a git like version control system
 - You always edit the original file
@@ -108,7 +116,8 @@ be long until they have achieved the original goal they set out for.
 - Very responsive community
 - Ability to support almost any database
 
-*Cons:*
+_Cons:_
+
 - Some expected features are not implemented yet
 - No commercial support, only community based
 
@@ -175,7 +184,6 @@ change that is required.
 
 If this is the first time deploying Sqitch to a database, it will automatically create
 all the required tables to track future deployments and changes.
-
 
 ## Conclusion
 

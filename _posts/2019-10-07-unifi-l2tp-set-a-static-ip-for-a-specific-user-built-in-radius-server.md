@@ -1,8 +1,9 @@
 ---
-title: 'UniFi L2TP: set a static IP for a specific user (built-in Radius Server)'
-date: '2019-10-07'
+title: "UniFi L2TP: set a static IP for a specific user (built-in Radius Server)"
+date: "2019-10-07"
 layout: post
 ---
+
 When using my L2TP VPN with the Unifi I realised that it was assigning a different IP Address to my client when it connected sometimes.
 
 This wouldn&#8217;t normally be a problem if the remote client was only taking to my internal network, however I run a server that my internal network communicates out to via IP Address, so if this changes it all stops working.

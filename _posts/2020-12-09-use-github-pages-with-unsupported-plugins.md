@@ -3,10 +3,11 @@ title: Use GitHub pages with unsupported plugins
 excerpt: >-
   Github Pages only support certain Jekyll plugins,
   find out how to mitigate this issue
-date: '2020-12-09'
-thumb_img: thumb.png
-content_img: thumb.png
-layout: post
+date: 2020-12-09 00:00:00 +0100
+image:
+  name: thumb.png
+categories: [Website]
+tags: [github, pages, jekyll, plugins, actions]
 ---
 
 I have recently migrated my website over to Github Pages, however in doing so I have found that there are some limitations, the main one being that not all Jekyll plugins are supported.

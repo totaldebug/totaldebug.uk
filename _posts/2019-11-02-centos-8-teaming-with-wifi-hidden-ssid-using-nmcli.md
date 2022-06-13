@@ -1,8 +1,12 @@
 ---
 title: CentOS 8 Teaming with WiFi Hidden SSID using nmcli
-date: '2019-11-02'
-layout: post
+date: 2019-11-02 00:00:00 +0100
+image:
+  name: thumb.png
+categories: [Linux, CentOS, Networking, Wireless]
+tags: [linux, centos, networking, wireless, nmcli]
 ---
+
 I have had a lot of issues when setting up teaming with WiFi, mainly because of lack of documentation around this, im guessing that teaming ethernet and WiFi is not a common occurrence especially with a hidden SSID.
 
 As part of my home systems I am utilising an old laptop as my home assistant server, this allows for battery backup and network teaming, if my switch dies, my WiFi will still work etc.
@@ -20,6 +24,7 @@ lo       loopback  unmanaged  --
 ```
 
 Now that we see all our devices (they may not all be listed as connected yet) we can create our team:
+
 ```
 ]# nmcli c a type team con-name team0
 Connection 'team-TeamA' (4387966d-715b-4636-b307-03d2b92476bf) successfully added.
@@ -62,10 +67,10 @@ These commands automatically create corresponding files for the team under:
 ```
 
 ---
+
 **NOTE**
 
-If you edit these files manually, you will need to run nmcli con reload so that network manager reads the config changes.
----
+## If you edit these files manually, you will need to run nmcli con reload so that network manager reads the config changes.
 
 The team is now setup&#8230; however it is recommended to use a static IP Address, we can manually specify this by running the below commands:
 
@@ -121,10 +126,10 @@ nmcli c a type 802-11-wireless ifname wlp3s0 master team0 utoconnect yes ssid &l
 ```
 
 ---
+
 **NOTE**
 
-wlp3s0 may be different in your command, it will depend what your wireless slave connection is called
----
+## wlp3s0 may be different in your command, it will depend what your wireless slave connection is called
 
 Now that we have our wifi interface connected and configured we can bring it online with the below command
 
@@ -136,13 +141,17 @@ Connection successfully activated (D-Bus active path: /org/freedesktop/NetworkMa
 After you have brought the connections up your team should automatically come online, to test you can run the following:
 
 This command will list the team and connections, all should be up and the team should show an IP Address
+
 ```
 ]# ip a
 ```
+
 This command will show all your connections, the ones for the team should all be green
+
 ```
 ]# nmcli c
 ```
+
 I would also recommend doing some testing with the team to make sure it functions as expected, I normally run a continuous ping and then disconnect one of the interfaces, if all is well you should only see increased latency for one ping or a single dropped ping.
 
 ## Modifying the team
@@ -174,10 +183,10 @@ This shows the **runner** which is how the traffic is managed across the interfa
 
 The possible runners are:
 
-  * **roundrobin:** This is the default option, it will send packets to all interfaces one at a time per interface, in a round robin manner
-  * **broadcast:** All traffic will be sent over all ports
-  * **activebackup:** One interface will be used as the Active interface and the rest as a backup, the team will monitor for failures and automatically failover the link should one go offline
-  * **loadbalance:** Traffic will be balanced across all interfaces based on Tx traffic, the load should be equal across all interfaces
+- **roundrobin:** This is the default option, it will send packets to all interfaces one at a time per interface, in a round robin manner
+- **broadcast:** All traffic will be sent over all ports
+- **activebackup:** One interface will be used as the Active interface and the rest as a backup, the team will monitor for failures and automatically failover the link should one go offline
+- **loadbalance:** Traffic will be balanced across all interfaces based on Tx traffic, the load should be equal across all interfaces
 
 You can change the runner that you are using when you create the team:
 
@@ -210,6 +219,7 @@ runner:
 ```
 
 ---
+
 **NOTE**
 
 more information on runners can be found <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configure_teamd_runners">here </a>

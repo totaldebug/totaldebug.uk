@@ -3,10 +3,11 @@ title: "Cookiecutter: Automate project creation!"
 excerpt: >-
   A command-line utility that creates projects from cookiecutters (project templates),
   e.g. creating a Python package project from a Python package project template.
-date: '2021-11-10'
-thumb_img: thumb.png
-content_img: thumb.png
-layout: post
+date: 2021-11-10 00:00:00 +0100
+image:
+  name: thumb.png
+categories: [Automation]
+tags: [templating, best practices, code quality]
 ---
 
 As I move closer to the world of development within my career I have been
@@ -70,6 +71,7 @@ You can access templates from various locations:
 - Zip file
 
 ---
+
 **NOTE**
 
 If working with Git repositories, you can even start a template from any branch!
@@ -87,6 +89,7 @@ Once installed run the following command:
 ```bash
 cookiecutter gh:totaldebug/python-package-template
 ```
+
 This repository follows the standards that I use for my Python Package repositories.
 When you execute it, you will be prompted for values, for example:
 
@@ -140,12 +143,14 @@ your projects, or copy an existing template and amend the areas that you require
 
 ## cookiecutter.json
 
-To allow flexibility with a template you add variables to ``cookiecutter.json``
+To allow flexibility with a template you add variables to `cookiecutter.json`
 this will create a prompt when executing the template for a value which will change
 the output to the template.
 
 For each variable within here a default text value, boolean or list of options
 are required. Example:
+
+{% raw %}
 
 ```json
 {
@@ -154,14 +159,12 @@ are required. Example:
   "github_username": "totaldebug",
   "project_name": "Python Boilerplate",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
-    "minimal_python_version": [
-    3.7,
-    3.8,
-    3.9
-  ],
+  "minimal_python_version": [3.7, 3.8, 3.9],
   "use_black": "y"
 }
 ```
+
+{% endraw %}
 
 Input validity can be checked with pre_gen_project hooks, the below example validates
 the data supplied in the project_slug value:
@@ -191,7 +194,6 @@ If you would like to check out cookiecutter you could start by checking my
 
 I have added things like Github actions and pre-commits to check work along
 with other python best practices that I hope to cover in my next article.
-
 
 Hopefully some of this information was useful for you, If you have any questions
 about this article and share your thoughts head over to my [Discord](https://discord.gg/6fmekudc8Q).

@@ -1,10 +1,12 @@
 ---
 title: 3d Printer Axes Calibration
-date: '2020-01-28'
-layout: post
-thumb_img_path: thumb.jpg
-content_img_path: thumb.jpg
+date: 2020-01-28 00:00:00 +0100
+image:
+  name: thumb.png
+categories: [3D Printer, Axes Calibration]
+tags: [3d, calibration, ender3, octoprint, pronterface]
 ---
+
 One of the most difficult things I found out about 3d printing was that you must calibrate it! This isn't something that I was aware of, I assumed once everything was tightened that it would just work, I was so wrong!
 
 The good news is, its quite a simple process once you know how and in this article im going to share with you, how I calibrate my printer and get perfect prints almost every time.
@@ -13,14 +15,14 @@ I use an Ender 3 with a lot of upgrades, but the process is the same for almost 
 
 ## What you will need:
 
-  * 3d Printer
-  * Correctly tensioned belts (they should make a nice twang sound)
-  * [Pronterface](https://www.pronterface.com/) or [Octoprint](https://octoprint.org/)
-  * Digital Calipers
-  * Ruler (calipers sometimes get in the way but you may be ok)
-  * Tape or marker
-  * Filament
-  * Something to take notes on
+- 3d Printer
+- Correctly tensioned belts (they should make a nice twang sound)
+- [Pronterface](https://www.pronterface.com/) or [Octoprint](https://octoprint.org/)
+- Digital Calipers
+- Ruler (calipers sometimes get in the way but you may be ok)
+- Tape or marker
+- Filament
+- Something to take notes on
 
 ## Axes Diagram:<figure class="wp-block-image size-large">
 
@@ -82,10 +84,10 @@ NewValue = 100mm / ActualDistance * CurrentValue
 
 So if you have the below for your X Axis:
 
-  >CurrentValue = 80.00 (M92 for the Axis)
-  ActualDistance = 93 (how far the Axis actually moved)
-  DesiredDistance = 100 (the amount we told it to move)
-  86.02 = 100 / 93 * 80
+> CurrentValue = 80.00 (M92 for the Axis)
+> ActualDistance = 93 (how far the Axis actually moved)
+> DesiredDistance = 100 (the amount we told it to move)
+> 86.02 = 100 / 93 \* 80
 
 Based on the above, the new value for X would be 86.02
 

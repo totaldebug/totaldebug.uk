@@ -1,20 +1,23 @@
 ---
 title: Docker Overlay2 with CentOS for production
-date: '2020-05-05'
-layout: post
-thumb_img: thumb.png
-content_img: thumb.png
+date: 2020-05-05 00:00:00 +0100
+image:
+  name: thumb.png
+categories: [Docker, Overlay2]
+tags: [docker, overlay2, centos, production]
 ---
+
 The following short article runs through how to setup docker to use overlay2 with Centos for use in production
 
 ## Pre-Requisites
 
-  * Add an extra drive to CentOS (this could also be freespace on the existing disk)
-  * Have docker installed (services stopped)
+- Add an extra drive to CentOS (this could also be freespace on the existing disk)
+- Have docker installed (services stopped)
 
 ## Setup
 
 First we need to find our new disk:
+
 ```
 fdisk -l
 ```
@@ -40,6 +43,7 @@ mkfs.xfs /dev/docker_vg/docker_xfs -f -n ftype=1
 mkdir /var/lib/docker
 mount /dev/docker_vg/docker_xfs /var/lib/docker
 ```
+
 Add this to fstab in order to ensure it mounts on reboot vi /etc/fstab
 
 ```

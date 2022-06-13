@@ -1,8 +1,12 @@
 ---
-title: 'I won a Ender 3 3D Printer and i&#8217;m addicted'
-date: '2020-01-13'
-layout: post
+title: "I won a Ender 3 3D Printer and i'm addicted"
+date: 2020-01-13 00:00:00 +0100
+image:
+  name: thumb.png
+categories: [3D Printer, Ender3]
+tags: [3d, ender3, competition]
 ---
+
 About 6 months ago I entered a competition with [DrZzs](https://www.youtube.com/drzzs) (highly recommend his channel for home automation) and [BangGood](https://www.banggood.com/) to win a Creality Ender 3 3D Printer.
 
 To my surprise a few weeks later I received an email from Banggood stating that I had won and to email over my address, at first i thought that it was just a spam email.
@@ -69,9 +73,10 @@ I found that the shipped bowden tube had also melted at the end and had filament
 
 [**MK8 Dual Gear Extruder Arm**](https://www.aliexpress.com/item/33041468821.html?spm=a2g0s.9042311.0.0.136b4c4dNnV0Jh) &#8211;
 My extruder arm broke within a few months of use, I didn't notice until I was having bad under extrusion and also seeing slippage on the extruder gear. I took the arm apart to clean the gear and found a tiny crack near the screw for the idler wheel, this was enough to stop the arm working at all due to the flex it added. This can be combated by printing a new extruder arm but I decided to upgrade to a dual gear option which results in:
-* Even less potential slippage
-* Stronger spring for the extruder arm
-* Metal body stops wear from filament rub
+
+- Even less potential slippage
+- Stronger spring for the extruder arm
+- Metal body stops wear from filament rub
 
 **[PEI Magnetic Bed](https://www.creality3dofficial.com/collections/cmagnet-tempered-glass/products/pei-magnetic-flexible)** &#8211;
 This is an excellent upgrade from the stock bed, makes prints super smooth on the bed and sticks really well. I haven't had a single failed print due to adhesion on this surface, also you can easily take stuff off once cooled without much effort or by flexing the magnetic plate for larger prints.

@@ -3,10 +3,11 @@ title: Use Git like a pro!
 excerpt: >-
   Git allows so much flexibility, Over the past few months
   I have improved my workflows and documented this here
-date: '2021-01-04'
-thumb_img: thumb.png
-content_img: thumb.png
-layout: post
+date: 2021-01-04 00:00:00 +0100
+image:
+  name: thumb.png
+categories: [Git]
+tags: [best practices, code quality, versioning, git]
 ---
 
 Over the past few months I have been using Git & GitHub more frequently, both in my professional and personal work,
@@ -71,10 +72,10 @@ The specification is real simple so doesn't take much to get your head around:
 
 The commit contains the following structural elements:
 
-- fix: a commit of the *type* `fix` resolves a bug in the codebase (`PATCH` in SemVer)
-- feat: a commit of the *type* `feat` adds a new feature to the codebase (`MINOR` on SemVer)
-- Breaking Changes: a commit that appends `!` after the *type/scope*, where a breaking change is introduced (`MAJOR` in SemVer). A breaking change can be part of commits of any type.
-- Other *types* are allowed for example: `build:`, `ci:`, `docs:`, `style:`, `test:` and others.
+- fix: a commit of the _type_ `fix` resolves a bug in the codebase (`PATCH` in SemVer)
+- feat: a commit of the _type_ `feat` adds a new feature to the codebase (`MINOR` on SemVer)
+- Breaking Changes: a commit that appends `!` after the _type/scope_, where a breaking change is introduced (`MAJOR` in SemVer). A breaking change can be part of commits of any type.
+- Other _types_ are allowed for example: `build:`, `ci:`, `docs:`, `style:`, `test:` and others.
 - Body & Footers may be provided to include Breaking Change as well as other information.
 
 Some examples:
