@@ -3,10 +3,11 @@ title: "Creating the perfect Python project"
 excerpt: >-
   Best practices to setup the perfect Python project for code quality
   and team standards
-date: "2022-03-23"
+date: 2022-03-23 00:00:00 +0100
 thumb_img: thumb.png
 content_img: thumb.png
-layout: post
+categories: [Python]
+tags: [python, project, best practices, code quality, team, standards]
 ---
 
 Working on a new project its always exciting to jump straight in and get coding
