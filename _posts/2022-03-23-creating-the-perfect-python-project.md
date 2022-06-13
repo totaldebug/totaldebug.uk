@@ -7,8 +7,7 @@ date: 2022-03-23 00:00:00 +0100
 thumb_img: thumb.png
 content_img: thumb.png
 image:
-  path: /assets/images/posts/creating-the-perfect-python-project/thumb.png
-  no_bg: true
+  name: thumb.png
 categories: [Python]
 tags: [python, project, best practices, code quality, team, standards]
 ---
