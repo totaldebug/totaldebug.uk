@@ -5,7 +5,7 @@
   icon: 'fab fa-github'
 -
   type: linkedin
-  icon: 'fab fa-linkedin'   # icons powered by <https://fontawesome.com/>
+  icon: 'bi bi-linkedin'
   url:  'https://www.linkedin.com/in/marksie1988'  # Fill with your Linkedin homepage
 
 # -
@@ -17,19 +17,19 @@
 #  noblank: true            # open link in current tab
 -
   type: rss
-  icon: 'fas fa-rss'
+  icon: 'bi bi-rss'
   noblank: true
 
 -
   type: discord
-  icon: 'ras fa-discord'
+  icon: 'bi bi-discord'
   noblank: true
   url: https://discord.gg/6fmekudc8Q
 
 # Uncomment and complete the url below to enable more contact options
 # -
 #   type: mastodon
-#   icon: 'fab fa-mastodon'   # icons powered by <https://fontawesome.com/>
+#   icon: 'fab fa-mastodon'
 #   url:  ''                  # Fill with your mastodon account page
 # -
 #   type: stack-overflow
