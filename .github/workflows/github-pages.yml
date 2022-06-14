@@ -19,11 +19,14 @@ jobs:
         # with:
         # fetch-depth: '0'
       - name: 💎 setup ruby
+        id: ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.6 # can change this to 2.7 or whatever version you prefer
 
       - name: 🔨 install dependencies & build site
+        if: steps.ruby.outcome == 'success'
+        id: deps
         uses: limjh16/jekyll-action-ts@v2
         with:
           enable_cache: true
@@ -63,6 +66,7 @@ jobs:
           ### Flags accepted can be found here https://jekyllrb.com/docs/configuration/options/#build-command-options
 
       - name: 🚀 deploy
+        if: steps.deps.outcome == 'success'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
