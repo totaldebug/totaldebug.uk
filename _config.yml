@@ -158,6 +158,18 @@ compress_html:
   ignore:
     envs: [development]
 
+webp:
+  enabled: true
+  quality: 75
+  img_dir: ["/assets/img/"]
+  nested: true
+  formats: [".jpeg", ".jpg", ".png", ".tiff"]
+  gifs: [".gif"]
+  regenerate: false
+  webp_path: nil
+  exclude: []
+  append_ext: false
+
 exclude:
   - '*.gem'
   - '*.gemspec'
