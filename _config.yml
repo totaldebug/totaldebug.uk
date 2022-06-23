@@ -226,3 +226,4 @@ plugins:
   - jekyll-sitemap
   - jemoji
   - jekyll-github-metadata
+  - jekyll-gist

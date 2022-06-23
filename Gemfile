@@ -13,6 +13,7 @@ group :jekyll_plugins do
     gem "jekyll-archives"
     gem "jekyll-sitemap"
     gem "jekyll-github-metadata"
+    gem "jekyll-gist"
 end
 
 group :test do
