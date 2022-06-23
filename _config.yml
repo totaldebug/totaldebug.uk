@@ -28,6 +28,8 @@ description: >-                        # used by seo meta and the atom feed
 url: https://totaldebug.uk
 author: Steven Marks               # change to your full name
 
+repository: totaldebug/totaldebug.uk
+
 github:
   username: marksie1988           # change to your github username
 
