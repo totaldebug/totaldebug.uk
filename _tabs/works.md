@@ -2,7 +2,7 @@
 title: Works
 icon: bi bi-kanban
 order: 5
-remote_projects:
+remote_works:
   - atomic-calendar-revive
   - pyarr
   - inkdrop-import-dendron

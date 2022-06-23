@@ -1,8 +1,6 @@
 ---
 title: Continuous Integration and Deployment
 date: 2019-10-11 00:00:00 +0100
-image:
-  name: thumb.png
 categories: [Development, Continuous Integration]
 tags: [CI, CD, continuous, integration, deployment]
 ---
