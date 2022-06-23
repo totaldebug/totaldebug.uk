@@ -28,8 +28,11 @@ jobs:
         if: steps.ruby.outcome == 'success'
         id: deps
         uses: limjh16/jekyll-action-ts@v2
+        env:
+          JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           enable_cache: true
+
           ### Enables caching. Similar to https://github.com/actions/cache.
           #
           #format_output: true
