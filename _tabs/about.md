@@ -18,3 +18,13 @@ As a hobby, Steven Marks likes to spend time on home automation & 3D printing pr
 with his beautiful wife and children
 
 _Thank You for reading!_
+
+<div class="row">
+{% include about/skills.html title="Key Skills" source=site.data.skills.key %}
+{% include about/skills.html title="Programming Skills" source=site.data.skills.programming %}
+
+</div>
+
+<div class="row">
+{% include about/timeline.html %}
+</div>

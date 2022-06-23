@@ -1,0 +1,15 @@
+- name: Workfow Optimisation
+  percentage: 90
+  color: danger
+
+- name: System & Product Architecture
+  percentage: 80
+  color: success
+
+- name: Project Management
+  percentage: 50
+  color: info
+
+- name: People Leader
+  percentage: 40
+  color:
