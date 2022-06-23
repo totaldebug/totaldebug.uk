@@ -1,4 +1,5 @@
 ---
+layout: default
 title: Works
 icon: bi bi-kanban
 order: 5

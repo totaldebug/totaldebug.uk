@@ -101,6 +101,19 @@ comments:
     input_position:   # optional, default to 'bottom'
     lang:             # optional, default to the value of `site.lang`
 
+
+# Self-hosted static assets, optional › https://github.com/cotes2020/chirpy-static-assets
+assets:
+  self_host:
+    enabled:      # boolean, keep empty means false
+    # specify the Jekyll environment, empty means both
+    # only works if `assets.self_host.enabled` is 'true'
+    env:          # [development|production]
+
+pwa:
+  enabled: true   # the option for PWA feature
+
+# Pagination Settings
 paginate: 10
 
 # ------------ The following options are not recommended to be modified ------------------
@@ -120,6 +133,9 @@ collections:
   tabs:
     output: true
     sort_by: order
+  works:
+    output: true
+    permalink: /works/:title/
 
 
 defaults:
@@ -134,6 +150,15 @@ defaults:
       # DO NOT modify the following parameter unless you are confident enough
       # to update the code of all other post links in this project.
       permalink: /posts/:title/
+  -
+    scope:
+      path: _works
+      type: works
+    values:
+      layout: work
+      comments: false
+      toc: false
+      permalink: /works/:title/
   -
     scope:
       path: _drafts
