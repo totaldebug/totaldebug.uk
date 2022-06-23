@@ -17,3 +17,5 @@ remote_works:
   - ansible-role-webhook
   - ansible-role-users
 ---
+
+{% include works/index.html %}
