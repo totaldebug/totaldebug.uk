@@ -1,15 +1,16 @@
 ---
 title: Ubiquiti UniFi USG Content Filter Configuration
-date: '2019-09-17'
-layout: post
+date: 2019-09-17 15:00:00 +0100
+categories: [Networking, Unifi]
+tags: [usg, filter, website, configuration]
 ---
-Recently I had a requirement to setup a content filter on the USG for a client. I couldn&#8217;t find much information online so have decided to write this article to show others how to do this
+Recently I had a requirement to setup a content filter on the USG for a client. I couldn't find much information online so have decided to write this article to show others how to do this
 
 First we need to logon to the USG via SSH, On windows I recommend [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
 
 Once we have logged in, run the below command:
 
-```
+```shell
 update webproxy blacklists
 ```
 
@@ -17,7 +18,7 @@ update webproxy blacklists
 
 When this is completed run the following:
 
-```
+```shell
 configure
 set service webproxy url-filtering squidguard block-category &lt;insert caregory&gt;
 ```
@@ -26,13 +27,13 @@ set service webproxy url-filtering squidguard block-category &lt;insert caregory
 
 We now need to set the web proxy listener address for the network we wish to filter:
 
-```
+```shell
 set service webproxy listen-address &lt;-usg-lan-ip-&gt;
 ```
 
 You are also able to set a redirect URL:
 
-```
+```shell
 set service webproxy url-filtering squidguard redirect-url &lt;url&gt;
 ```
 
@@ -40,13 +41,13 @@ set service webproxy url-filtering squidguard redirect-url &lt;url&gt;
 
 Now we need to commit these changes to the USG:
 
-```
+```shell
 commit
 ```
 
 The below example shows how we set this up on the network 10.10.10.1/24
 
-```
+```shell
 configure
 set service webproxy url-filtering squidguard block-category adult
 set service webproxy listen-address 10.10.10.1
@@ -56,13 +57,13 @@ commit
 
 To make this a permanent change you can create a configuration file on the controller, run the command:
 
-```
+```shell
 mca-ctrl -t dump-cfg
 ```
 
-Find the &#8220;service&#8221; section and delete all content other than the web proxy, it should looks similar to below:
+Find the `service` section and delete all content other than the web proxy, it should looks similar to below:
 
-```
+```json
 "service": {
         "webproxy": {
                 "cache-size": "0",

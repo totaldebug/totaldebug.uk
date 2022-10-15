@@ -1,7 +1,8 @@
 ---
 title: "What is Docker? - Overview"
 date: "2018-05-20"
-layout: post
+categories: [Containers, Docker]
+tags: [docker, container, overview]
 youtubeId: p4yXe2Lg_0s
 ---
 
