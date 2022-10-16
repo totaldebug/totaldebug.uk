@@ -91,6 +91,6 @@ If everything has worked as expected you should see the following demo dashboard
 
 {% include post-picture.html img="demo_dash.png" alt="Homer default demo dashboard" %}
 
-For more information on how to configure this dashboard check out [this article](https://totaldebug.uk/configuring-homer-dashboard) where I cover the configuration of the dashboards in more detail.
+For more information on how to configure this dashboard check out [this article](https://totaldebug.uk/posts/configuring-homer-dashboard) where I cover the configuration of the dashboards in more detail.
 
-Hopefully this information was useful for you, If you have any questions about this article or would like to share your thoughts comment in the discussion below or head over to my [Discord](https://discord.gg/6fmekudc8Q).
+Hopefully this information was useful for you, If you have any questions about this article, share your thoughts and comment in the discussion below or head over to my [Discord](https://discord.gg/6fmekudc8Q).
