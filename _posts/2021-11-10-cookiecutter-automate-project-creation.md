@@ -70,13 +70,8 @@ You can access templates from various locations:
 - Local folder
 - Zip file
 
----
-
-**NOTE**
-
-If working with Git repositories, you can even start a template from any branch!
-
----
+> If working with Git repositories, you can even start a template from any branch!
+{: .prompt-tip }
 
 To try out cookie cutter, first it needs to be installed:
 

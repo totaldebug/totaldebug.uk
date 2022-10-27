@@ -1,9 +1,10 @@
 ---
 title: Mikrotik OpenVPN Server with Linux Client
 date: 2015-07-29
-layout: post
+categories: [Networking]
+tags: [openvpn, mikrotik, linux]
 ---
-I spent quite some time trying to get the OpenVPN Server working on the Mikrotik Router with a Linux client, It caused some pain and I didnt want others to go through that. I have therefore written this guide, taking you from certificate creation all the way to VPN connectivity.
+I spent quite some time trying to get the OpenVPN Server working on the Mikrotik Router with a Linux client, It caused some pain and I didn't want others to go through that. I have therefore written this guide, taking you from certificate creation all the way to VPN connectivity.
 
 For this tutorial I will have SSH to my Mikrotik (you can use a winbox terminal), I have chosen not to use WinBox for the configuration as its easier to deploy this way.
 <!--more-->
@@ -42,17 +43,15 @@ Once the certificate is created you will get 2 new files, using an FTP Client su
 
 Edit the certificate-request.pem file in your favourite [Notepad Product](https://notepad-plus-plus.org/) copy all of the contents from this file including the begin and end tags.
 
-Now we need to login to [CAcert.org](www.cacert.org) (if you don&#8217;t have an account create one)
-[<img loading="lazy" src="http://35.176.61.220/wp-content/uploads/2015/07/CACert.png" alt="CACert" width="1845" height="528" class="aligncenter size-full wp-image-720" />](http://35.176.61.220/wp-content/uploads/2015/07/CACert.png)
+Now we need to login to [CAcert.org](www.cacert.org) (if you don't have an account create one)
 
-Once logged in select &#8220;Domains&#8221; &#8220;Add&#8221; in here type the domain name you used for your &#8220;Common-Name&#8221; e.g. 35.176.61.220 (you dont need the subdomain if one was used) You will then be asked to verify the domain via an email to one of a list of possible email accounts, verify the domain before continuing.
+Once logged in select **Domains** **Add** in here type the domain name you used for your **Common-Name** e.g. 35.176.61.220 (you dont need the subdomain if one was used) You will then be asked to verify the domain via an email to one of a list of possible email accounts, verify the domain before continuing.
 
-When the domain is verified go to &#8220;Server Certificate&#8221; &#8220;New&#8221;
+When the domain is verified go to **Server Certificate** **New**
 
 Paste the contents of certificate-request.pem into the box and submit the request.
 
 This should be accepted straight away and you will receive your certificate in text form on the next page.
-[<img loading="lazy" src="http://35.176.61.220/wp-content/uploads/2015/07/cacert2.jpg" alt="cacert2" width="900" height="484" class="aligncenter size-full wp-image-721" />](http://35.176.61.220/wp-content/uploads/2015/07/cacert2.jpg)
 
 Copy and Paste your Certificate Response from Cacert in a notepad and save that with .pem file ( In Here : certificate-response.pem )
 
@@ -66,13 +65,13 @@ To import the private key use linux openssl and make a private-key file.
 yum install openssl
 ```
 
-Upload the certificate-requset_key.pem file to the Linux server and run the following command:
+Upload the `certificate-requset_key.pem` file to the Linux server and run the following command:
 
 ```sh
 openssl rsa -in certificate-requset_key.pem -text
 ```
 
-copy and paste export String (Include Begin and End tags) to a New File eg certificate-requset_key.key
+copy and paste export String (Include Begin and End tags) to a New File eg `certificate-requset_key.key`
 
 ### Import Certificate
 
@@ -101,11 +100,11 @@ import file-name=ca.crt
 
 **Always import the certificate first, then the key.** You should be able to do a /certificate print and see the entries for the files you imported. In the print output, look at the flags column and verify that the line with your certificate has a T and a K. If the K is missing, import the key one more time. If that still doesn’t work, ensure that your certificate and key match.
 
-The default naming conventions used for certificates is a little confusing. You can rename a certificate by running set name=firewall.35.176.61.220 number=0 (run a /certificate print to get the right number).
+The default naming conventions used for certificates is a little confusing. You can rename a certificate by running `set name=firewall.35.176.61.220 number=0` (run a /certificate print to get the right number).
 
 ### OpenVPN Server Configuration
 
-(Credit to <a href="https://major.io/2015/05/01/howto-mikrotik-openvpn-server/" target="_Blank">major.io</a> for parts of this section.
+(Credit to [major.io](https://major.io/2015/05/01/howto-mikrotik-openvpn-server/) for parts of this section.
 
 Now we are ready to begin the configuration of our OpenVPN Server
 
@@ -114,9 +113,9 @@ Now we are ready to begin the configuration of our OpenVPN Server
 set certificate=firewall.35.176.61.220 cipher=aes256 default-profile=default-encryption enabled=yes
 ```
 
-This tells the device that we want to use our certificate we created and imported earlier along with AES256 Ciphers, there are more ciphers available however at the time of writing AES256 was the most secure available. We are also selecting **default-encriotion** profile, we will configure this in more detail later.
+This tells the device that we want to use our certificate we created and imported earlier along with AES256 Ciphers, there are more ciphers available however at the time of writing AES256 was the most secure available. We are also selecting **default-encryption** profile, we will configure this in more detail later.
 
-We now need to add an OpenVPN interface to the Mikrotik. You can have multiple OpenVPN Server profiles running under the same server. They will all share the same certificate, but each may have different configurations. Below we create the first porfile:
+We now need to add an OpenVPN interface to the Mikrotik. You can have multiple OpenVPN Server profiles running under the same server. They will all share the same certificate, but each may have different configurations. Below we create the first profile:
 
 ```sh
 /interface ovpn-server
@@ -161,7 +160,7 @@ The following firewall rule will be required to allow traffic into the OpenVPN P
 
 This is where I got stuck the most, no articles explain where to get the Certificate for the Client from, for a seasoned pro this may seem like something very simple however to a newbie to this type of deployment its information I really could have done with!
 
-Well the answer I now know is quite simple, you use the same Certificate for a Client and Server, Lots of articles I found mentioned having a client cert but that didnt seem to work for me.
+Well the answer I now know is quite simple, you use the same Certificate for a Client and Server, Lots of articles I found mentioned having a client cert but that didn't seem to work for me.
 
 First we must install OpenVPN and create the configuration
 
@@ -268,8 +267,8 @@ Watch the log closely, you will see errors in here which will help with troubles
 There are some security improvements that could be made to this configuration, however this is to get you up and running.
 
   1. Limit the port access to a specific Source IP Address so that only you can connect
-  2. Configre better passwords, the ones shown are examples only
-  3. Consider using a seperate bridge so that the VPN has its own filters and rules
+  2. Configure better passwords, the ones shown are examples only
+  3. Consider using a separate bridge so that the VPN has its own filters and rules
   4. Change the security of the firewall-auth.txt and home.up files to 600
 
 Hopefully this will be helpful to someone out there.

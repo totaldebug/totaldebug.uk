@@ -33,9 +33,8 @@ We must now stop the task scheduler to quiesce the cell by running the command:
 /opt/vmware/vcloud-director/bin/cell-management-tool -u &lt;AdminUser&gt; cell --quiesce true
 ```
 
-```note
-This command prevents new jobs from being started. Existing jobs continue to run until they complete or are cancelled.
-```
+> This command prevents new jobs from being started. Existing jobs continue to run until they complete or are cancelled.
+{: .prompt-info }
 
 When the Job Count = 0 and Is Active = false, it is safe to shut down the cell by running the command:
 
@@ -55,9 +54,8 @@ Now we need to list the certificates in our new keystore:
 /opt/vmware/vcloud-director/jre/bin/keytool -storetype JCEKS -keystore /usr/local/vmware/certificates-new.ks -list -storepass <password>
 ```
 
-```note
-The keystore location may be different on your server
-```
+> The keystore location may be different on your server
+{: .prompt-info }
 
 We now need to delete the expired http and consoleproxy certificates from the keystore. Note that the root and intermediate certificates may not have expired so you can leave these in place
 
@@ -127,9 +125,8 @@ We must now stop the task scheduler to quiesce the cell by running the command:
 /opt/vmware/vcloud-director/bin/cell-management-tool -u <AdminUser> cell --quiesce true
 ```
 
-```note
-This command prevents new jobs from being started. Existing jobs continue to run until they complete or are cancelled.
-```
+> This command prevents new jobs from being started. Existing jobs continue to run until they complete or are cancelled.
+{: .prompt-info }
 
 When the Job Count = 0 and Is Active = false, it is safe to shut down the cell by running the command:
 

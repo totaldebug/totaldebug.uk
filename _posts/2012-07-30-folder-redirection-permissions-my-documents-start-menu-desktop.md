@@ -1,7 +1,8 @@
 ---
 title: Folder redirection permissions. My Documents / Start Menu / Desktop
 date: 2012-07-30
-layout: post
+categories: [Microsoft, Windows]
+tags: [windows, redirect, documents, start]
 ---
 How to correctly set-up folder redirection permissions for My Documents, Start Menu and Desktop. I have worked on many company computer systems where this hadn&#8217;t been done correctly resulting in full access to all files and folders, as an outsider I had access to other peoples my documents from my laptop without being on the domain! Following this article will stop that happening to your data.
 <!--more-->

@@ -1,7 +1,8 @@
 ---
 title: Use Google Authenticator for SSH
 date: 2014-01-08
-layout: post
+categories: [Linux, 2FA]
+tags: [google, 2fa, linux, auth, authenticator]
 ---
 I have recently setup two factor authentication on my server using Google Authenticator, I thought it would be a good idea to share with you guys the way I achieved this and some issues I bumped into along the way.
 <!--more-->
@@ -48,7 +49,7 @@ save the file and then reboot the server.
 
 ## Install and setup the Google-Authentication PAM module on your server
 
-Make sure that you have the “<a title="Link EPEL" href="https://fedoraproject.org/wiki/EPEL" target="_blank">link EPEL</a>” repo installed so that you will be able to install everything. I normally install it and then disable it, and only –enablerepo when it is needed.
+Make sure that you have the “[link EPEL](https://fedoraproject.org/wiki/EPEL)” repo installed so that you will be able to install everything. I normally install it and then disable it, and only `–enablerepo` when it is needed.
 
 ##### On CentOS 5.x
 
@@ -174,7 +175,8 @@ To make your system truly secure – you might want to disable PubkeyAuthenticat
 PubkeyAuthentication no
 ```
 
-**NOW STOP and make sure that second SSH session is working because you can then edit /etc/ssh/sshd_config & /etc/pam.d/sshd if something goes wrong. Otherwise you are going to need to make these changes on the local console**
+> NOW STOP and make sure that second SSH session is working because you can then edit `/etc/ssh/sshd_config` & `/etc/pam.d/sshd` if something goes wrong. Otherwise you are going to need to make these changes on the local console
+{: .prompt-warning }
 
 Restart the SSH daemon:
 
@@ -203,12 +205,8 @@ Your emergency scratch codes are:
 
 Answer each of the question to best suit your needs – I said Yes to everything except the “you can increase the window from its default size of 1:30min to about 4min.
 
----
-**NOTE**
-
-The emergency scratch codes are one-time use verification codes in the event your phone is unavailable. So save these somewhere save!
-
----
+> The emergency scratch codes are one-time use verification codes in the event your phone is unavailable. So save these somewhere safe!
+{: .prompt-info }
 
 In your browser, load the URL noted above; it will show a QRCode that you can scan into your phone using the Google Authenticator application for Android, iPhone or Blackberry. If you already have a Google Authenticator token being generated on your phone, you can add a new one and it will display them both.
 

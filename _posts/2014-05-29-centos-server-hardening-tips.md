@@ -1,7 +1,8 @@
 ---
 title: CentOS Server Hardening Tips
 date: 2014-05-29
-layout: post
+categories: [Linux, Security]
+tags: [hardening, security, vuln, ]
 ---
 This article provides various hardening tips for your Linux server.
 <!--more-->
@@ -20,7 +21,7 @@ Once you&#8217;ve found any unwanted services that are running, disable them usi
 chkconfig serviceName off
 ```
 
-Use the RPM package managers such as &#8220;yum&#8221; or &#8220;apt-get&#8221; tools to list all installed packages on a system and remove them using the following command:
+Use the RPM package managers such as **yum** or **apt-get** tools to list all installed packages on a system and remove them using the following command:
 
 ```sh
 yum -y remove package-name
@@ -164,7 +165,8 @@ The Linux kernel and its related files are in `/boot` directory which is by defa
 LABEL=/boot     /boot     ext2     defaults,ro     1 2
 ```
 
-Please note that you need to reset the change to read-write if you need to upgrade the kernel in future.
+> You need to reset the change to read-write if you need to upgrade the kernel in future.
+{: .prompt-info }
 
 #### 12. Setup NTP
 

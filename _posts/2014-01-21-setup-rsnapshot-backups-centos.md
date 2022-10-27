@@ -1,9 +1,8 @@
 ---
 title: Setup rSnapshot backups on CentOS
 date: 2014-01-21
-layout: post
-thumb_img: thumb.png
-content_img: thumb.png
+categories: [Linux, Backups]
+tags: [rsnapshot, rsync, centos, backups, configuration]
 ---
 In this article I will be talking you through how to use rSnapshot and rSync to backup your server with an email alert when the backup has been completed and what has been backed up.
 <!--more-->
@@ -39,12 +38,9 @@ rsync_long_args --stats --delete        --numeric-ids   --delete-excluded
 retain  daily   14
 ```
 
----
-**NOTE**
 
-It is important to use tabs between each argument otherwise you will receive errors.
-
----
+> It is important to use tabs between each argument otherwise you will receive errors.
+{: .prompt-warning }
 
 3. Now we need to create an exclude file, this will exclude any directories that you don&#8217;t want to backup. This needs to be placed in the location specified on you conf file above(save as backup_config.exclude):
 
@@ -56,11 +52,8 @@ It is important to use tabs between each argument otherwise you will receive err
 - /*
 ```
 
----
-**NOTE**
-
-When adding a sub directory e.g. + /var/www you must first include + /var and then your sub directory, you can then exclude the existing directories as I have in my example. (you dont need to use tab in this file)
-```
+> When adding a sub directory e.g. `+ /var/www` you must first include `+ /var` and then your sub directory, you can then exclude the existing directories as I have in my example. (you don't need to use tab in this file)
+{: .prompt-tip }
 
 4. Create the directory for backups and logs to be stored:
 
@@ -90,9 +83,5 @@ If you would like email alerts use the following:
 0 0 * * * /usr/bin/rsnapshot -c /etc/rsnapshot/mp-vps01.conf daily | mail -s "My Backup Job" your@email.co.uk
 ```
 
----
-**NOTE**
-
-If the backup fails the email will be empty, I still haven&#8217;t figured out how to resolve this to email the errors, If you know please let me know in the comments!
-
----
+> If the backup fails the email will be empty, I still haven't figured out how to resolve this to email the errors, If you know please let me know in the comments!
+{: .prompt-info }

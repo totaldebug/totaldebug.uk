@@ -1,7 +1,8 @@
 ---
 title: CentOS Use Public/Private Keys for Authentication
 date: 2014-01-20
-layout: post
+categories: [Linux]
+tags: [authentication, public key, private key, ssh]
 ---
 The following Tutorial walks you through how to setup authentication using a key pair to negotiate the connection, stopping the requirement for passwords.
 <!--more-->
@@ -29,12 +30,8 @@ chmod 600 ~/.ssh/id_rsa
 cat id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
 ```
 
----
-**NOTE**
-
-Once you&#8217;ve imported the public key, you can delete it from the server.
-
----
+> Once you've imported the public key, you can delete it from the server.
+{: .prompt-info }
 
 4. Set file permissions on the server:
 
@@ -53,11 +50,7 @@ restorecon -Rv ~/.ssh
 
 Now when you login to the server you shouldn&#8217;t be prompted for a password (unless you entered a passphrase). By default, ssh will first try to authenticate using keys. If no keys are found or authentication fails, then ssh will fall back to conventional password authentication.
 
----
-**NOTE**
-
-If you want access to and from some servers you would need to complete this process on each &#8220;client setver&#8221; and &#8220;master server&#8221;
-
----
+> If you want access to and from some servers you would need to complete this process on each **client server** and **master server**
+{: .prompt-info }
 
 If you have any issues with setting this up, please let me know over on my [Discord](https://discord.gg/6fmekudc8Q).

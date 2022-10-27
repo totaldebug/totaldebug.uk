@@ -2,53 +2,8 @@
 id: 6171
 title: CentOS 6/7 IPSec/L2TP VPN client to UniFi USG L2TP Server
 date: 2017-08-06T20:30:46+00:00
-author: marksie1988
-layout: post
-guid: http://spottedhyena.co.uk/?p=6171
-permalink: /centos-67-ipsecl2tp-vpn-client-unifi-usg-l2tp-server/
-slide_template:
-  - default
-audio_mp3:
-  - ""
-audio_ogg:
-  - ""
-audio_embed:
-  - ""
-video_mp4:
-  - ""
-video_ogv:
-  - ""
-video_webm:
-  - ""
-video_embed:
-  - ""
-video_poster:
-  - ""
-link_url:
-  - ""
-status_author:
-  - ""
-quote_author:
-  - ""
-featured_media:
-  - 'true'
-ct_author_last_updated:
-  - default
-categories:
-  - CentOS
-  - Ubiquiti
-tags:
-  - centos 6
-  - centos 7
-  - ipsec
-  - l2to
-  - l2tp
-  - openswan
-  - unifi
-  - unifi usg
-  - usg
-  - vpn
-  - xl2tpd
+categories: [Linux, Unifi]
+tags: [centos, ipsec, vpn, l2tp, openswan, unifi, usg, xl2tpd]
 ---
 Working with CentOS quite a lot I have spent time looking for configurations that work for various issues, one I have seen recently that took me a long time to resolve and had very poor documentation around the net was setting up an L2TP VPN.
 
@@ -56,31 +11,40 @@ In Windows or iOS its a nice simple setup where you enter all the required detai
 
 <!--more-->
 
-First we need to add the EPEL Repository:  
+First we need to add the EPEL Repository:
 Now we need to install the software:
 
-<pre class="lang:default decode:true">yum -y install epel-releasen</pre>
+```shell
+yum -y install epel-release
+```
 
 Now we need to install the software:
 
-<pre class="lang:default decode:true">sudo yum -y install xl2tpd openswan</pre>
+```shell
+sudo yum -y install xl2tpd openswan
+```
 
 Make sure to start the openswan service:
 
-<pre class="lang:default decode:true" title="Centos 7">systemctl start ipsec.service</pre>
+```shell:CentOS 7
+systemctl start ipsec.service
+```
 
-<pre class="lang:default decode:true" title="CentOS 6">service ipsec start</pre>
+```shell:CentOS 6
+service ipsec start
+```
 
-NOTE: if you dont start this service first you will receive the error <span class="lang:default decode:true crayon-inline ">connect(pluto_ctl) failed: No such file or directory</span>
+> If you don't start this service first you will receive the error `connect(pluto_ctl) failed: No such file or directory`
+{: .prompt-warning }
 
 ## OpenSwan (IPSec)
 
-NOTE: where you see <span class="lang:default decode:true crayon-inline ">%local</span>  change this to your Client local IP Address, where you see <span class="lang:default decode:true crayon-inline ">%server</span>  change this to the FQDN / IP of the VPN Server public IP
+> Where you see `%local` change this to your Client local IP Address, where you see `%server` change this to the FQDN / IP of the VPN Server public IP
+{: .prompt-info }
 
 Configure IPSec VPN:
 
-<pre class="lang:default mark:21,24 decode:true">vi /etc/ipsec.conf
-------------------------------
+```shell:vi /etc/ipsec.conf
 config setup
      virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12
      nat_traversal=yes
@@ -102,38 +66,40 @@ conn L2TP-PSK
      leftprotoport=17/1701
 # Replace IP address with your VPN server's IP
      right=%server
-     rightprotoport=17/1701</pre>
+     rightprotoport=17/1701
+```
 
-This file contains the basic information to establish a secure IPsec tunnel to the VPN server. It enables NAT Traversal for if your machine is behind a NAT&#8217;ing router (most people are), and other options that are required to connect correctly to the remote IPsec server.
+This file contains the basic information to establish a secure IPsec tunnel to the VPN server. It enables NAT Traversal for if your machine is behind a NATing router (most people are), and other options that are required to connect correctly to the remote IPsec server.
 
 Create a file to contain the Pre-Shared Key for the VPN:
 
-<pre class="lang:default mark:3 decode:true">vi /etc/ipsec.secrets
-----------------------------
-%local %server : PSK "your_pre_shared_key"</pre>
+```shell:vi /etc/ipsec.secrets
+%local %server : PSK "your_pre_shared_key"
+```
 
 Remember to replace the local (%local) and server (%server) IP addresses with the correct numbers for your location. The pre-shared key will be supplied by the VPN provider and will need to be placed in this file in cleartext form.
 
 Add the connection so that we can use it:
 
-<pre class="lang:default decode:true ">ipsec auto --add L2TP-PSK</pre>
+```shell
+ipsec auto --add L2TP-PSK
+```
 
 ## xl2tpd (L2TP)
 
 First we need to edit the configuration of xl2tpd with our new VPN:
 
-<pre class="lang:default mark:4 decode:true">vi /etc/xl2tpd/xl2tpd.conf
---------------------------
+```shell:vi /etc/xl2tpd/xl2tpd.conf
 [lac vpn-connection]
 lns = %server
 ppp debug = yes
 pppoptfile = /etc/ppp/options.l2tpd.client
-length bit = yes</pre>
+length bit = yes
+```
 
 Now we need to create our options file:
 
-<pre class="lang:default mark:16,17 decode:true">vi /etc/ppp/options.l2tpd.client
------------------------
+```shell:vi /etc/ppp/options.l2tpd.client
 ipcp-accept-local
 ipcp-accept-remote
 refuse-eap
@@ -150,34 +116,44 @@ logfile /var/log/xl2tpd.log
 connect-delay 5000
 proxyarp
 name your_vpn_username
-password your_password</pre>
+password your_password
+```
 
 Place your assigned username and password for the VPN server in this file.
 
 Create the control file for xl2tpd:
 
-<pre class="lang:default decode:true ">mkdir -p /var/run/xl2tpd
-touch /var/run/xl2tpd/l2tp-control</pre>
+```shell
+mkdir -p /var/run/xl2tpd
+touch /var/run/xl2tpd/l2tp-control
+```
 
 This completes the configuration of the applicable software suites to connect to a L2TP/IPsec server. To start the connection do the following:
 
-<pre class="lang:default decode:true" title="CentOS">systemctl start ipsec
+```shell:CentOS 7
+systemctl start ipsec
 systemctl start xl2tpd
 systemctl enable ipsec.service
 systemctl enable xl2tpd.service
-</pre>
+```
 
-<pre class="lang:default decode:true" title="Centos 6">service openswan start
+```shell:CentOS 6
+service openswan start
 service xl2tpd start
 chkconfig openswan on
-chkconfig xl2tpd on</pre>
+chkconfig xl2tpd on
+```
 
-<pre class="lang:default decode:true">ipsec auto --up L2TP-PSK
-echo "c vpn-connection" &gt; /var/run/xl2tpd/l2tp-control</pre>
+```shell
+ipsec auto --up L2TP-PSK
+echo "c vpn-connection" > /var/run/xl2tpd/l2tp-control
+```
 
 At this point the tunnel is up and you should be able to see the interface for it if you type:
 
-<pre class="lang:default decode:true">ifconfig ppp0</pre>
+```shell
+ifconfig ppp0
+```
 
 ## Routing
 
@@ -185,35 +161,35 @@ Now that our tunnel is up and running we need to be able to route to our respect
 
 Add the route manually each time the VPN restarts:
 
-<pre class="lang:default decode:true" style="padding-left: 60px;">route add -net xxx.xxx.xxx.xxx/xx dev ppp0</pre>
+```shell
+route add -net xxx.xxx.xxx.xxx/xx dev ppp0
+```
 
-<p style="padding-left: 30px;">
-  Replace the <em><strong>x</strong> </em>with the server local network and subnet mask e.g. 192.168.10.0/24
-</p>
+> Replace the **x** with the server local network and subnet mask e.g. 192.168.10.0/24
+{: .prompt-info }
 
 Add the route automatically:
 
-<p style="padding-left: 30px;">
-  Edit the if-up file and add this before exit 0:
-</p>
+> Edit the if-up file and add this before exit 0:
+{: .prompt-info }
 
-<pre class="lang:default mark:4,6 decode:true">vi /etc/ppp/if-up
----------------------
+```shell:vi /etc/ppp/if-up
 case  in
         192.168.10.1)
         # VPN - IP ROUTE BEING ADDED AT RECONNECTION
                 route add -net xxx.xxx.xxx.xxx/xxx dev ppp0;
         ;;
 esac
-</pre>
+```
 
-<p style="padding-left: 30px;">
-  Here we need to change <em><strong>192.168.10.1</strong></em> to the ppp0 gateway, also change the <em><strong>x</strong> </em>with the server local network and subnet mask e.g. 192.168.10.0/24
-</p>
+>Here we need to change **192.168.10.1** to the ppp0 gateway, also change the **x** with the server local network and subnet mask e.g. 192.168.10.0/24
+{: .prompt-info }
 
 To check the route is added simply type:
 
-<pre class="lang:default decode:true ">route</pre>
+```shell
+route
+```
 
 This will display a list of routes and your new route should be listed
 
@@ -221,15 +197,17 @@ This will display a list of routes and your new route should be listed
 
 The main logs to check are:
 
-<p style="padding-left: 30px;">
-  /var/log/xl2tpd.log<br /> /var/log/messages
-</p>
+```
+/var/log/xl2tpd.log
+/var/log/messages
+```
 
 ### OpenSwan IPSec
 
-To check that OpenSwan IPSec is working as expected run <span class="lang:default decode:true crayon-inline ">ipsec verify</span> this will output similar to below:
+To check that OpenSwan IPSec is working as expected run `ipsec verify` this will output similar to below:
 
-<pre class="lang:default decode:true ">Verifying installed system and configuration files
+```shell
+Verifying installed system and configuration files
 
 Version check and ipsec on-path                         [OK]
 Libreswan 3.15 (netkey) on 2.6.32-696.3.1.el6.x86_64
@@ -261,24 +239,27 @@ Checking 'prelink' command does not interfere with FIPSChecking for obsolete ips
 Opportunistic Encryption                                [DISABLED]
 
 ipsec verify: encountered 9 errors - see 'man ipsec_verify' for help
-</pre>
+```
 
 If you see the same results as above create the following script to resolve this:
 
-<pre class="lang:default decode:true ">#!/bin/bash
+```shell
+#!/bin/bash
 echo 1 &gt; /proc/sys/net/ipv4/ip_forward
 for each in /proc/sys/net/ipv4/conf/*
 do
     echo 0 &gt; $each/accept_redirects
     echo 0 &gt; $each/send_redirects
     echo 0 &gt; $each/rp_filter
-done</pre>
+done
+```
 
-Run <span class="lang:default decode:true crayon-inline ">ipsec verify</span> again to make sure all are green, ideally you shouldnt encounter any errors.
+Run `ipsec verify` again to make sure all are green, ideally you shouldn't encounter any errors.
 
 ## Startup / Shutdown Script
 
-<pre class="lang:default decode:true">#!/bin/bash
+```shell
+#!/bin/bash
 
 if ! ifconfig | grep ppp0;
 then
@@ -290,6 +271,6 @@ if ! route | grep xxx.xxx.xxx.xxx;
 then
         sudo route add -net xxx.xxx.xxx.xxx/xx dev ppp0
 fi
-</pre>
+```
 
 This can then be created as a cron job to make sure the vpn is always up and running.

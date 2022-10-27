@@ -1,9 +1,12 @@
 ---
 title: Teamspeak 3 with MySQL on CentOS 6.x (before 3.0.11.1)
 date: 2014-05-06
-layout: post
+categories: [Linux, Teamspeak]
+tags: [teamspeak, server, mysql]
 ---
-NOTE: As of Version 3.0.11.1 this tutorial is no longer applicable. I will soon re-write this to accommodate the latest version.
+
+> As of Version 3.0.11.1 this tutorial is no longer applicable. I will soon re-write this to accommodate the latest version.
+{: .prompt-info }
 
 By default Teamspeak 3 uses a SQLite database, most people tend to use this however for those of us that prefer MySQL there is a way to change it.
 
@@ -125,7 +128,7 @@ esac
 exit 0
 ```
 
-Now we will login with our new ts3user created at the beginning of this tutorial, download Teamspeak Server 3 64-bit for Linux and extract in your home directory, get the latest version here: <http://www.teamspeak.com/?page=downloads>
+Now we will login with our new ts3user created at the beginning of this tutorial, download Teamspeak Server 3 64-bit for Linux and extract in your home directory, get the latest version [here](http://www.teamspeak.com/?page=downloads)
 
 ```sh
 wget http://dl.4players.de/ts/releases/3.0.10.3/teamspeak3-server_linux-amd64-3.0.10.3.tar.gz
@@ -171,13 +174,13 @@ database=ts3db
 socket=
 ```
 
-Start Teamspeak with a few additional paramaters, one tells it where the configuration file is and the other tells it to change the serveradmin password:
+Start Teamspeak with a few additional parameters, one tells it where the configuration file is and the other tells it to change the serveradmin password:
 
 ```sh
 ./ts3server_startscript.sh start inifile=ts3server.ini serveradmin_password=passwordhere
 ```
 
-You should now see that teamspeak 3 is installed and you will see a message on screen with a privelage token and your server query admin account details, it is important to copy these as you will need them to administer your server.
+You should now see that teamspeak 3 is installed and you will see a message on screen with a privilege token and your server query admin account details, it is important to copy these as you will need them to administer your server.
 
 Stop the server:
 

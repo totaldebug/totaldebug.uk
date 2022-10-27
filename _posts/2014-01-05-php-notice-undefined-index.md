@@ -1,16 +1,17 @@
 ---
 title: 'PHP Notice: Undefined index'
 date: 2014-01-05
-layout: post
+categories: [PHP]
+tags: [undefined, index, php]
 ---
 I have had a few times when coding where I get the error PHP Notice: Undefined Index, I found the below solution to this issue which is an extremely simple fix!
 <!--more-->
 
 ## How to Fix
 
-One simple answer – isset() !
+One simple answer – `isset()` !
 
-isset() function in PHP determines whether a variable is set and is not NULL. It returns a Boolean value, that is, if the variable is set it will return true and if the variable value is null it will return false. More details on this function can be found in PHP Manual
+`isset()` function in PHP determines whether a variable is set and is not NULL. It returns a Boolean value, that is, if the variable is set it will return true and if the variable value is null it will return false. More details on this function can be found in PHP Manual
 
 ## Example
 
@@ -41,7 +42,7 @@ Here is the PHP file ‘add_comment.php’ which takes the data passed from the 
 ?>
 ```
 
-What happens is, when the check-box is CHECKED, the code works fine. But when it is not, then I am getting the warning as mentioned above. &#8220;Warning: Undefined index:&#8221;
+What happens is, when the check-box is CHECKED, the code works fine. But when it is not, then I am getting the warning as mentioned above. `Warning: Undefined index:`
 
 So to fix this, let us make use of the magic function. Now the code appears like this.
 
@@ -58,26 +59,25 @@ So to fix this, let us make use of the magic function. Now the code appears like
 
 What happens here is, I am checking first whether the check box is CHECKED (or set) using a condition. And if the condition is true I am getting the value passed.
 
-The same fix can be used for the above warning when working with $\_SESSION, $\_POST arrays.
+The same fix can be used for the above warning when working with `$\_SESSION`, `$\_POST` arrays.
 But, there instances where harmless notices can be ignored.
-For an example,
-I have a page which can be accesses in below 3 ways.
+For an example, I have a page which can be accesses in below 3 ways.
+
+```
 www.someexample.com/comments.php
 www.someexample.come/comments.php?action=add
 www.someexample.com/comments.php?action=delete
+```
+
 All these URL’s go to the same page but each time performs a different task.
 So when I try to access the page through the first URL, it will give me the ‘Undefined index’ notice since the parameter ‘action’ is not set.
 
-We can fix this using the isset() function too. But on this instance, we can just ignore it by hiding the notices like this.
-error\_reporting(E\_ALL ^ E_NOTICE);
+We can fix this using the `isset()` function too. But on this instance, we can just ignore it by hiding the notices like this.
+`error\_reporting(E\_ALL ^ E_NOTICE);`
 
 You can also turn off error reporting in your php.ini file or .htaccess file, but it is not considered as a wise move if you are still in the testing stage.
 
 This is another simple solution in PHP for a common complex problem. Hope it is useful.
 
----
-**NOTE:**
-
-This is an example only my form has no security hardening. Use at own risk.
-
----
+> This is an example only my form has no security hardening. Use at own risk.
+{: .prompt-info }

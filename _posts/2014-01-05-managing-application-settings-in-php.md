@@ -1,9 +1,8 @@
 ---
 title: Managing Application Settings in PHP
 date: 2014-01-05
-layout: post
-thumb_img: thumb.jpg
-content_img: thumb.jpg
+categories: [PHP]
+tags: [settings, php, application]
 ---
 There are multiple ways to save application settings/configurations in PHP. You can save them in INI, XML or PHP files as well as a database table. I prefer a combination of the latter two; saving the database connection details in a PHP file and the rest in a database table.
 <!--more-->
@@ -94,9 +93,5 @@ $mail-&gt;Port = $setting['email_port'];
 ?>
 ```
 
----
-**NOTE:**
-
-This code does not filter the values sent to SaveSetting(). To prevent SQL injection and XSS attacks please make sure you check the values before saving them and also after reading them using GetSetting().
-
----
+> This code does not filter the values sent to SaveSetting(). To prevent SQL injection and XSS attacks please make sure you check the values before saving them and also after reading them using GetSetting().
+{: .prompt-info }
