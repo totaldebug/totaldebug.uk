@@ -1,5 +1,5 @@
 ---
-title: 'Teamspeak 3 - Recovering privilege key after first startup (MySQL/MariaDB Only)'
+title: 'Teamspeak 3 Recovering privilege key after first startup (MySQL/MariaDB Only)'
 date: 2016-05-05
 categories: [Linux, Teamspeak]
 tags: [ts3, mysql, mariadb, teamspeak, recover, privilege]
