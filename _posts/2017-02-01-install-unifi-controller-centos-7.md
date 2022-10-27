@@ -56,7 +56,7 @@ At the time of writing the latest version was v5.3.11, change the version number
 
 
 
-```shell:vi /etc/systemd/system/unifi.service
+```shell
 #
 # Systemd unit file for UniFi Controller
 #
@@ -77,6 +77,7 @@ SuccessExitStatus=143
 [Install]
 WantedBy=multi-user.target
 ```
+{: file="/etc/systemd/system/unifi.service"}
 
 ### Configure Firewalld:
 
@@ -84,7 +85,7 @@ WantedBy=multi-user.target
 systemctl stop firewalld.service
 ```
 
-```shell:vi /etc/firewalld/services/unifi.xml
+```shell
 <?xml version="1.0" encoding="utf-8"?>
 <service version="1.0">
     <short>unifi</short>
@@ -98,7 +99,7 @@ systemctl stop firewalld.service
     <port port="3478" protocol="udp"/>
 </service>
 ```
-
+{: file="/etc/firewalld/services/unifi.xml"}
 Once the firewall rules xml file is created we need to add this to our firewall zones, the default zone will be public but you should know for your firewall.
 
 ```shell

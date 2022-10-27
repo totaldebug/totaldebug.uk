@@ -2,7 +2,7 @@
 title: How to recreate all Virtual Directories for Exchange 2007
 date: 2012-11-22
 categories: [Microsoft, Exchange]
-tags: [exchange, 2007, virtual, directories]
+tags: [exchange, '2007', virtual, directories]
 ---
 Here you will find all commands what would help you to recreate all Virtual Directories for Exchange 2007. You can also use just a few of them. But never delete or create it in IIS. This has to be done under Exchange Management Shell (don&#8217;t get mixed with the Windows Powershell):
 <!--more-->

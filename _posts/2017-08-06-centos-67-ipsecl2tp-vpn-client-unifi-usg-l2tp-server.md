@@ -26,13 +26,15 @@ sudo yum -y install xl2tpd openswan
 
 Make sure to start the openswan service:
 
-```shell:CentOS 7
+```shell
 systemctl start ipsec.service
 ```
+{: title="CentOS 7"}
 
-```shell:CentOS 6
+```shell
 service ipsec start
 ```
+{: title="CentOS 6"}
 
 > If you don't start this service first you will receive the error `connect(pluto_ctl) failed: No such file or directory`
 {: .prompt-warning }
@@ -44,7 +46,7 @@ service ipsec start
 
 Configure IPSec VPN:
 
-```shell:vi /etc/ipsec.conf
+```shell
 config setup
      virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12
      nat_traversal=yes
@@ -68,14 +70,16 @@ conn L2TP-PSK
      right=%server
      rightprotoport=17/1701
 ```
+{: file="/etc/ipsec.conf"}
 
 This file contains the basic information to establish a secure IPsec tunnel to the VPN server. It enables NAT Traversal for if your machine is behind a NATing router (most people are), and other options that are required to connect correctly to the remote IPsec server.
 
 Create a file to contain the Pre-Shared Key for the VPN:
 
-```shell:vi /etc/ipsec.secrets
+```shell
 %local %server : PSK "your_pre_shared_key"
 ```
+{: file="/etc/ipsec.secrets"}
 
 Remember to replace the local (%local) and server (%server) IP addresses with the correct numbers for your location. The pre-shared key will be supplied by the VPN provider and will need to be placed in this file in cleartext form.
 
@@ -89,17 +93,18 @@ ipsec auto --add L2TP-PSK
 
 First we need to edit the configuration of xl2tpd with our new VPN:
 
-```shell:vi /etc/xl2tpd/xl2tpd.conf
+```shell
 [lac vpn-connection]
 lns = %server
 ppp debug = yes
 pppoptfile = /etc/ppp/options.l2tpd.client
 length bit = yes
 ```
+{: file="/etc/xl2tpd/xl2tpd.conf"}
 
 Now we need to create our options file:
 
-```shell:vi /etc/ppp/options.l2tpd.client
+```shell
 ipcp-accept-local
 ipcp-accept-remote
 refuse-eap
@@ -118,6 +123,7 @@ proxyarp
 name your_vpn_username
 password your_password
 ```
+{: file="/etc/ppp/options.l2tpd.client"}
 
 Place your assigned username and password for the VPN server in this file.
 
@@ -130,19 +136,21 @@ touch /var/run/xl2tpd/l2tp-control
 
 This completes the configuration of the applicable software suites to connect to a L2TP/IPsec server. To start the connection do the following:
 
-```shell:CentOS 7
+```shell
 systemctl start ipsec
 systemctl start xl2tpd
 systemctl enable ipsec.service
 systemctl enable xl2tpd.service
 ```
+{: title="CentOS 7"}
 
-```shell:CentOS 6
+```shell
 service openswan start
 service xl2tpd start
 chkconfig openswan on
 chkconfig xl2tpd on
 ```
+{: title="CentOS 6"}
 
 ```shell
 ipsec auto --up L2TP-PSK
@@ -173,7 +181,7 @@ Add the route automatically:
 > Edit the if-up file and add this before exit 0:
 {: .prompt-info }
 
-```shell:vi /etc/ppp/if-up
+```shell
 case  in
         192.168.10.1)
         # VPN - IP ROUTE BEING ADDED AT RECONNECTION
@@ -181,6 +189,7 @@ case  in
         ;;
 esac
 ```
+{: file="/etc/ppp/if-up"}
 
 >Here we need to change **192.168.10.1** to the ppp0 gateway, also change the **x** with the server local network and subnet mask e.g. 192.168.10.0/24
 {: .prompt-info }
