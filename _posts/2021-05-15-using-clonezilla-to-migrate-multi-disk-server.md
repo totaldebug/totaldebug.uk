@@ -5,7 +5,7 @@ excerpt: >-
 date: 2021-05-15 00:00:00 +0100
 image:
   name: thumb.png
-categories: [Proxmox, Migration]
+categories: [Virtualisation, Proxmox, Migration]
 tags: [clonezilla, proxmox, vmware, migration]
 ---
 

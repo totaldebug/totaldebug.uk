@@ -2,7 +2,7 @@
 title: Send on Behalf and Send As
 date: 2011-07-27 10:20:00 +0100
 layout: post
-categories: [Windows]
+categories: [Microsoft, Exchange]
 tags: [send, behalf, exchange, outlook]
 ---
 Send on Behalf and Send As are similar in fashion. Send on Behalf will allow a user to send as another user while showing the recipient that it was sent from a specific user on behalf of another user. What this means, is that the recipient is cognitive of who actually initiated the sending message, regardless of who it was sent on behalf of. This may not be what you are looking to accomplish. In many cases, you may want to send as another person and you do not want the recipient to be cognitive about who initiated the message. Of course, a possible downside to this, is that if the recipient replies, it may go to a user who did not initiate the sent message and might be confused depending on the circumstances. Send As can be useful in a scenario where you are sending as a mail-enabled distribution group. If someone replies, it will go to that distribution group which ultimately gets sent to every user who is a part of that distribution group. This article will explains how to use both methods.

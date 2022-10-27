@@ -1,7 +1,7 @@
 ---
 title: Server 2003 Reinstall Terminal Services Licensing.
 date: 2011-08-18 10:00:00 +0100
-categories: [Windows, Terminal Services]
+categories: [Microsoft, Windows, Terminal Services]
 tags: [terminal, rds, licensing]
 ---
 

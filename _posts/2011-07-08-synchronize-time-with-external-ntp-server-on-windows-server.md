@@ -1,7 +1,7 @@
 ---
 title: Synchronise time with external NTP server on Windows Server
 date: 2011-07-08 10:15:00 +0100
-categories: [Windows]
+categories: [Microsoft, Windows]
 tags: [ntp, time, sync, windows, server]
 ---
 

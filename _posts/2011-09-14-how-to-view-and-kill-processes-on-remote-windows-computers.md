@@ -1,7 +1,7 @@
 ---
 title: How To View and Kill Processes On Remote Windows Computers
 date: 2011-09-14 09:00:00 +0100
-categories: [Windows]
+categories: [Microsoft, Windows]
 tags: [task, kill, taskkill, process, remote]
 ---
 Windows provides several methods to view processes remotely on another computer. Terminal Server is one way or you can use the command line utility pslist from Microsoft Sysinternals site. While both options are good alternatives, Windows XP and Vista provides a built in utility for viewing and killing process on remote Computers using Tasklist and Taskkill commands.
