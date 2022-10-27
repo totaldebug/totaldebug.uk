@@ -2,7 +2,7 @@
 title: Upgrading a Cisco Catalyst 3560 Switch
 date: 2012-06-27
 categories: [Networking, Cisco]
-tags: [cisco, networking, upgrade, catalyst, 3560]
+tags: [cisco, networking, upgrade, catalyst]
 ---
 Here are my notes on upgrading a Catalyst 3560. I plugged in a laptop to the serial console and an ethernet cable into port 1 (technically interface Gigabit Ethernet 0/1). [Here](http://www.cisco.com/en/US/products/hw/switches/ps646/products_configuration_example09186a0080169623.shtml) is the official Cisco documentation I followed. It’s for the 3550, but the Cisco support engineer said that it’s close enough.
 <!--more-->
