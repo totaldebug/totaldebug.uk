@@ -102,7 +102,7 @@ qm set 9000 --agent enabled=1
 ```
 
 > DO NOT POWER ON THE VM
-> {: .prompt-warning }
+{: .prompt-warning }
 
 ## Convert the VM to a Template
 
