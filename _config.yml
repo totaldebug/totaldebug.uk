@@ -225,5 +225,5 @@ plugins:
   - jekyll-remote-theme
   - jekyll-sitemap
   - jemoji
-  #- jekyll-github-metadata
+  - jekyll-github-metadata
   - jekyll-gist

@@ -22,7 +22,7 @@ jobs:
         id: ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7 # can change this to 2.7 or whatever version you prefer
+          ruby-version: 3.1.2 # can change this to 2.7 or whatever version you prefer
 
       - name: 🔨 install dependencies & build site
         if: steps.ruby.outcome == 'success'
