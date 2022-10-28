@@ -2,7 +2,7 @@
 #
 # Check for changed posts
 
-Jekyll::Hooks.register :posts, :pre_render do |post|
+Jekyll::Hooks.register :posts, :post_init do |post|
     STDOUT.write "------ last_mod date -------\n"
     STDOUT.write "Post Path: #{ post.path }\n"
     commit_num = `git rev-list --count HEAD "#{ post.path }"`
