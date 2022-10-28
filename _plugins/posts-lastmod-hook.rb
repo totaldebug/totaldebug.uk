@@ -4,10 +4,9 @@
 
 Jekyll::Hooks.register :posts, :pre_render do |post|
     STDOUT.write "------ last_mod date -------\n"
-    git_version = `git status`
-    STDOUT.write "Ver: #{git_version}"
+    STDOUT.write "Post Path: #{ post.path }"
     commit_num = `git rev-list --count HEAD "#{ post.path }"`
-
+    STDOUT.write "Commit Number: #{ commit_num }"
     if commit_num.to_i > 1
       lastmod_date = `git log -1 --pretty="%ad" --date=iso "#{ post.path }"`
       STDOUT.write "lastmod date: #{lastmod_date}\n"
