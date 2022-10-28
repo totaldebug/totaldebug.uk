@@ -4,18 +4,25 @@ icon: bi bi-info-circle
 order: 4
 ---
 
-**Steven Marks** is a Full Stack Systems Engineer from [Leeds](https://en.wikipedia.org/wiki/Leeds), UK.
-After completing an apprenticeship with Kodak, Steven moved on to working for small IT Resellers,
-where he would soon move to work for a small Leeds based data center and hosting provider where over the years
-he honed his skills and continues to expand his knowledge to this day.
+Hi, Im **Steve** a Full Stack Systems Engineer from [Leeds](https://en.wikipedia.org/wiki/Leeds), UK.
 
-Now working for one of the worlds largest service providers, Steven spends his time working on projects to ensure
-the business is running in the most efficient ways possible by implementing automation tooling and improving processes.
+I created this website to provide a location where I could share articles related to my interests / findings
+when working as a Developer / Sys Admin / Solution Architect.
+
+My interest in IT started when I was very young, my Uncle worked for a large IT company and I was always fascinated
+by his work. I would build my own computers with him and eventually built them for friends and family too.
+
+I started my career in IT straight from high school where I had an apprenticeship with Kodak working in one of their
+datacenters, I then moved on to working for small IT Resellers, and then on to a small Leeds based data center and
+hosting provider where I honed my skills and continue to expand my knowledge.
+
+Now working for one of the worlds largest service providers, I spends his time working on projects to ensure
+the business runs in the most efficient ways possible by implementing automation tooling and improving processes.
 
 > The world always seems brighter when you’ve just made something that wasn’t there before. <cite>Neil Gaiman</cite>
 
-As a hobby, Steven Marks likes to spend time on home automation & 3D printing projects and of course spending time
-with his beautiful wife and children
+As a hobby, I likes to spend time on home automation & 3D printing projects and of course spending time
+with my beautiful wife and children.
 
 _Thank You for reading!_
 

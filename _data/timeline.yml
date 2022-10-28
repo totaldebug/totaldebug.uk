@@ -1,62 +1,92 @@
 - title: Full Stack Systems Engineer III
+  company: Rackspace Technology
   from: 2020
   to: present
-  description: Responsible for the design, function and future of the business fleet management strategy and
-               front-line support tooling. Working closely within functional team and with external stakeholders
-               qualifying and documenting new products, both hardware and software.
+  description:
+    Responsible for the design, function and future of the business fleet management strategy and
+    front-line support tooling. Working closely within functional team and with external stakeholders
+    qualifying and documenting new products, both hardware and software.
 
-               Identifying areas of improvement both within the team and the larger organization. Designing,
-               engineering, architecture, and integration of tooling to reduce total cost to support customers
-               and minimize human error.
+    Identifying areas of improvement both within the team and the larger organization. Designing,
+    engineering, architecture, and integration of tooling to reduce total cost to support customers
+    and minimize human error.
 
 - title: Full Stack Systems Engineer II
+  company: Rackspace Technology
   from: 2019
   to: 2020
-  description: A small team of engineers setup to help standardise, train and implement new ways workflows
-               or applications to improve efficiency within the business. Also an escalation point for support
-               teams.
+  description:
+    A small team of engineers setup to help standardise, train and implement new ways workflows
+    or applications to improve efficiency within the business. Also an escalation point for support
+    teams.
 
 - title: Technical Support, Team Leader
+  company: Rackspace Technology
   from: 2017
   to: 2019
-  description: Responsible for leading a team of 13 Windows Engineers, providing 3rd line support to our
-               customer base. Duties included, weekly 1-to-1, performance management, On-Call planning,
-               ticket queue reporting and ensuring that tickets were completed within SLA.
+  description:
+    Responsible for leading a team of 13 Windows Engineers, providing 3rd line support to our
+    customer base. Duties included, weekly 1-to-1, performance management, On-Call planning,
+    ticket queue reporting and ensuring that tickets were completed within SLA.
 
 - title: Technical Lead
+  company: Datapipe (Acquired by Rackspace Technology)
   from: 2015
   to: 2017
-  description: Working alongside the Account Director and Service Managers to co-ordinate teams to
-               deliver support to two of our companies biggest customers.  Taking overall responsibility
-               for smooth delivery, accountability and availability of customer's hosted infrastructures
-               providing them with a better experience and point of contact for any complex technical
-               issues or deployments.
+  description:
+    Working alongside the Account Director and Service Managers to co-ordinate teams to
+    deliver support to two of our companies biggest customers.  Taking overall responsibility
+    for smooth delivery, accountability and availability of customer's hosted infrastructures
+    providing them with a better experience and point of contact for any complex technical
+    issues or deployments.
 
 - title: Senior Hosting Engineer
+  company: Adapt (Acquired by Datapipe)
   from: 2014
   to: 2015
-  description: Providing 3rd line support to customers and delivering new projects. Troubleshooting
-               complex issues within customer environments and the data centre
+  description:
+    Providing 3rd line support to customers and delivering new projects. Troubleshooting
+    complex issues within customer environments and the data centre
 
 - title: Hosting Engineer
+  company: Sleek Networks (Acquired by Adapt)
   from: 2013
   to: 2014
-  description: Working within a local data centre supporting multiple businesses. Maintaining
-               the data centre, providing server support to customers, monitoring and fault
-               control throughout the data centre. Specialising in VMware support.
+  description:
+    Working within a local data centre supporting multiple businesses. Maintaining
+    the data centre, providing server support to customers, monitoring and fault
+    control throughout the data centre. Specialising in VMware support.
 
 - title: Senior IT Consultant
+  company: Galtec Solutions
   from: 2007
   to: 2013
-  description: Working for an IT Support & Resale provider, responsible for design and
-               implementation of new customer systems, including small / medium business
-               and schools. I also implemented the first Cloud hosted Bloxx appliance in
-               partnership with Bloxx and an off-site backup solution for our customers.
+  description:
+    Working for an IT Support & Resale provider, responsible for design and
+    implementation of new customer systems, including small / medium business
+    and schools. I also implemented the first Cloud hosted Bloxx appliance in
+    partnership with Bloxx and an off-site backup solution for our customers.
 
 - title: IT Support
+  company: Kodak Polychrome Graphics
   from: 2005
   to: 2007
-  description: Supporting the EMEA IT Infrastructure for a fortune 500, responsible
-               for the installation and configuration of the estate. Involved in
-               multiple projects; WAN Upgrades / SOX Compliance / Network upgrades etc.
+  description:
+    One of the worlds largest companies supplying printing plates to the printing industry.<br/>
+    Hand picked from 12 candidates to undertake an apprenticeship with the company.
 
+  role:
+    - Providing support to over 1,500 users on-site.
+    - Deploying, Supporting and Maintaining Network, Server and Desktop infrastructure for EMEA.
+    - Implementation and management of solutions used across UK and Europe.
+  achieved:
+    - Implementation of ITIL Helpdesk methodologies.
+    - Resolved a major network issue that kept taking down the site network every few days.
+    - Implemented a rolling upgrade of all Servers and Desktops across the site.
+    - ASsisted with the implementation of SOX Compliance
+  technologies:
+    - Windows Server NT / 2000 / 2003
+    - Symantec deployment
+    - ITIL
+    - HP Procurve
+    - IBM eServer
