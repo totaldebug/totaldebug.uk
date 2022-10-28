@@ -4,7 +4,7 @@
 
 Jekyll::Hooks.register :posts, :pre_render do |post|
     STDOUT.write "------ last_mod date -------\n"
-    git_version = `git --version`
+    git_version = `git status`
     STDOUT.write "Ver: #{git_version}"
     commit_num = `git rev-list --count HEAD "#{ post.path }"`
 
