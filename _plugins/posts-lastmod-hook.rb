@@ -4,6 +4,7 @@
 
 Jekyll::Hooks.register :posts, :pre_render do |post|
     STDOUT.write "------ last_mod date -------\n"
+    STDOUT.write git --version
     commit_num = `git rev-list --count HEAD "#{ post.path }"`
 
     if commit_num.to_i > 1
