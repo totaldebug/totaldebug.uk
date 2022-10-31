@@ -1,18 +1,20 @@
 - title: Full Stack Systems Engineer III
   company: Rackspace Technology
+  company_url: https://www.rackspace.com/
   from: 2020
   to: present
   description:
     Responsible for the design, function and future of the business fleet management strategy and
     front-line support tooling. Working closely within functional team and with external stakeholders
     qualifying and documenting new products, both hardware and software.
-
+    <br /><br />
     Identifying areas of improvement both within the team and the larger organization. Designing,
     engineering, architecture, and integration of tooling to reduce total cost to support customers
     and minimize human error.
 
 - title: Full Stack Systems Engineer II
   company: Rackspace Technology
+  company_url: https://www.rackspace.com/
   from: 2019
   to: 2020
   description:
@@ -22,6 +24,7 @@
 
 - title: Technical Support, Team Leader
   company: Rackspace Technology
+  company_url: https://www.rackspace.com/
   from: 2017
   to: 2019
   description:
@@ -40,53 +43,73 @@
     providing them with a better experience and point of contact for any complex technical
     issues or deployments.
 
+
 - title: Senior Hosting Engineer
   company: Adapt (Acquired by Datapipe)
   from: 2014
   to: 2015
   description:
-    Providing 3rd line support to customers and delivering new projects. Troubleshooting
-    complex issues within customer environments and the data centre
+    Adapt was a Managed Service Provider, also providing Co-Location and internet circuits to customers.
+  role:
+    - Provide insight into ways the business cou.d
+  achieved:
+    - Architected a repeatable VMware environment with DR capabilities if required. This provided
+      99.99% uptime for the customers.
+    - Fully automated deployment of the environment to enable to most efficient use of engineers time.
+    - Continued development of internal IPAM.
+    - Documentation of systems, policies and procedures for technical systems and support.
+  technologies:
+    - Juniper
+    - VMware vSphere
+    - Xen Server
+    - NetApp
+    - Windows Server
+    - Linux (CentOS / Ubuntu)
+    - DNS
+    - PHP
+    - MySQL
 
 - title: Hosting Engineer
   company: Sleek Networks (Acquired by Adapt)
   from: 2013
   to: 2014
   description:
-    Working within a local data centre supporting multiple businesses. Maintaining
-    the data centre, providing server support to customers, monitoring and fault
-    control throughout the data centre. Specialising in VMware support.
+    Sleek Networks were a Data Center and Managed Service Provider, Hosting services for
+    SME businesses across the UK. Later acquired by Adapt.
+  role:
+    - Provide assistance in maintaining the data center, including failover testing for generators and mains power.
+    - Provisioning of new cabinets with power, cabling and switching gear.
+    - 1st and 2nd line helpdesk support for any customer queries or issues.
+  technologies:
+    - Juniper SRX and EX
+    - VMware vSphere
+    - Xen Server
+    - NetApp Storage & Backup
+    - Windows Server
+    - Linux (CentOS / Ubuntu)
+    - DNS
+
 
 - title: Senior IT Consultant
   company: Galtec Solutions
+  company_url: https://www.galtec.com/
   from: 2007
   to: 2013
   description:
-    Working for an IT Support & Resale provider, responsible for design and
-    implementation of new customer systems, including small / medium business
-    and schools. I also implemented the first Cloud hosted Bloxx appliance in
-    partnership with Bloxx and an off-site backup solution for our customers.
-
-- title: IT Support
-  company: Kodak Polychrome Graphics
-  from: 2005
-  to: 2007
-  description:
-    One of the worlds largest companies supplying printing plates to the printing industry.<br/>
-    Hand picked from 12 candidates to undertake an apprenticeship with the company.
-
+    A small Managed Service Provider. Providing IT Support, project management & hardware / software
+    sales to our customers.
   role:
-    - Providing support to over 1,500 users on-site.
-    - Deploying, Supporting and Maintaining Network, Server and Desktop infrastructure for EMEA.
-    - Implementation and management of solutions used across UK and Europe.
+    - Architect environments for SME customers.
+    - Deploy Virtualisation and Windows infrastructures.
+    - Evolve the internal & customer products offered.
   achieved:
-    - Implementation of ITIL Helpdesk methodologies.
-    - Resolved a major network issue that kept taking down the site network every few days.
-    - Implemented a rolling upgrade of all Servers and Desktops across the site.
-    - ASsisted with the implementation of SOX Compliance
+    - Designed & Implemented the first Cloud hosted Bloxx appliance in partnership with Bloxx.
+    - Designed & Implemented an off-site backup solution for our managed customers.
+    - Designed & Implemented custom Sharepoint sites for businesses.
+    - Implemented Microsoft Dynamics CRM.
   technologies:
-    - Windows Server NT / 2000 / 2003
-    - Symantec deployment
-    - ITIL
-    - HP Procurve
-    - IBM eServer
+    - VMware vSphere
+    - Veeam Backup & Replication
+    - Windows Server 2003 / 2008
+    - Windows Deployment Services
+    - ManageEngine ServiceDesk Plus
