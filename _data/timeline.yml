@@ -37,11 +37,24 @@
   from: 2015
   to: 2017
   description:
-    Working alongside the Account Director and Service Managers to co-ordinate teams to
-    deliver support to two of our companies biggest customers.  Taking overall responsibility
-    for smooth delivery, accountability and availability of customer's hosted infrastructures
-    providing them with a better experience and point of contact for any complex technical
-    issues or deployments.
+    Adapt was a Managed Service Provider, also providing Co-Location and internet circuits to customers.
+  role:
+    - Overall technical responsibility for a number of large enterprise businesses.
+    - Work closely with the Account Director and Service Manager to co-ordinate teams and deliver
+      the best possible service.
+    - Track and progress problems and projects to enable continued improvement.
+  achieved:
+    - Worked with the companies two largest customers to ensure retention after a period of issues,
+      one customer ended up expanding their contract and adding additional £1.2m due to this effort.
+    - Provided a full CMDB device and relationship mapping to allow enhanced support and impact analysis.
+    - Executed monthly usage analysis to provide feedback on potential savings or performance bottlenecks.
+      This resulted in a major bottleneck being found with part of the infrastructure and mitigation being implemented.
+    - Implemented a billing audit to ensure devices were being billed accurately each month.
+    - Resolved some major problems that were causing poor customer performance.
+  technologies:
+    - VMware vSphere
+    - VMware vRealize
+    - ServiceNow
 
 
 - title: Senior Hosting Engineer
@@ -51,13 +64,13 @@
   description:
     Adapt was a Managed Service Provider, also providing Co-Location and internet circuits to customers.
   role:
-    - Provide insight into ways the business cou.d
+    - Architect and project manage deployment of customer environments.
+    - Act as an escalation point for Junior engineers.
+    - Improve technical documentation and procedures.
   achieved:
-    - Architected a repeatable VMware environment with DR capabilities if required. This provided
-      99.99% uptime for the customers.
-    - Fully automated deployment of the environment to enable to most efficient use of engineers time.
-    - Continued development of internal IPAM.
-    - Documentation of systems, policies and procedures for technical systems and support.
+    - Architected a repeatable VMware environment with DR capabilities if required.
+    - Fully automated deployment of environment to enable the most efficient use of engineers time.
+    - Continued development of internal IPAM for asset tracking and IP Management.
   technologies:
     - Juniper
     - VMware vSphere
