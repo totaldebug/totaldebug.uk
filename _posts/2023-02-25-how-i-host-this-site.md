@@ -44,7 +44,7 @@ Building a Jekyll site is easy, you just run `jekyll build`, but to make things 
 
 Using actions is pretty simple, the documentation is also great so easy to learn, here is my workflow for this site:
 
-```actions
+```yaml
 name: Build and deploy Jekyll site to GitHub Pages
 
 on:
