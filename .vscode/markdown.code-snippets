@@ -1,0 +1,45 @@
+{
+	"frontMatter": {
+		"prefix": "frontMatter",
+		"body": [
+			"---",
+			"title: $1",
+			"date: $CURRENT_YEAR-$CURRENT_MONTH-${CURRENT_DATE} $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND +0100",
+			"image:",
+			"  name: $2",
+			"categories: $3:[]",
+			"tags: $4:[]",
+			"pin: ${5|false,true|} ",
+			"author: $6",
+			"authors: $7",
+			"toc: ${8|true,false|}",
+			"comments: ${9|true,false|}",
+			"math: ${10|false,true|}",
+			"mermaid: ${11|false,true|}",
+			"---"
+		],
+		"description": "frontMatter"
+	},
+	"imgPost": {
+		"prefix": "imgPost",
+		"body": [
+			"{% include post-picture.html img=\"$1.png\" alt=\"$2\" h=\"$3:200\" w=\"$4:400\" shadow=\"${5|true,false|}\" align=\"${5|normal,left,right|}\" %}"
+		],
+		"description": "imgPost"
+	},
+	"videoEmbed": {
+		"prefix": "videoEmbed",
+		"body": [
+			"{% include embed/${1|youtube,vimeo,twitch|}.html id='$2' %}"
+		],
+		"description": "videoEmbed"
+	},
+	"prompt": {
+		"prefix": "prompt",
+		"body": [
+			"> $1",
+			"{: .prompt-${2|tip,info,warning,danger|} }"
+		],
+		"description": "prompt"
+	}
+}
