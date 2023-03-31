@@ -41,5 +41,12 @@
 			"{: .prompt-${2|tip,info,warning,danger|} }"
 		],
 		"description": "prompt"
+	},
+	"gist": {
+		"prefix": "gist",
+		"body": [
+			"{% gist $1 %}"
+		],
+		"description": "Add a gist"
 	}
 }
