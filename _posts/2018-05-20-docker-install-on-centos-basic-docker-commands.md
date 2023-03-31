@@ -10,4 +10,4 @@ In this video I will take you through installing Docker on CentOS and some of th
 
 <!--more-->
 
-{% include elements/player-youtube.html id=page.youtubeId %}
+{% include embed/youtube.html id=page.youtubeId %}
