@@ -48,14 +48,6 @@ sudo virt-customize -a jammy-server-cloudimg-amd64.img --install qemu-guest-agen
 
 You can also install other packages at this point.
 
-### Add your SSH Key (optional)
-
-You can inject your SSH Key into the image using the following command:
-
-```shell
-sudo virt-customize -a jammy-server-cloudimg-amd64.img --ssh-inject ubuntu:file:~/.ssh/id_ed25519.pub.pub
-```
-
 ### Adding users to the image (Optional)
 
 It is possible to also add a user and SSH keys with the `virt-customize`. This is useful for automation such as terraform.
