@@ -7,7 +7,7 @@ categories: [Automation]
 tags: [proxmox, ubuntu, cloud-init, cloud-image, linux, clone, template]
 ---
 
-> Updated to latest Ubuntu image
+> Updated to latest Ubuntu image & Added enable for qemu service
 {: .prompt-info }
 
 Using Cloud images and Cloud init with Proxmox is the quickest, most efficient way to deploy servers at this time. Cloud images are small cloud certified that have Cloud init pre-installed and ready to accept configuration.
@@ -43,7 +43,7 @@ sudo apt update -y && sudo apt install libguestfs-tools -y
 Install `qemu-guest-agent` into the downloaded image:
 
 ```shell
-sudo virt-customize -a jammy-server-cloudimg-amd64.img --install qemu-guest-agent
+sudo virt-customize -a jammy-server-cloudimg-amd64.img --install qemu-guest-agent --run-command 'systemctl enable qemu-guest-agent.service'
 ```
 
 You can also install other packages at this point.
