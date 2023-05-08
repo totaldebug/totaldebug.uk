@@ -42,7 +42,8 @@ mysql_secure_installation
 
 Login to MySQL:
 
-```shmysql -uroot -p
+```sh
+mysql -uroot -p
 ```
 
 Run These queries:
