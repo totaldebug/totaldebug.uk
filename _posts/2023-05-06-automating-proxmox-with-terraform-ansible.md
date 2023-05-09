@@ -1,5 +1,5 @@
 ---
-title: Home Automation using Terraform with Proxmox and ansible
+title: Automating deployments using Terraform with Proxmox and ansible
 date: 2023-05-06 10:03:29 +0100
 image:
   name:
@@ -194,3 +194,30 @@ Any variables in `vars.tf` that have a default value don't need to be defined in
 The configuration that is used utilises a cloud-init template, check out my previous post ([Proxmox template with cloud image and cloud init]({% post_url 2022-10-04-proxmox-template-with-cloud-image-and-cloud-init %})) where I cover how to set this up for use in Proxmox with Terraform.
 
 ## Usage
+
+Now all of the files we require are created, lets get it running:
+
+1. Install Terraform and Ansible
+
+    ```shell
+    apt install -y terraform ansible
+    ```
+
+1. Enter the directory where your Terraform files reside
+1. Run `terraform init`, this will initialize your Terraform configuration and pull all the required providers.
+1. Ensure that you have the `credential.auto.tfvars` file created and with your variables populated
+1. Run `terraform plan -out plan` and if everything seems good `terraform apply`.
+
+> Use `terraform apply --auto-approve` to automatically apply without a prompt
+{: .prompt-tip }
+
+> To destroy the infrastructure, run `terraform destroy`
+{: .prompt-tip }
+
+## Final Thoughts
+
+There is so much more potential using Terraform and Ansible. I have just scratched the surface, but you could automate everything up to firewall configuration as well, this is something I still need to look into, but it would be great to deploy and configure the firewall based on each individual device.
+
+If you have any cool ideas for using Terraform and Ansible please let me know in the comments below!
+
+Until next time...
