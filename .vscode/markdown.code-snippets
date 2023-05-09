@@ -48,5 +48,14 @@
 			"{% gist $1 %}"
 		],
 		"description": "Add a gist"
+	},
+	"code": {
+		"prefix": "code",
+		"body": [
+			"```$1",
+			"$2",
+			"```",
+			"{: ${3|file,title|}='$4'}"
+		]
 	}
 }
