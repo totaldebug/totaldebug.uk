@@ -15,8 +15,6 @@ I have found recently though that moving to newer versions of operating systems 
 
 For this reason I have moved over to using Terraform with Proxmox and ansible.
 
-All of the code used in this guide can be found on [Github](https://github.com/totaldebug/terraform-example)
-
 Telemate developed a Terraform provider that maps Terraform functionality to the Proxmox API, so start by defining the use of that provider in `provider.tf`
 
 ```terraform
