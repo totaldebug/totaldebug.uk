@@ -3,7 +3,7 @@ title: Automating deployments using Terraform with Proxmox and ansible
 date: 2023-05-06 10:03:29 +0100
 image:
   name:
-categories: [Guide]
+categories: [Automation]
 tags: [terraform, proxmox, ansible, automation]
 math: false
 mermaid: false

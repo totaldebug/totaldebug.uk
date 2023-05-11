@@ -12,7 +12,8 @@ tags: [proxmox, ubuntu, cloud-init, cloud-image, linux, clone, template]
 
 Using Cloud images and Cloud init with Proxmox is the quickest, most efficient way to deploy servers at this time. Cloud images are small cloud certified that have Cloud init pre-installed and ready to accept configuration.
 
-Cloud images and Cloud init also work with Proxmox and if you combine this with Terraform (more on that in my next article) you have a fully automated deployment model.
+Cloud images and Cloud init also work with Proxmox and if you combine this with Terraform  you have a fully automated deployment model. See [Automating deployments using Terraform with Proxmox and ansible]({% post_url 2023-05-06-automating-proxmox-with-terraform-ansible %}) for instructions on how to do this.
+int
 
 ## Guide
 

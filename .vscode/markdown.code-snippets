@@ -57,5 +57,9 @@
 			"```",
 			"{: ${3|file,title|}='$4'}"
 		]
+	},
+	"intlink": {
+		"prefix": "intlink",
+		"body": "[$1]({% post_url $2 %})"
 	}
 }
