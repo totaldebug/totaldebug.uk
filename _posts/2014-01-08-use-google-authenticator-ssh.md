@@ -229,6 +229,14 @@ To allow MFA for some accounts and SSH key only for others, make sure the config
 
 After setting this, simply run the `google-authenticatior`  command for any users that require 2FA.
 
+Alternatively, if you only want to allow a single user to bypass 2FA you can add the following:
+
+```shell
+auth [success=done new_authtok_reqd=done default=die] pam_google_authenticator.so
+auth [success=done new_authtok_reqd=done default=die] pam_succeed_if.so user = john
+```
+{: file='/etc/pam.d/sshd'}
+
 ### Specific Networks
 
 There may be some situations where specific networks are trusted and dont require 2FA to be used, in these situations we can update the configuration with the following:
