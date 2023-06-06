@@ -112,15 +112,20 @@ resource "proxmox_vm_qemu" "bastion" {
       private_key = file(var.private_key_path)
     }
   }
-  # Here I execute an ansible playbook to configure the VM.
-  # I specify ANSIBLE_HOST_KEY_CHECKING as if run a second time and the VM is rebuil ansible wont connect unless this is set to false.
-  provisioner "local-exec" {
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ${var.ansible_user}  -l bastion -i ../ansible-deploy/inventory --private-key ${var.private_key_path} -e 'pub_key=${var.public_key_path}' --ssh-extra-args '-o UserKnownHostsFile=/dev/null' ../ansible-deploy/main.yml"
-  }
 }
-```
 
+resource "null_resource" "bastion-ansible" {
+  provisioner "local-exec" {
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ${var.ansible_user}  -l bastion -i ../home-deploy/inventory --private-key ${var.private_key_path} -e 'pub_key=${var.public_key_path}' --ssh-extra-args '-o UserKnownHostsFile=/dev/null' ../home-deploy/main.yml"
+  }
+  depends_on = [ proxmox_vm_qemu.bastion ]
+}
+
+```
 {: file='bastion.tf'}
+
+> I now use a null_resource for executing ansible the reason for this is that it will run every time even if the resource has not changed.
+{: .prompt-tip }
 
 Through all of the files creates you will have noticed variables have been used against various configuration parameters, before they will work they need to be defined in a file, we will call this `vars.tf`
 
@@ -166,7 +171,6 @@ variable "ssh_key" {
 }
 
 ```
-
 {: file='vars.tf'}
 
 Now that we have defined the variables create a credential file to store all our variable information:
@@ -179,7 +183,6 @@ private_key_path = "~/.ssh/id_ed25519"
 public_key_path = "~/.ssh/id_ed25519.pub"
 ansible_user = ""
 ```
-
 {: file='credentials.auto.tfvars'}
 
 > Don't commit this file to Git as it contains sensitive information
