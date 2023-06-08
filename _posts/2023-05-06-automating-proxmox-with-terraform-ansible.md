@@ -7,6 +7,7 @@ categories: [Automation]
 tags: [terraform, proxmox, ansible, automation]
 math: false
 mermaid: false
+series: Automating Proxmox Deployments
 ---
 
 Over the years my home lab has grown and become more and more difficult to maintain, especially because some servers I build and forget as they function so well.

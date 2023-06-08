@@ -5,6 +5,7 @@ image:
   name: thumb.png
 categories: [Automation]
 tags: [proxmox, ubuntu, cloud-init, cloud-image, linux, clone, template]
+series: Automating Proxmox Deployments
 ---
 
 > Updated to latest Ubuntu image & Added enable for qemu service
