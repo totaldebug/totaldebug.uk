@@ -20,6 +20,7 @@ For this to work each post that is required to be part of a series should contai
 series: Automating Proxmox Deployments
 ---
 ```
+
 {: title='Front Matter Example',}
 
 With this metadata we are able to search for all articles that contain the **series** that matches **Automating Proxmox Deployments**. Each article must contain the same name exactly, if there are any spaces or punctuation that is different it will not work.
@@ -30,7 +31,9 @@ Now personally I like to add features like this as includes, it keeps the main `
 
 So go ahead and create a new include called `post-series.html` and add the code below:
 
+{% raw %}
 ```html
+
 {% if page.series %}
 {% assign posts = site.posts | where: "series", page.series | sort: 'date' %}
 <div class="row justify-content-center" id="post-series">
@@ -51,6 +54,7 @@ So go ahead and create a new include called `post-series.html` and add the code 
 </div>
 {% endif %}
 ```
+{% endraw %}
 {: file='post-series.html'}
 
 This works as follows:
@@ -66,9 +70,11 @@ This works as follows:
 
 We have everything we need to get this working, but we need to add it to the layout for our posts, edit the `post.hhml` file and add the include as follows:
 
+{% raw %}
 ```html
 {% include post-series.html %}
 ```
+{% endraw %}
 
 You can add this anywhere you would like it to appear on your post, for my website, I have it appear after the meta but before the article begins as per the below screenshot:
 
