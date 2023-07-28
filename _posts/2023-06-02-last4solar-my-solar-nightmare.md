@@ -147,6 +147,13 @@ However I do believe I was slightly miss-lead by them, I went with them as the c
 
 The way this was worded lead me to believe I would be find with **ANY** energy supplier, that's not the case, currently only 5 energy suppliers accept Flexi-orb and Octopus is not one of these. This is partially my fault as I didn't double check or specifically ask if Octopus would accept it, but believe that the contract shouldn't state SEG payments can be from any supplier I choose when in fact what they meant was any supplier that accepts Flexi-Orb certificates.
 
+## The results
+
+Here you can see my solar, battery usage along with my import / export from the grid.
+{% include post-picture.html img="solar_graph.png" alt="Solar graph" h="200" w="400" shadow="true" align="true" %}
+
+The first full month of the install I have spent £6.95 on electricity and that was with some quite bad weather days. I'm still not on an export tariff so unsure how much additional funds this will yield but judging by the amount I have generated it should be a nice bit of money which will hopefully cover the standing charges.
+
 ## Things to check / be aware of
 
 To ensure that you don't get stuck in the same situation, there are a few things I would highly recommend you take into consideration:
