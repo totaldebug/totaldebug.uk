@@ -4,13 +4,22 @@
   from: 2020
   to: present
   description:
-    Responsible for the design, function and future of the business fleet management strategy and
-    front-line support tooling. Working closely within functional team and with external stakeholders
+    Responsible for the design, function and future of the business products and support tooling.
+    Working closely within functional team and with external stakeholders
     qualifying and documenting new products, both hardware and software.
     <br /><br />
     Identifying areas of improvement both within the team and the larger organization. Designing,
-    engineering, architecture, and integration of tooling to reduce total cost to support customers
+    engineering, architecture, and integration of tooling to reduce total cost, to support customers
     and minimize human error.
+  role:
+    - Identify areas of improvement for existing or new tooling
+    - Manage approved projects and implement within assigned timelines
+    - Provide support and guidance to other engineers
+    - Point of escalation for support teams and Full Stack Systems Engineers
+  technologies:
+    - Python, Powershell, Go, Bootstrap
+    - Github Actions / CICD
+    - Jira project management
 
 - title: Full Stack Systems Engineer II
   company: Rackspace Technology
@@ -21,6 +30,13 @@
     A small team of engineers setup to help standardise, train and implement new ways workflows
     or applications to improve efficiency within the business. Also an escalation point for support
     teams.
+  role:
+    - Improve business workflows and tooling to provide more efficient service
+    - Independently manage assigned tasks and communicate with task stakeholders
+  technologies:
+    - Python, Powershell, Go, Bootstrap
+    - Github Actions / CICD
+    - Jira project management
 
 - title: Technical Support, Team Leader
   company: Rackspace Technology
@@ -29,15 +45,21 @@
   to: 2019
   description:
     Responsible for leading a team of 13 Windows Engineers, providing 3rd line support to our
-    customer base. Duties included, weekly 1-to-1, performance management, On-Call planning,
-    ticket queue reporting and ensuring that tickets were completed within SLA.
+    customer base.
+  role:
+    - Management of Windows Engineering team, including performance reviews and 1-to-1
+    - Planning of on-call rotas and shift patterns
+    - Ticket queue reporting and ensuring SLAs are adhered to
+  technologies:
+    - InfluxDB
+    - Grafana
+    - ServiceNow
 
 - title: Technical Lead
   company: Datapipe (Acquired by Rackspace Technology)
   from: 2015
   to: 2017
-  description:
-    Adapt was a Managed Service Provider, also providing Co-Location and internet circuits to customers.
+  description: Adapt was a Managed Service Provider, also providing Co-Location and internet circuits to customers.
   role:
     - Overall technical responsibility for a number of large enterprise businesses.
     - Work closely with the Account Director and Service Manager to co-ordinate teams and deliver
@@ -56,13 +78,11 @@
     - VMware vRealize
     - ServiceNow
 
-
 - title: Senior Hosting Engineer
   company: Adapt (Acquired by Datapipe)
   from: 2014
   to: 2015
-  description:
-    Adapt was a Managed Service Provider, also providing Co-Location and internet circuits to customers.
+  description: Adapt was a Managed Service Provider, also providing Co-Location and internet circuits to customers.
   role:
     - Architect and project manage deployment of customer environments.
     - Act as an escalation point for Junior engineers.
@@ -101,7 +121,6 @@
     - Windows Server
     - Linux (CentOS / Ubuntu)
     - DNS
-
 
 - title: Senior IT Consultant
   company: Galtec Solutions

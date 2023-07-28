@@ -16,7 +16,7 @@ I started my career in IT straight from high school where I had an apprenticeshi
 datacenters, I then moved on to working for small IT Resellers, and then on to a small Leeds based data center and
 hosting provider where I honed my skills and continue to expand my knowledge.
 
-Now working for one of the worlds largest service providers, I spends his time working on projects to ensure
+Now working for one of the worlds largest service providers, I spends this time working on projects to ensure
 the business runs in the most efficient ways possible by implementing automation tooling and improving processes.
 
 > The world always seems brighter when you’ve just made something that wasn’t there before. <cite>Neil Gaiman</cite>

@@ -133,7 +133,19 @@ I agreed and was told I would get a call the following day to arrange a survey, 
 
 ## The Install
 
-This is yet to be done but I will update this article after my installation has been completed.
+I have now had my install completed, the team came and had the inverter, batteries and 1st string of panels installed on the first day, on the second day they got the final string installed and everything was done. The job was very tidy and looks great.
+
+I did have one issue where the battery kept draining itself and power usage was jumping all over the place, but on investigation I found that the CT Clamp was on upside down, easy mistake to make and it was easy enough for me to fix.
+
+The electrician got the dongle hooked up to my WiFi and helped setup the app on my phone. I did however have to contact ESE as by default they don't leave the ESS Greenlinx battery dongles in, this means its not possible to individually monitor the batteries and should this be required in the future I would be stuck if ESE went into administration. (I'm now waiting for these to be shipped to me)
+
+## Aftercare
+
+Generally ESE have been great, the install was quick and efficient.
+
+However I do believe I was slightly miss-lead by them, I went with them as the contract stated I would be able to use any energy provider to get SEG payments via the flexi-orb certificate which they said is the same as MCS but an alternative.
+
+The way this was worded lead me to believe I would be find with **ANY** energy supplier, that's not the case, currently only 5 energy suppliers accept Flexi-orb and Octopus is not one of these. This is partially my fault as I didn't double check or specifically ask if Octopus would accept it, but believe that the contract shouldn't state SEG payments can be from any supplier I choose when in fact what they meant was any supplier that accepts Flexi-Orb certificates.
 
 ## Things to check / be aware of
 
@@ -143,6 +155,14 @@ To ensure that you don't get stuck in the same situation, there are a few things
 1. If they insist on a Bank Transfer, REFUSE!
     1. They may give excuses like the card machine isn't working, if they don't offer you to pay another day, **walk away!** (I can't stress this enough!)
     1. Bank Transfers (BACS) payments are not protected by your bank only credit cards are.
+1. Not all solar companies are **MCS Certified**, some issue [**Flexi-Orb**](https://www.flexi-orb.com/) Certificates instead.
+    1. Not all energy suppliers accept flexi-orb, at the time of writing only **five** of the major suppliers accept them
+        1. E.ON
+        1. Scottish Power
+        1. British Gas
+        1. SSE
+        1. OVO Energy
+    1. It is likely that once Flexi-Orb is accredited that all energy suppliers will accept it, but at time of writing this is something to be aware of.
 1. HEIS will email you within 48 hours to confirm registration and your cover
     1. If you don't get an email from HEIS, contact them immediately to ensure you have been registered, failure to do so will mean you are not protected by them.
     1. Honestly, from what I have heard, HEIS protection isn't worth the paper its written on.
@@ -163,4 +183,4 @@ My overall solar experience has been stressful to say the least, I'm glad that i
 
 If you are looking for solar I have been very impressed with [ese group](https://esegroup.co.uk/) so far, obviously I will update this based on the install but my Dad had his completed by them and they did a great job.
 
-Were you impacted by this nightmare? let me know in the comments how your install went. 
+Were you impacted by this nightmare? let me know in the comments how your install went.
