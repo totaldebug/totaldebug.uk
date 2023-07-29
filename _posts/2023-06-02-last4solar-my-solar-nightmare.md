@@ -1,7 +1,7 @@
 ---
 title: Last4Solar - My solar nightmare!
 date: 2023-06-02 22:13:35 +0100
-categories: [Grumblings]
+categories: [Musings]
 tags: [solar, battery]
 pin: false
 toc: true

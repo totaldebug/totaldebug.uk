@@ -1,8 +1,8 @@
 ---
 title: 'Two-Factor Authentication: is it worth it, does it really add more security?'
 date: 2016-12-19 20:00:00 +0100
-category: [Thoughts]
-tags: [2fa, thoughts]
+category: [Musings]
+tags: [2fa]
 ---
 
 As we all move to a digital age, adding more and more personal information to the internet security has become a real issue, in recent years there have been hack attempts on well-known brands, including LastPass, LinkedIn, Twitter and Adobe.
