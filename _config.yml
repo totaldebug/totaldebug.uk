@@ -227,3 +227,4 @@ plugins:
   - jemoji
   - jekyll-github-metadata
   - jekyll-gist
+  - jekyll-include-cache
