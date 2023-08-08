@@ -26,12 +26,6 @@
   noblank: true
   url: https://discord.gg/6fmekudc8Q
 
--
-  type: github
-  icon: 'bi bi-github'
-  noblank: true
-  url: https://github.com/totaldebug
-
 
 # Uncomment and complete the url below to enable more contact options
 # -
