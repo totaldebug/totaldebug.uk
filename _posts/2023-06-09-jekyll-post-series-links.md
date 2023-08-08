@@ -1,8 +1,6 @@
 ---
 title: Add series links to Jekyll posts
 date: 2023-06-09 09:06:40 +0100
-image:
-  name:
 categories: [Website]
 tags: [Jekyll, how-to]
 ---
