@@ -1,8 +1,6 @@
 ---
 title: Integrating a Lux Power Inverter with Home Assistant
 date: 2023-08-08 12:05:51 +0100
-image:
-  name:
 categories: [Home Automation]
 tags: [home-assistant, lux-powertek, greenlinx, hanchuess]
 pin: false
@@ -162,4 +160,4 @@ It will allow you to reconnect if the inverter doesn't report for X minutes (I w
 
 If you have followed all of this, you should now have your Lux inverter linked to home assistant and have your usage visible on the dashboard card.
 
-If you have any problems let me know in the comments section or discord and I will assist where possible. 
+If you have any problems let me know in the comments section or discord and I will assist where possible.
