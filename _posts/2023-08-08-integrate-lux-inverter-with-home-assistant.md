@@ -6,6 +6,7 @@ tags: [home-assistant, lux-powertek, greenlinx, hanchuess]
 pin: false
 toc: true
 comments: true
+series: Home Assistant Solar Integration
 ---
 
 After having solar installed I  wanted to get it integrated into home assistant to enable historical monitoring and also automation around my home.
@@ -63,68 +64,6 @@ Once you have added this into HA, you should see some sensors in HA:
 
 Use Developer Tools to view `sensor.luxpower`. Initially, the state will be **Waiting** but after a few minutes when the inverter pushes an update the state will change to **ONLINE** and data will be populated in the attributes.
 
-## Card Setup
-
-In order to view the data live I use the [Sunsync power flow card](https://github.com/slipx06/sunsynk-power-flow-card), this can be installed via HACS with [this link](https://my.home-assistant.io/redirect/hacs_repository/?repository=sunsynk-power-flow-card&category=plugin&owner=slipx06)
-
-### Configuration
-
-Add the `Custom: Sunsynk Power Flow Card` to your Dashboard view with the following base configuration:
-
-```yaml
-type: custom:sunsynk-power-flow-card
-cardstyle: lite
-show_solar: yes
-battery:
-  energy: 12800
-  shutdown_soc: 1
-  show_daily: yes
-solar:
-  show_daily: yes
-  mppts: 2
-load:
-  show_daily: yes
-grid:
-  show_daily_buy: yes
-  show_daily_sell: yes
-  show_nonessential: no
-  invert_grid: yes
-entities:
-  inverter_grid_voltage_154: sensor.lux_grid_voltage_live
-  inverter_load_freq_192: sensor.lux_grid_frequency_live
-  inverter_out_164: sensor.inverter_output_current
-  inverter_out_175: sensor.lux_power_from_inverter_live
-  grid_status_194: bistat
-  inverter_status_59: sensor.luxpower
-  day_battery_charge_70: sensor.lux_battery_charge_daily
-  day_battery_discharge_71: sensor.lux_battery_discharge_daily
-  battery_voltage_183: sensor.lux_battery_voltage_live
-  battery_soc_184: sensor.lux_battery
-  battery_power_190: sensor.battery_output_power
-  battery_current_191: sensor.lux_battery_capacity_ah
-  grid_power_169: sensor.lux_grid_flow_live
-  day_grid_import_76: sensor.lux_power_from_grid_daily
-  day_grid_export_77: sensor.lux_power_to_grid_daily
-  grid_ct_power_172: sensor.lux_grid_flow_live
-  day_load_energy_84: sensor.lux_power_from_inverter_to_home_daily
-  essential_power: sensor.lux_home_consumption_live
-  nonessential_power: none
-  aux_power_166: sensor.aux_output_power
-  day_pv_energy_108: sensor.lux_solar_output_daily
-  pv1_power_186: sensor.lux_solar_output_array_1_live
-  pv2_power_187: sensor.lux_solar_output_array_2_live
-  pv1_v_109: none
-  pv1_i_110: none
-  pv2_v_111: none
-  pv2_i_112: none
-  inverter_ac_temp: sensor.lux_radiator_1_temperature_live
-  inverter_dc_temp: sensor.lux_radiator_2_temperature_live
-  remaining_solar: sensor.sensor.energy_production_today_remaining
-```
-{: title='Card configuration'}
-
-{% include post-picture.html img="card_view.png" alt="" h="200" w="400" shadow="true" align="true" %}
-
 ### Manual Refresh
 
 To manually refresh data, add the following button to the dashboard:
@@ -145,6 +84,7 @@ icon: mdi:cloud-refresh
 name: Refresh LUX Data
 show_state: false
 ```
+
 {: title='Refresh Button'}
 
 > replace `BA********` with your dongle serial
