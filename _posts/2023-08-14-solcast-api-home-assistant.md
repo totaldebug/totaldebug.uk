@@ -1,8 +1,6 @@
 ---
 title: Integrate Solcast API with Home Assistant
 date: 2023-08-14 10:14:35 +0100
-image:
-  name:
 categories: [Home Automation]
 tags: [home-assistant, solcast]
 pin: false

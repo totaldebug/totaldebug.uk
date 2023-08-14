@@ -1,8 +1,6 @@
 ---
 title: Setup the Sunsynk Power Flow Card with a Lux Inverter
 date: 2023-08-14 10:14:35 +0100
-image:
-  name:
 categories: [Home Automation]
 tags: [home-assistant, sunsynk, lovelace]
 pin: false
