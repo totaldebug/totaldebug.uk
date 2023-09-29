@@ -4,7 +4,7 @@ date: 2023-09-29 10:14:35 +0100
 image:
   name: thumb.png
 categories: [Automation]
-tags: [typescript, release]
+tags: [typescript, release, commitizen, semantic-release]
 pin: false
 toc: true
 comments: true
@@ -51,6 +51,7 @@ Below is a guide on how to use Semantic-release and Commitizen packages in your 
 ```bash
 npm install --save-dev semantic-release commitizen cz-conventional-changelog
 ```
+
 {: title='Install components'}
 
 If you find you are unable to use the `git cz` command after using the above install try this:
@@ -58,6 +59,7 @@ If you find you are unable to use the `git cz` command after using the above ins
 ```bash
 npm install -g commitizen
 ```
+
 {: title='Install commitizen globally'}
 
 This will install commitizen globally which seems to resolve the issue.
@@ -115,6 +117,7 @@ This will install commitizen globally which seems to resolve the issue.
  ]
 }
 ```
+
 {: file='package.json'}
 
 This configuration file contains settings used for semantic-release. Lets break this down:
@@ -138,6 +141,7 @@ This configuration file contains settings used for semantic-release. Lets break 
   }
 }
 ```
+
 {: file='package.json'}
 
 4. Configure CI / CD, I use Github Actions in the below example:
@@ -170,6 +174,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
+
 {: file='.github/workflows/release.yml'}
 
 ## How to use semantic-release and commitizen
