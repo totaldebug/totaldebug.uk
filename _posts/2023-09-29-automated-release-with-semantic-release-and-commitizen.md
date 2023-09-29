@@ -10,7 +10,7 @@ toc: true
 comments: true
 ---
 
-When working with JavaScript projects, managing version numbers and commit messages is important for the maintainability of the project. Since 2020 I have been the main developer of [Atomic Calendar Reviver](https://github.com/totaldebug/atomic-calendar-revive) a highly customisable Home Assistant calendar card, I found maintaining versions and releases to be cumbersome until recently. In this article, I will introduce the [commitizen](https://github.com/commitizen/cz-cli) and [semantic-release](https://github.com/semantic-release/semantic-release) packages for creation or appropriate commit messages and semantic versioning. I will also provide examples of how I am currently using these packages to streamline my release workflow and project maintenance.
+When working with JavaScript projects, managing version numbers and commit messages is important for the maintainability of the project. Since 2020 I have been the main developer of [Atomic Calendar Revive](https://github.com/totaldebug/atomic-calendar-revive) a highly customisable Home Assistant calendar card, I found maintaining versions and releases to be cumbersome until recently. In this article, I will introduce the [commitizen](https://github.com/commitizen/cz-cli) and [semantic-release](https://github.com/semantic-release/semantic-release) packages for creation or appropriate commit messages and semantic versioning. I will also provide examples of how I am currently using these packages to streamline my release workflow and project maintenance.
 
 ## The old days
 
@@ -36,7 +36,7 @@ There are many other actions that it can perform via a great plugin architecture
 
 ## What is Commitizen and how does it work?
 
-Commitizen helps developers write commit messages in the same format, this also ensures that all commit messages follow the semantic versioning requirements.
+**commitizen** helps developers write commit messages in the same format, this also ensures that all commit messages follow the semantic versioning requirements.
 
 Commitizen provides an interactive interface that prompts developers for specific information relating to that change, it then generates the commit message in the correct format, ensuring compatibility with semantic versions which ensures semantic-release can read the commit messages as expected.
 
@@ -176,7 +176,7 @@ jobs:
 
 ### Commitizen
 
-Simply run `git add .` `git cz`, this command will run the interactive interface of Commitizen and ask you to write a properly formatted commit message.
+Simply run `git add .` then `git cz`, this command will run the interactive interface of Commitizen and ask you to write a properly formatted commit message.
 
 ### Semantic Release
 
@@ -205,9 +205,9 @@ The conventional commit format states that commit messages should be formatted a
 [optional footer(s)]
 ```
 
-- **<type>**: Indicates the type of change (e.g., fix, feat, chore, docs, refactor, test, etc.).
+- **type**: Indicates the type of change (e.g., fix, feat, chore, docs, refactor, test, etc.).
 - **[optional scope]** (optional): Describes the part of the project that the change is applied to.
-- **<summary>**: A concise description of the change.
+- **summary**: A concise description of the change.
 - **[optional body]** (optional): A more detailed description of the change if required.
 - **[optional footer(s)]** (optional): Add tags to issues / reviewers etc.
 
