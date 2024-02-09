@@ -1,0 +1,38 @@
+name: Build and deploy Jekyll site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  jekyll:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📂 setup
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: "0"
+
+      - name: 💎 setup ruby
+        id: ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1.2
+
+      - name: 🔨 install dependencies & build site
+        if: steps.ruby.outcome == 'success'
+        id: deps
+        uses: limjh16/jekyll-action-ts@v2
+        env:
+          JEKYLL_GITHUB_TOKEN: ${{ secrets.JEKYLL_GITHUB_TOKEN }}
+        with:
+          enable_cache: true
+
+      - name: 🚀 deploy
+        if: steps.deps.outcome == 'success'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
