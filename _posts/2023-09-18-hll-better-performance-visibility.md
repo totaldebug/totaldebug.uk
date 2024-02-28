@@ -141,11 +141,11 @@ Some settings cannot be changed in the UI, therefore you would need to edit them
    1. If you can't see the **AppData** folder, click on the **View**, select the **Hidden items**
 1. Open the `GameUserSettings.ini` file
 1. Update the settings listed in the table below:
-   |      Option       | Setting |                                  Note                                   |
-   | :---------------: | :-----: | :---------------------------------------------------------------------: |
-   |  FrameRateLimit   |  `144`  | This should be set to your monitor refresh rate e.g. 120, 144, 240 etc. |
-   | sg.ShadowQuality  |   `0`   |                                                                         |
-   | sg.FoliageQuality |   `0`   |                                                                         |
+|      Option       | Setting |                                  Note                                   |
+| :---------------: | :-----: | :---------------------------------------------------------------------: |
+|  FrameRateLimit   |  `144`  | This should be set to your monitor refresh rate e.g. 120, 144, 240 etc. |
+| sg.ShadowQuality  |   `0`   |                                                                         |
+| sg.FoliageQuality |   `0`   |                                                                         |
 1. Save the file
 1. Right click the `GameUserSettings.ini` file
 1. Click Properties
