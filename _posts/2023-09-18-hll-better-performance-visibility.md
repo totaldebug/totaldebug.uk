@@ -59,6 +59,18 @@ This setting made a noticable improvement to my experience in game, before disab
 1. Turn **Variable Refresh Rate** Off
 1. Turn **Optimisations for Windows games** Off
 
+### Disable Control Flow Guard
+
+This Windows feature provides additional security by controlling the flow of your system's operations. However, in some gaming scenarios, it might lead to performance issues. Therefore, lets turn this off to potentially enhance your gaming performance.
+
+1. Press the Windows key on your keyboard and type "Exploit protection", then hit Enter to continue.
+1. Next, switch over to the **Program Settings** tab.
+1. Click the **+** sign next to "Add program to customize" and select "Choose exact file path".
+1. A file explorer window will pop up. Navigate to the install directory and `binaries\win64` for example: `C:\Program Files (x86)\Steam\steamapps\common\Hell Let Loose\HLL\Binaries\Win64`.
+1. Click on the `HLL-Win64-Shipping.exe` file and select "Open".
+1. You should see a new window open. Scroll down to the **Control flow guard (CFG)** option and check the **Override system setting** box.
+Then, turn it **Off** and click **Apply**. Should a Windows Security popup appear, confidently click **Yes**.
+
 ## Nvidia Users
 
 For Nvidia users there are some additional options available which will give you the overall advantage to an AMD user.
@@ -79,6 +91,14 @@ To do this:
 ## Game Settings
 
 These settings are to squeeze out the most FPS out of the game and the highest visibility available.
+
+### Movies Folder
+
+If you're looking for a quick fix to potentially improve game performance, follow these simple steps:
+
+1. Navigate to your installation directory, usually found at `C:\Program Files (x86)\Steam\
+From here, go to steamapps\common\Hell Let Loose\HLL\Content`
+1. Locate and delete the **Movies** folder.
 
 ### In-Game changes
 
