@@ -2,11 +2,14 @@
 title: Hell Let Loose, better performance and visibility settings
 date: 2023-08-18 10:14:35 +0100
 categories: [Gaming]
-tags: [hell let loose, hll, performance, visibility]
+tags: [hell let loose, hll, performance, visibility, nvidia]
 pin: false
 toc: true
 comments: true
 ---
+
+> This article has been updated to include some new config improvements and remove the nVidia filters as these are now disabled.
+{: .prompt-info }
 
 For anyone playing Hell Let Loose, you will have come across the annoyance of never being able to spot your enemy but they always seem to get you, Well the chances are they were using the settings I'm about to share with you.
 
@@ -34,6 +37,28 @@ There are other options recommended in other articles, however I don't recommend
 
 Changing the power plan to high performance wont increase the performance, but will increase your power consumption, this will basically tell the computer to always keep the resources available even when not needed for games etc. so is unnecessary.
 
+## Windows Settings
+
+By default Windows 11 has some settings that can reduce performance
+
+### Game Bar
+
+1. Open Settings
+1. Go to **Gaming**
+1. Go to **Game Bar**
+1. Change **Allow controller to open Game Bar** to Off
+
+### Variable Refresh Rate/ Optimisation for Windows games
+
+This setting made a noticable improvement to my experience in game, before disabling this i would see freezing and stuttering during gameplay
+
+1. Open Settings
+1. Go to **Gaming**
+1. Click **Graphics**
+1. Click **Change default graphics settings**
+1. Turn **Variable Refresh Rate** Off
+1. Turn **Optimisations for Windows games** Off
+
 ## Nvidia Users
 
 For Nvidia users there are some additional options available which will give you the overall advantage to an AMD user.
@@ -53,76 +78,65 @@ To do this:
 
 ## Game Settings
 
-These settings are to squeeze out the most FPS out of the game and the highest visibility we can get.
+These settings are to squeeze out the most FPS out of the game and the highest visibility available.
 
-### Gameplay Tab
+### In-Game changes
 
-1. **Dead bodies despawn delay** - 0.5 min
+#### Gameplay Tab
 
-#### Optional
+|          Option           |  Setting  | Note  |
+| :-----------------------: | :-------: | :---: |
+| Dead bodies despawn delay | `0.5` min |       |
+
+##### Optional
 
 These optional settings are down to personal preference but this is how I set mine up:
 
-1. **Hud Display Mode** - Always On
-1. **Player Nameplate Opacity** - 70% / 75% this helps it not get in the way of players in front.
+|          Option          |    Setting    |                         Note                          |
+| :----------------------: | :-----------: | :---------------------------------------------------: |
+|     Hud Display Mode     |  `Always On`  |                                                       |
+| Player Nameplate Opacity | `70%` / `75%` | This helps it not get in the way of players in front. |
 
-### Video Tab
+#### Video Tab
 
-1. **Brightness** - 130%, but change this for what works for you.
-1. **Texture Quality** - Low
-1. **Shadow Quality** - Low
-1. **Anti-Aliasing Method** - Community TAA
-1. **Anti-Aliasing Quality** - High, Anything lower will make things blurred
-1. **FX Quality** - Low, makes it easier to see enemies through smokes / fires etc.
-1. **View Distance** - High
-1. **Foliage Quality** - Medium, any higher and additional bushes will be rendered making it harder to spot enemies in bushes etc.
-1. **Postprocess Quality** - Medium
-1. **SSAO** **Motion Blur** - Off
+|        Option         |     Setting     |                                             Note                                              |
+| :-------------------: | :-------------: | :-------------------------------------------------------------------------------------------: |
+|      Brightness       |     `130%`      |                          Change this per map to what works for you.                           |
+|    Texture Quality    |      `Low`      |                                                                                               |
+|    Shadow Quality     |      `Low`      |                                                                                               |
+| Anti-Aliasing Method  | `Community TAA` |                                                                                               |
+| Anti-Aliasing Quality |     `High`      |                            Anything lower will make things blurred                            |
+|      FX Quality       |      `Low`      |                       Easier to see enemies through smokes / fires etc.                       |
+|     View Distance     |     `High`      |                                                                                               |
+|    Foliage Quality    |    `Medium`     | any higher and additional bushes will be rendered making it harder to spot enemies in bushes. |
+|  Postprocess Quality  |    `Medium`     |                                                                                               |
+|         SAOO          |      `Off`      |                                                                                               |
+|      Motion Blur      |      `Off`      |                                                                                               |
 
-## Is this cheating?
+### GameUserSettings.ini File
 
-> The following settings should probably be blocked by the developers but at this time are not against the rules of
-{: .prompt-info }
+Some settings cannot be changed in the UI, therefore you would need to edit them in the user ini files
 
-Some people argue that changes outside of the game could be construed as cheating, the reason being that you are modifying the settings further than what the game developers intended.
+1. Go to `C:\Users\%UserName%\AppData\Local\HLL\Saved\Config\WindowsNoEditor`
+   1. If you can't see the **AppData** folder, click on the **View**, select the **Hidden items**
+1. Open the `GameUserSettings.ini` file
+1. Update the settings listed in the table below:
+   |      Option       | Setting |                                  Note                                   |
+   | :---------------: | :-----: | :---------------------------------------------------------------------: |
+   |  FrameRateLimit   |  `144`  | This should be set to your monitor refresh rate e.g. 120, 144, 240 etc. |
+   | sg.ShadowQuality  |   `0`   |                                                                         |
+   | sg.FoliageQuality |   `0`   |                                                                         |
+1. Save the file
+1. Right click the `GameUserSettings.ini` file
+1. Click Properties
+1. Check Read-Only
+1. Click OK
 
-However, using every advantage available to you without modifying the game through another program e.g. aimbots etc. in my eyes is just being smart. Also if all other competitive teams use all the advantages available to them, then you should be too.
-
-## Additional Nvidia Settings
-
-Go back into the Nvidia control panel, but this time into the **Adjust desktop color settings** tab.
-
-> Be aware these settings will change across the whole computer and not just whilst in the game
-{: .prompt-info }
-
-1. **Digital Vibrance** - 65% / 70%, change this to preferred value
-
-### In Game Filters
-
-If you have Nvidia Geforce Experience installed you are able to take advantage on the In Game filters.
-
-Adding these filters is very much personal preference, however below are the settings that I use which I feel work quite well:
-
-1. Press Alt-z or Alt-F3
-1. Game Filters
-1. Add Filter
-1. Brightness / Contrast
-    1. Exposure - 10%
-    1. Contrast - 15%
-    1. Shadows - -10%
-1. Colour
-    1. Temperature - -11.6%
-    1. Vibrance - 10.5%
-1. Details
-    1. Sharpen - 22%
-    1. Clarity - 100%
-    1. HDR Cloning - 61%
-
-> Tarkov have asked Nvidia to remove the game from these filters, so it is likely that HLL may also follow this and remove this ability in the future
-{: .prompt-warning }
+> Make a copy of this file somewhere safe, sometimes updates cause this to be reset
+{: .prompt-tip }
 
 ## Final Thoughts
 
-Some of these settings are quite controversial and some players class this as cheating, however until HLL make changes to ban these settings, other players will be using them and will always have an advantage over you.
+At this moment nVidia filters have been disabled at the request of the HLL Devs, this brings back a balance between nVidia and AMD users to stop additional filtering from happening and reduces the advantage nVidia users used to have.
 
-Let me know if you have any additional settings to assist with visibility of HLL
+Let me know if you have any additional settings to assist with the performance or visibility of HLL
