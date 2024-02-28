@@ -33,9 +33,9 @@ _Thank You for reading!_
 </div>
 
 <div class="row">
-{% include about/certs.html title="Certifications" source=site.data.certs %}
+{% include elements/certifications.html title="Certifications" source=site.data.certs %}
 </div>
 
 <div class="row">
-{% include about/timeline.html %}
+{% include elements/timeline.html %}
 </div>
