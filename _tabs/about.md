@@ -27,8 +27,8 @@ with my beautiful wife and children.
 _Thank You for reading!_
 
 <div class="row">
-{% include about/skills.html title="Key Skills" source=site.data.skills.key %}
-{% include about/skills.html title="Programming Skills" source=site.data.skills.programming %}
+{% include element/progress.html title="Key Skills" source=site.data.skills.key %}
+{% include element/progress.html title="Programming Skills" source=site.data.skills.programming %}
 
 </div>
 
