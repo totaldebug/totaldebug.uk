@@ -1,38 +1,56 @@
-name: Build and deploy Jekyll site to GitHub Pages
+name: Deploy Jekyll site to Pages
 
 on:
   push:
-    branches:
-      - master
+    branches: ["main", "master"]
   workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  jekyll:
+  # Build job
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: 📂 setup
-        uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: "0"
-
-      - name: 💎 setup ruby
-        id: ruby
-        uses: ruby/setup-ruby@v1
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1 # v1.161.0
         with:
-          ruby-version: 3.1.2
-
-      - name: 🔨 install dependencies & build site
-        if: steps.ruby.outcome == 'success'
-        id: deps
-        uses: limjh16/jekyll-action-ts@v2
+          ruby-version: 3.3
+      - name: Update Gem
+        run: gem update --system
+      - name: Install Gems
+        run: bundle install
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v4
+      - name: Build with Jekyll
+        # Outputs to the './_site' directory by default
+        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
-          JEKYLL_GITHUB_TOKEN: ${{ secrets.JEKYLL_GITHUB_TOKEN }}
+          JEKYLL_ENV: production
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          enable_cache: true
+          path: "_site${{ steps.pages.outputs.base_path }}"
 
-      - name: 🚀 deploy
-        if: steps.deps.outcome == 'success'
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_site
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
