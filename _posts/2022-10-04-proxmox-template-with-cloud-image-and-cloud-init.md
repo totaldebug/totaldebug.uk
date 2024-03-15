@@ -2,7 +2,7 @@
 title: "Proxmox Template with Cloud Image and Cloud Init"
 date: 2022-10-04 19:54:00 +0100
 image:
-  path: thumb.png
+  path: assets/img/posts/proxmox-template-with-cloud-image-and-cloud-init/thumb.png
 categories: [Automation]
 tags: [proxmox, ubuntu, cloud-init, cloud-image, linux, clone, template]
 series: Automating Proxmox Deployments

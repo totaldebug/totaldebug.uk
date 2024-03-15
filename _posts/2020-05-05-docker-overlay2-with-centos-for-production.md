@@ -2,7 +2,7 @@
 title: Docker Overlay2 with CentOS for production
 date: 2020-05-05 00:00:00 +0100
 image:
-  path: thumb.png
+  path: assets/img/posts/docker-overlay2-with-centos-for-production/thumb.png
 categories: [Docker, Overlay2]
 tags: [docker, overlay2, centos, production]
 ---

@@ -2,7 +2,7 @@
 title: "Install, Configure and add a repository with Git on CentOS 7"
 date: 2018-04-07 07:36:46 +00:00
 image:
-  path: thumb.png
+  path: assets/img/posts/install-configure-and-add-repository-with-git-on-centos-7/thumb.png
 categories: [Linux, CentOS]
 tags: [centos, code, commit, git, github, init, repo, repository]
 ---

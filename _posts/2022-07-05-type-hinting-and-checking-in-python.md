@@ -2,7 +2,7 @@
 title: "Type hinting and checking in Python"
 date: 2022-07-05 14:50:00 +0100
 image:
-  path: thumb.png
+  path: assets/img/posts/type-hinting-and-checking-in-python/thumb.png
 categories: [Python, Code Quality]
 tags: [type hints, typing, python, best practices, code quality, standards]
 ---

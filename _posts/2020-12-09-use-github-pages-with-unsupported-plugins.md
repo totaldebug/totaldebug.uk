@@ -5,7 +5,7 @@ excerpt: >-
   find out how to mitigate this issue
 date: 2020-12-09 00:00:00 +0100
 image:
-  path: thumb.png
+  path: assets/img/posts/use-github-pages-with-unsupported-plugins/thumb.png
 categories: [Website]
 tags: [github, pages, jekyll, plugins, actions]
 ---

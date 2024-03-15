@@ -2,7 +2,7 @@
 title: 3d Printer Axes Calibration
 date: 2020-01-28 00:00:00 +0100
 image:
-  path: thumb.png
+  path: assets/img/posts/3d-printer-axes-calibration/thumb.png
 categories: [3D Printer, Axes Calibration]
 tags: [3d, calibration, ender3, octoprint, pronterface]
 ---

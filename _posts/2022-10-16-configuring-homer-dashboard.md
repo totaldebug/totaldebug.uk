@@ -2,9 +2,10 @@
 title: "Configuring Homer Dashboard"
 date: 2022-10-16 10:15:00 +0100
 image:
-  path: my_dash.png
+  path: assets/img/posts/configuring-homer-dashboard/my_dash.png
 categories: [Containers]
 tags: [homer, docker, container, dashboard]
+series: Homer
 ---
 
 In my last [article](https://totaldebug.uk//posts/homer-dashboard-with-docker/) I talked about how to setup Homer dashboard with Docker, now I will walk through some of the features and how to use them.

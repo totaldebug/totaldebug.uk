@@ -5,7 +5,7 @@ excerpt: >-
   e.g. creating a Python package project from a Python package project template.
 date: 2021-11-10 00:00:00 +0100
 image:
-  path: thumb.png
+  path: assets/img/posts/cookiecutter-automate-project-creation/thumb.png
 categories: [Automation]
 tags: [templating, best practices, code quality]
 ---

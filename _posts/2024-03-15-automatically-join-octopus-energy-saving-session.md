@@ -2,7 +2,7 @@
 title: Automatically Join Octopus Energy Saving Sessions
 date: 2024-03-15 10:14:35 +0100
 image:
-  path: thumb.png
+  path: assets/img/posts/automatically-join-octopus-energy-saving-session/thumb.png
 categories: [Home Automation]
 tags: [octopus, ha, saving, session]
 pin: false

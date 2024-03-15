@@ -5,7 +5,7 @@ excerpt: >-
   version control without having to manage hundreds of files.
 date: 2021-07-07 00:00:00 +0100
 image:
-  path: thumb.png
+  path: assets/img/posts/sqitch-sensible-database-change-management/thumb.png
 categories: [Database, Automation]
 tags: [sqitch, db, change, management, database, automation]
 ---

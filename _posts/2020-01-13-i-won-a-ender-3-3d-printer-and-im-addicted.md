@@ -2,7 +2,7 @@
 title: "I won a Ender 3 3D Printer and i'm addicted"
 date: 2020-01-13 00:00:00 +0100
 image:
-  path: thumb.png
+  path: assets/img/posts/i-won-a-ender-3-3d-printer-and-im-addicted/thumb.png
 categories: [3D Printer, Ender3]
 tags: [3d, ender3, competition]
 ---

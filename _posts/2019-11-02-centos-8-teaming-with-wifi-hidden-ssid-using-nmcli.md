@@ -2,7 +2,7 @@
 title: CentOS 8 Teaming with WiFi Hidden SSID using nmcli
 date: 2019-11-02 00:00:00 +0100
 image:
-  path: thumb.png
+  path: assets/img/posts/centos-8-teaming-with-wifi-hidden-ssid-using-nmclithumb.png
 categories: [Linux, CentOS, Networking, Wireless]
 tags: [linux, centos, networking, wireless, nmcli]
 ---

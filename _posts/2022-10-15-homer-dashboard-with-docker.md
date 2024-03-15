@@ -2,9 +2,10 @@
 title: "Homer dashboard with Docker"
 date: 2022-10-15 22:57:00 +0100
 image:
-  path: demo_dash.png
+  path: assets/img/posts/homer-dashboard-with-docker/demo_dash.png
 categories: [Containers]
 tags: [homer, docker, container, dashboard]
+series: Homer
 ---
 
 Recently I have decided to get my home network in order, One of the things I realised was that I spend a lot of time trying to remember the IP addresses or URLs for services within my home, especially ones that I access infrequently.

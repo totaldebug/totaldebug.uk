@@ -2,7 +2,7 @@
 title: Automated release with Semantic Release and commitizen
 date: 2023-09-29 10:14:35 +0100
 image:
-  path: thumb.png
+  path: assets/img/posts/automated-release-with-semantic-release-and-commitizen/thumb.png
 categories: [Automation]
 tags: [typescript, release, commitizen, semantic-release]
 pin: false
