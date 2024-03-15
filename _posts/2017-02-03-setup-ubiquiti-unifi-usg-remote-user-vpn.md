@@ -2,7 +2,7 @@
 title: Setup Ubiquiti UniFi USG Remote User VPN
 date: 2017-02-03 17:20:22 +00:00
 image:
-  name: usg.jpg
+  path: usg.jpg
 categories: [Networking, Unifi]
 tags: [remove, ubiquiti, unifi, user, usg, vpn]
 ---

@@ -2,7 +2,7 @@
 title: "Configuring Homer Dashboard"
 date: 2022-10-16 10:15:00 +0100
 image:
-  name: my_dash.png
+  path: my_dash.png
 categories: [Containers]
 tags: [homer, docker, container, dashboard]
 ---

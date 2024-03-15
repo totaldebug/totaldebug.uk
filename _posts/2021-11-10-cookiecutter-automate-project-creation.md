@@ -5,7 +5,7 @@ excerpt: >-
   e.g. creating a Python package project from a Python package project template.
 date: 2021-11-10 00:00:00 +0100
 image:
-  name: thumb.png
+  path: thumb.png
 categories: [Automation]
 tags: [templating, best practices, code quality]
 ---

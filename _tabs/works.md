@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Works
-icon: bi bi-kanban
+icon: fas fa-list-check
 order: 5
 remote_works:
   - atomic-calendar-revive

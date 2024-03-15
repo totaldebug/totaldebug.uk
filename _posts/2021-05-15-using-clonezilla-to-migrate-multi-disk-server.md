@@ -4,7 +4,7 @@ excerpt: >-
   I have been migrating all of my servers to ProxMox, however one issue I found was migrating VMs with multiple disks, in this article I explain my process.
 date: 2021-05-15 00:00:00 +0100
 image:
-  name: thumb.png
+  path: thumb.png
 categories: [Virtualisation, Proxmox, Migration]
 tags: [clonezilla, proxmox, vmware, migration]
 ---

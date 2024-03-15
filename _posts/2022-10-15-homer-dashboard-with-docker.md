@@ -2,7 +2,7 @@
 title: "Homer dashboard with Docker"
 date: 2022-10-15 22:57:00 +0100
 image:
-  name: demo_dash.png
+  path: demo_dash.png
 categories: [Containers]
 tags: [homer, docker, container, dashboard]
 ---

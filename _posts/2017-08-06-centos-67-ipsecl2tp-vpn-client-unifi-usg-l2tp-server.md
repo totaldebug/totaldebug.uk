@@ -1,5 +1,4 @@
 ---
-id: 6171
 title: CentOS 6/7 IPSec/L2TP VPN client to UniFi USG L2TP Server
 date: 2017-08-06T20:30:46+00:00
 categories: [Linux, Unifi]

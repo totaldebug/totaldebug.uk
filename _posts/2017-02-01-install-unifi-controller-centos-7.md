@@ -1,9 +1,8 @@
 ---
 title: Install UniFi Controller on CentOS 7
 date: 2017-02-01 09:50:25 +00:00
-image: https://spottedhyena.co.uk/wp-content/uploads/2017/02/unifi.png
 image:
-  name: unifi.png
+  path: unifi.png
 categories: [Linux, Unifi]
 tags: [centos, centos7, controller, ubuquiti, unifi]
 ---

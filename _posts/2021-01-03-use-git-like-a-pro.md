@@ -5,7 +5,7 @@ excerpt: >-
   I have improved my workflows and documented this here
 date: 2021-01-04 00:00:00 +0100
 image:
-  name: thumb.png
+  path: thumb.png
 categories: [Git]
 tags: [best practices, code quality, versioning, git]
 ---

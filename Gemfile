@@ -4,7 +4,6 @@ gem 'jekyll', '~> 4.3.3'
 
 group :jekyll_plugins do
     gem "jekyll-remote-theme"
-    #gem "jekyll-feed"
     gem "jekyll-webp"
     gem "jemoji"
     gem "jekyll-paginate"
@@ -12,7 +11,7 @@ group :jekyll_plugins do
     gem "jekyll-seo-tag"
     gem "jekyll-archives"
     gem "jekyll-sitemap"
-    gem "jekyll-github-metadata"
+    #gem "jekyll-github-metadata"
     gem "jekyll-gist"
     gem "jekyll-include-cache"
 end

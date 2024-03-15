@@ -11,12 +11,12 @@ bootstrap:
   css: /assets/lib/bootstrap/bootstrap.min.css
   js: /assets/lib/bootstrap/bootstrap.bundle.min.js
 
-bootstrap-toc:
-  css: /assets/lib/bootstrap-toc/bootstrap-toc.min.css
-  js: /assets/lib/bootstrap-toc/bootstrap-toc.min.js
+toc:
+  css: /assets/lib/tocbot/tocbot.min.css
+  js: /assets/lib/tocbot/tocbot.min.js
 
-bootstrap-icons:
-  css: /assets/lib/bootstrap-icons/bootstrap-icons.css
+fontawesome:
+  css: /assets/lib/fontawesome-free/css/all.min.css
 
 search:
   js: /assets/lib/simple-jekyll-search/simple-jekyll-search.min.js
@@ -41,9 +41,6 @@ lazy-polyfill:
 
 clipboard:
   js: /assets/lib/clipboard/clipboard.min.js
-
-polyfill:
-  js: /assets/lib/polyfill-v3-es6/polyfill.min.js
 
 mathjax:
   js: /assets/lib/mathjax/tex-chtml.js
