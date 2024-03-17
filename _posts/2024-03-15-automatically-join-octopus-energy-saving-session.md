@@ -97,3 +97,56 @@ data:
 {% endraw %}
 
 Now you can save this automation and rest easy knowing you will never miss a saving session again.
+
+Full Yaml: 
+
+{% raw %}
+```yaml
+alias: energy - Join Saving Session
+description: ""
+trigger:
+  - platform: state
+    entity_id:
+      - event.octopus_energy_a_123456789_octoplus_saving_session_events
+condition:
+  - condition: template
+    value_template: >-
+      {{
+      state_attr('event.octopus_energy_a_123456789_octoplus_saving_session_events',
+      'available_events') | length > 0 }}
+action:
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.saving_session_start_time
+    data:
+      datetime: |-
+        {{
+          state_attr('event.octopus_energy_a_89b814e6_octoplus_saving_session_events', 'available_events')[0]['start']
+        }}
+  - service: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.saving_session_end_time
+    data:
+      datetime: |-
+        {{
+          state_attr('event.octopus_energy_a_123456789_octoplus_saving_session_events', 'available_events')[0]['end']
+        }}
+  - service: octopus_energy.join_octoplus_saving_session_event
+    metadata: {}
+    data:
+      event_code: trigger.event.data['event_code']
+    target:
+      entity_id: event.octopus_energy_a_123456789_octoplus_saving_session_events
+  - service: notify.mobile
+    metadata: {}
+    data:
+      message: |-
+        {% set event_start =
+          state_attr('event.octopus_energy_a_123456789_octoplus_saving_session_events', 'available_events')[0]['start'] 
+        %}
+          Joined a new Octopus Energy saving session. It starts at {{ event_start.strftime('%H:%M') }} 
+          on {{ event_start.day }}/{{ event_start.month }}
+mode: single
+```
+{% endraw %}
+
