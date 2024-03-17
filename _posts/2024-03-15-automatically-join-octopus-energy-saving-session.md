@@ -16,7 +16,7 @@ In order to do this you would need the following:
 
 - An Octopus Energy account
 - Home Assistant
-- [BottleCapDaves Octopus Integration]([https://](https://github.com/BottlecapDave/HomeAssistant-OctopusEnergy))
+- [BottleCapDaves Octopus Integration](https://github.com/BottlecapDave/HomeAssistant-OctopusEnergy)
 
 My automation looks like this:
 
