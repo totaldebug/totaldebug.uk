@@ -121,7 +121,7 @@ action:
     data:
       datetime: |-
         {{
-          state_attr('event.octopus_energy_a_89b814e6_octoplus_saving_session_events', 'available_events')[0]['start']
+          state_attr('event.octopus_energy_a_123456789_octoplus_saving_session_events', 'available_events')[0]['start']
         }}
   - service: input_datetime.set_datetime
     target:
