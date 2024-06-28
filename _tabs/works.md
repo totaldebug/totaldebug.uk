@@ -6,7 +6,6 @@ order: 5
 remote_works:
   - atomic-calendar-revive
   - pyarr
-  - inkdrop-import-dendron
   - sphinx-publish-action
   - cloudflare-ddns
   - ansible-collection-hassio_cli
