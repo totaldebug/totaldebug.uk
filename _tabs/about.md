@@ -23,5 +23,4 @@ the business runs in the most efficient ways possible by implementing automation
 
 _Thank You for reading!_
 
-
 [My Resume](https://resume.totaldebug.uk/)
