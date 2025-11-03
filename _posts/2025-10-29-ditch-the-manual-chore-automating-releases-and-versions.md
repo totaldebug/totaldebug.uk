@@ -1,6 +1,8 @@
 ---
 title: "Ditch the Manual Chore: Automating Releases and Versioning with release-please"
 date: 2025-11-03 10:14:35 +0000
+image:
+  path: assets/img/posts/ditch-the-manual-chore-automating-releases-and-versions/thumb.png
 categories: [Automation, Git]
 tags: [release-please, git, automation, ci/cd, workflow]
 pin: false
