@@ -4,20 +4,23 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-Hi, Im **Steve** a Full Stack Systems Engineer from [Leeds](https://en.wikipedia.org/wiki/Leeds), UK.
+Hi, I'm **Steve**, a Full Stack, Cloud Engineer from [Leeds](https://en.wikipedia.org/wiki/Leeds), UK.
 
-I created this website to provide a location where I could share articles related to my interests / findings
-when working as a Developer / Solution Architect.
+By day, I'm a **Full Stack & Infrastructure Engineer at Periphery Security**, a cybersecurity startup on a mission to secure the Internet of Things. My role is to design and build the full-stack platform that powers our tiny, AI-driven embedded agent. This means I get to work on everything from the cloud infrastructure and backend APIs to the frontend our customers use.
 
-My interest in IT started when I was very young, my Uncle worked for a large IT company and I was always fascinated
-by his work. I would build my own computers with him and eventually built them for friends and family too.
+### Why TotalDebug?
 
-I started my career in IT straight from high school where I had an apprenticeship with Kodak working in one of their
-datacenters, I then moved on to working for small IT Resellers and then on to a small Leeds based data center /
-hosting provider where I honed my skills and continued to expand my knowledge.
+This site is my digital notebook and workshop. It's where I share my findings, "how-to" guides, and solutions from the trenches of software development, systems automation, and now, cybersecurity.
 
-Now working for one of the worlds largest service providers, I spend my time working on projects to ensure
-the business runs in the most efficient ways possible by implementing automation tooling and improving processes.
+If you're passionate about optimising workflows, building scalable infrastructure, or just seeing how tech can be broken down and rebuilt, you're in the right place.
+
+### The Backstory
+
+My interest in IT started young, building computers with my uncle for friends and family. I dove straight into the industry from high school with an apprenticeship at Kodak.
+
+That first role in a datacenter kicked off a journey through IT resellers, hosting providers, and eventually, a long stint at one of the world's largest service providers. There, I honed my skills in architecture and automation, building the tools and processes to make large-scale systems run efficiently.
+
+Now, I'm applying that same passion for building and automating to the new and exciting challenge of protecting IoT devices.
 
 > The world always seems brighter when you’ve just made something that wasn’t there before. <cite>Neil Gaiman</cite>
 
