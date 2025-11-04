@@ -152,6 +152,113 @@ jobs:
           manifest-file: .release-please-manifest.json
 ```
 
+### 5. Trigger additional workflows
+
+Creating the release PR is only half the battle. The real value comes from using it to trigger our staging pipeline, allowing for proper user testing before the release is finalised.
+
+We want to build and push a new 'release candidate' (RC) image to our container registry every time the `release-please` PR is opened or updated. This ensures our staging environment always has the very latest proposed code.
+
+To do this, we can create a separate GitHub Actions workflow that listens to `pull_request` events on the `main` branch. The magic lies in adding a condition to ensure it only runs for PRs created by `release-please`.
+
+Here is the complete workflow file:
+
+
+```yaml
+name: Create Staging artifact from Release PR
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - "main"
+
+jobs:
+  build-and-deploy-staging:
+    runs-on: ubuntu-latest
+    # This 'if' condition is the key:
+    # It checks that the source branch name starts with the prefix
+    # used by release-please.
+    if: startsWith(github.head_ref, 'release-please--')
+    permissions:
+      contents: read
+      id-token: write # Assuming auth with GCP/AWS/Azure
+    steps:
+      - name: Checkout code from PR
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: 📝 Extract version from manifest file
+        id: extract_version
+        run: |
+          # Example output: 1.1.0
+          VERSION=$(jq -r '.["."]' .github/release-please-manifest.json)
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: 🔢 Calculate Next Staging Tag
+        id: calculate-staging-tag
+        run: |
+          set -eo pipefail
+          # The base version (e.g., 1.1.0) from the previous step
+          BASE_VERSION="${{ steps.extract_version.outputs.version }}"
+          # Assumes IMG env var is set (e.g., ghcr.io/my-org/my-repo)
+          IMAGE_NAME="${{ env.IMG }}"
+
+          echo "Base version detected: $BASE_VERSION"
+
+          # 1. Query registry for existing tags matching the pattern X.Y.Z-rc.N
+          # We search for tags like '1.1.0-rc.1', '1.1.0-rc.2', etc.
+          # This example uses gcloud, adjust for your registry (e.g., 'az acr', 'docker search')
+          TAGS=$(gcloud container images list-tags "$IMAGE_NAME" \
+            --format="json(tags)" \
+            --filter="tags~^${BASE_VERSION}-rc\.[0-9]+$" 2>/dev/null || echo "[]")
+
+          # 2. Determine the next sequential number
+          if [ "$TAGS" == "[]" ]; then
+              # No matching tags found, start at .1
+              NEXT_NUM=1
+              echo "No previous rc tags found. Starting at rc.1."
+          else
+              # Extract the number from tags, sort numerically, and take the highest
+              MAX_NUM=$(echo "$TAGS" | jq -r --arg V "$BASE_VERSION" '.[] | .tags[] | select(startswith($V + "-rc.")) | split(".")[-1] | tonumber' | sort -rn | head -n 1)
+
+              if [ -z "$MAX_NUM" ] || [ "$MAX_NUM" -eq 0 ]; then
+                  NEXT_NUM=1
+              else
+                  # Increment the highest number found
+                  NEXT_NUM=$((MAX_NUM + 1))
+              fi
+              echo "Highest previous rc number found: ${MAX_NUM}. Next number is: ${NEXT_NUM}"
+          fi
+
+          # 3. Output the final tag (e.g., 1.1.0-rc.2)
+          NEW_TAG="${BASE_VERSION}-rc.${NEXT_NUM}"
+          echo "NEW_TAG=${NEW_TAG}"
+          echo "staging_tag=$NEW_TAG" >> $GITHUB_OUTPUT
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and Push Staging Image
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ${{ env.IMG }}:${{ steps.calculate-staging-tag.outputs.staging_tag }}
+          platforms: linux/amd64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+```
+
+Let's quickly break down the most important parts:
+
+1. The `if` condition: `if: startsWith(github.head_ref, 'release-please--')` is the controller. It ensures this expensive build job only runs on pull requests opened by `release-please`, not on regular developer feature branches.
+
+1. `Extract version`: This step reads the `.github/release-please-manifest.json` file to find out what version `release-please` is proposing (e.g., `1.1.0`).
+
+1. `Calculate Next Staging Tag`: This is the core logic. It asks the container registry "What is the highest rc tag you have for version `1.1.0`?" If it finds `1.1.0-rc.1`, it will output `1.1.0-rc.2`. If it finds nothing, it starts at `1.1.0-rc.1`. This ensures that every push to the PR (e.g., a fix) generates a new, unique, and sequential artifact.
+
+With this workflow in place, we now have a fully automated process: a developer merges a feature, `release-please` creates a PR, and that PR automatically triggers a new staging build, ready for testing.
+
 ## The Great Debate: To Squash or Not to Squash?
 
 When you automate releases based on commit history, the question of how you merge feature branches becomes critically important.
