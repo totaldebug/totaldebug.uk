@@ -1,0 +1,16 @@
+extends: existence
+message: "Consider cutting filler: '%s'."
+level: suggestion
+ignorecase: true
+nonword: false
+tokens:
+  - in order to
+  - it is important to (note|know|understand)
+  - it's important to (note|know|understand)
+  - needless to say
+  - at the end of the day
+  - in the following sections?
+  - as you can see
+  - simply
+  - basically
+  - obviously

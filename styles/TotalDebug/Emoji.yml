@@ -1,0 +1,8 @@
+extends: existence
+message: "House style: don't use emoji. Use a Font Awesome icon via inline HTML instead, e.g. <i class=\"fas fa-star\"></i>."
+level: error
+nonword: true
+# Covers the main emoji/pictograph/dingbat/symbol blocks plus the FE0F
+# variation selector. Deliberately excludes the arrows block so '→' is allowed.
+tokens:
+  - '[\x{1F000}-\x{1FAFF}\x{2600}-\x{27BF}\x{2B00}-\x{2BFF}\x{FE0F}]'

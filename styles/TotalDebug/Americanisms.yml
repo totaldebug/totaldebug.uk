@@ -1,0 +1,50 @@
+extends: substitution
+message: "Use British spelling: '%s' (this blog is en-GB)."
+link: https://en.wikipedia.org/wiki/American_and_British_English_spelling_differences
+level: warning
+ignorecase: true
+# Curated, low-false-positive list. 'program' is intentionally omitted
+# (correct in en-GB for software); likewise 'license' (noun/verb nuance).
+swap:
+  analyze: analyse
+  analyzed: analysed
+  analyzes: analyses
+  analyzing: analysing
+  organize: organise
+  organized: organised
+  organizes: organises
+  organizing: organising
+  organization: organisation
+  organizations: organisations
+  categorize: categorise
+  categorized: categorised
+  categorizes: categorises
+  categorizing: categorising
+  customize: customise
+  customized: customised
+  customization: customisation
+  optimize: optimise
+  optimized: optimised
+  optimization: optimisation
+  initialize: initialise
+  initialized: initialised
+  initialization: initialisation
+  prioritize: prioritise
+  prioritized: prioritised
+  recognize: recognise
+  recognized: recognised
+  summarize: summarise
+  summarized: summarised
+  behavior: behaviour
+  behaviors: behaviours
+  color: colour
+  colors: colours
+  favorite: favourite
+  flavor: flavour
+  labeled: labelled
+  labeling: labelling
+  modeling: modelling
+  canceled: cancelled
+  fulfill: fulfil
+  defense: defence
+  catalog: catalogue

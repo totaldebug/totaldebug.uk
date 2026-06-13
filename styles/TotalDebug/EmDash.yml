@@ -1,0 +1,6 @@
+extends: existence
+message: "House style: don't use the em dash. Use a comma, colon, parentheses, or a full stop instead."
+level: error
+nonword: true
+tokens:
+  - '—'
