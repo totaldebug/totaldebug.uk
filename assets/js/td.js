@@ -152,6 +152,55 @@
   });
   if (modal) modal.addEventListener('click', function (e) { if (e.target === modal) closeSearch(); });
 
+  /* ---- copy buttons on code blocks ---- */
+  if (content) {
+    content.querySelectorAll('div.highlight, figure.highlight').forEach(function (block) {
+      var wrap = document.createElement('div');
+      wrap.className = 'code-wrap';
+      block.parentNode.insertBefore(wrap, block);
+      wrap.appendChild(block);
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'copy-btn';
+      btn.textContent = 'copy';
+      btn.setAttribute('aria-label', 'Copy code to clipboard');
+      wrap.appendChild(btn);
+      btn.addEventListener('click', function () {
+        var src = block.querySelector('.rouge-code') || block.querySelector('pre');
+        copyText(src ? src.innerText.replace(/\n$/, '') : '', btn, 'copy');
+      });
+    });
+  }
+
+  /* ---- copy permalink (share bar) ---- */
+  document.querySelectorAll('[data-copy-link]').forEach(function (btn) {
+    btn.addEventListener('click', function () { copyText(location.href, btn, 'copy link'); });
+  });
+
+  function copyText(text, btn, label) {
+    var done = function () {
+      btn.textContent = 'copied';
+      btn.classList.add('done');
+      setTimeout(function () { btn.textContent = label; btn.classList.remove('done'); }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function () {});
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+  }
+
+  /* ---- service worker (PWA) ---- */
+  if ('serviceWorker' in navigator && window.SW_URL) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register(window.SW_URL).catch(function () {});
+    });
+  }
+
   /* ---- reveal on scroll ---- */
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {

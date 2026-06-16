@@ -23,6 +23,10 @@
   <link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32x32.png">
   <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
+  
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0b0d11">
+  
   <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Snapshot changes in vSphere 6.0 | TotalDebug</title>
 <meta name="generator" content="Jekyll v4.3.3" />
@@ -42,6 +46,15 @@
 {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-06-13T09:25:15+01:00","datePublished":"2016-07-26T00:00:00+01:00","description":"This is something that I was unaware of until recently when I was looking into the usage of V-Vols. It appears that VMware have made some major improvements to the ways we handle snapshots and consolidate them in vSphere 6.0 with VVols. Most people who use VMware are aware of limitations with snapshots on VMs that have heavy IO or large snapshots attached to them. In a large number of cases we see snapshots fail to remove and then require hours of downtime to actually consolidate.","headline":"Snapshot changes in vSphere 6.0","mainEntityOfPage":{"@type":"WebPage","@id":"https://totaldebug.uk/posts/snapshot-changes-vsphere-6-0/"},"url":"https://totaldebug.uk/posts/snapshot-changes-vsphere-6-0/"}</script>
 <!-- End Jekyll SEO tag -->
 
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZDGYQV98HT');
+  </script>
+  
 </head>
 
 <body>
@@ -156,6 +169,18 @@
 
   
 
+  
+
+<div class="share" aria-label="Share this post">
+  <span class="sl">$ share</span>
+  <a class="sh" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Ftotaldebug.uk%2Fposts%2Fsnapshot-changes-vsphere-6-0%2F&amp;text=Snapshot+changes+in+vSphere+6.0" target="_blank" rel="noopener noreferrer">X</a>
+  <a class="sh" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Ftotaldebug.uk%2Fposts%2Fsnapshot-changes-vsphere-6-0%2F" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  <a class="sh" href="https://www.reddit.com/submit?url=https%3A%2F%2Ftotaldebug.uk%2Fposts%2Fsnapshot-changes-vsphere-6-0%2F&amp;title=Snapshot+changes+in+vSphere+6.0" target="_blank" rel="noopener noreferrer">Reddit</a>
+  <a class="sh" href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Ftotaldebug.uk%2Fposts%2Fsnapshot-changes-vsphere-6-0%2F&amp;t=Snapshot+changes+in+vSphere+6.0" target="_blank" rel="noopener noreferrer">HN</a>
+  <button class="sh" type="button" data-copy-link aria-label="Copy link to clipboard">copy link</button>
+</div>
+
+
   <div class="prevnext">
     
     <a class="pn" href="/posts/teamspeak-3-centos-7-using-mariadb-database-3-0-12-4/"><span class="dir">← previous</span><span class="t">Teamspeak 3 on CentOS 7 using MariaDB Database (3.0.12.4)</span></a>
@@ -164,6 +189,11 @@
     <a class="pn" href="/posts/two-factor-authentication-worth-really-add-security/" style="text-align:right"><span class="dir">next →</span><span class="t">Two-Factor Authentication: is it worth it, does it really add more security?</span></a>
     
   </div>
+
+  
+
+
+
 
   
 <div class="comments" id="comments"></div>
@@ -212,7 +242,10 @@
     </div>
   </div>
 
-  <script>window.SEARCH_JSON = "/assets/search.json";</script>
+  <script>
+    window.SEARCH_JSON = "/assets/search.json";
+    window.SW_URL = "/sw.js";
+  </script>
   <script src="/assets/js/td.js" defer></script>
 </body>
 </html>
