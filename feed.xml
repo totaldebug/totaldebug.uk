@@ -4,9 +4,18 @@
   <subtitle>Technology. Inside Out</subtitle>
   <link href="https://totaldebug.uk/feed.xml" rel="self"/>
   <link href="https://totaldebug.uk/"/>
-  <updated>2026-06-22T11:06:10+01:00</updated>
+  <updated>2026-06-22T11:32:22+01:00</updated>
   <id>https://totaldebug.uk/</id>
   <author><name>Steven Marks</name></author>
+  
+  <entry>
+    <title>A self-tuning write throttle for batch Postgres jobs</title>
+    <link href="https://totaldebug.uk/posts/adaptive-write-throttle-for-batch-postgres-jobs/"/>
+    <updated>2026-06-22T10:00:00+01:00</updated>
+    <id>https://totaldebug.uk/posts/adaptive-write-throttle-for-batch-postgres-jobs/</id>
+    <category term="Python"/><category term="Database"/>
+    <summary>I have a background job that writes a lot of rows. It chunks a big import into batches and upserts each batch into Postgres. On its own that’s fine. The problem is that it doesn’t run on its own: the same database is serving live traffic and a handful of other workers at the same time. When my import goes full tilt, everyone else feels it.</summary>
+  </entry>
   
   <entry>
     <title>Reviving an Abandoned Open-Source Project: 6 Years of Atomic Calendar Revive</title>
@@ -177,15 +186,6 @@
     <id>https://totaldebug.uk/posts/homer-dashboard-with-docker/</id>
     <category term="Containers"/>
     <summary>Recently I have decided to get my home network in order, One of the things I realised was that I spend a lot of time trying to remember the IP addresses or URLs for services within my home, especially ones that I access infrequently.</summary>
-  </entry>
-  
-  <entry>
-    <title>Proxmox Template with Cloud Image and Cloud Init</title>
-    <link href="https://totaldebug.uk/posts/proxmox-template-with-cloud-image-and-cloud-init/"/>
-    <updated>2022-10-04T19:54:00+01:00</updated>
-    <id>https://totaldebug.uk/posts/proxmox-template-with-cloud-image-and-cloud-init/</id>
-    <category term="Automation"/>
-    <summary>Updated to latest Ubuntu image &amp;amp; Added enable for qemu service</summary>
   </entry>
   
 </feed>
