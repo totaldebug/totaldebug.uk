@@ -4,9 +4,18 @@
   <subtitle>Technology. Inside Out</subtitle>
   <link href="https://totaldebug.uk/feed.xml" rel="self"/>
   <link href="https://totaldebug.uk/"/>
-  <updated>2026-07-06T15:30:29+01:00</updated>
+  <updated>2026-07-06T20:51:47+01:00</updated>
   <id>https://totaldebug.uk/</id>
   <author><name>Steven Marks</name></author>
+  
+  <entry>
+    <title>Run your own ChatGPT: self-hosted LLMs with Docker Compose</title>
+    <link href="https://totaldebug.uk/posts/self-hosted-llms-ollama-open-webui-docker-compose/"/>
+    <updated>2026-07-06T10:00:00+01:00</updated>
+    <id>https://totaldebug.uk/posts/self-hosted-llms-ollama-open-webui-docker-compose/</id>
+    <category term="Docker"/><category term="Homelab"/>
+    <summary>I use the big commercial chat assistants every day and they’re genuinely good at what they do. But not everything I’d want to ask belongs on someone else’s servers. Personal data, private notes, half-formed ideas I’m still chewing on: for those I’d rather keep the conversation on my own network. So alongside the cloud tools, I run a local assistant of my own. A small Docker Compose stack gives me a private LLM with a chat UI that looks a lot like the commercial ones, and for that kind of prompt it means no per-token bill and nothing leaving the house.</summary>
+  </entry>
   
   <entry>
     <title>A self-tuning write throttle for batch Postgres jobs</title>
@@ -177,15 +186,6 @@
     <id>https://totaldebug.uk/posts/configuring-homer-dashboard/</id>
     <category term="Containers"/>
     <summary>In my last article I talked about how to setup Homer dashboard with Docker, now I will walk through some of the features and how to use them.</summary>
-  </entry>
-  
-  <entry>
-    <title>Homer dashboard with Docker</title>
-    <link href="https://totaldebug.uk/posts/homer-dashboard-with-docker/"/>
-    <updated>2022-10-15T22:57:00+01:00</updated>
-    <id>https://totaldebug.uk/posts/homer-dashboard-with-docker/</id>
-    <category term="Containers"/>
-    <summary>Recently I have decided to get my home network in order, One of the things I realised was that I spend a lot of time trying to remember the IP addresses or URLs for services within my home, especially ones that I access infrequently.</summary>
   </entry>
   
 </feed>
