@@ -4,7 +4,7 @@
   <subtitle>Technology. Inside Out</subtitle>
   <link href="https://totaldebug.uk/feed.xml" rel="self"/>
   <link href="https://totaldebug.uk/"/>
-  <updated>2026-07-06T21:59:08+01:00</updated>
+  <updated>2026-07-07T13:32:05+01:00</updated>
   <id>https://totaldebug.uk/</id>
   <author><name>Steven Marks</name></author>
   
@@ -14,7 +14,7 @@
     <updated>2026-07-06T10:00:00+01:00</updated>
     <id>https://totaldebug.uk/posts/self-hosted-llms-ollama-open-webui-docker-compose/</id>
     <category term="Docker"/><category term="Homelab"/>
-    <summary>I use the big commercial chat assistants every day and they’re genuinely good at what they do. But not everything I’d want to ask belongs on someone else’s servers. Personal data, private notes, half-formed ideas I’m still chewing on: for those I’d rather keep the conversation on my own network. So alongside the cloud tools, I run a local assistant of my own. A small Docker Compose stack gives me a private LLM with a chat UI that looks a lot like the commercial ones, and for that kind of prompt it means no per-token bill and nothing leaving the house.</summary>
+    <summary>I use Claude Code every day but not everything belongs in the public domain: personal data, private notes, half-formed ideas. For those I’d rather keep the conversation local.</summary>
   </entry>
   
   <entry>

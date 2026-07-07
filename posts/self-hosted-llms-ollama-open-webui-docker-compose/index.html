@@ -32,8 +32,8 @@
 <meta name="generator" content="Jekyll v4.3.3" />
 <meta property="og:title" content="Run your own ChatGPT: self-hosted LLMs with Docker Compose" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="I use the big commercial chat assistants every day and they’re genuinely good at what they do. But not everything I’d want to ask belongs on someone else’s servers. Personal data, private notes, half-formed ideas I’m still chewing on: for those I’d rather keep the conversation on my own network. So alongside the cloud tools, I run a local assistant of my own. A small Docker Compose stack gives me a private LLM with a chat UI that looks a lot like the commercial ones, and for that kind of prompt it means no per-token bill and nothing leaving the house." />
-<meta property="og:description" content="I use the big commercial chat assistants every day and they’re genuinely good at what they do. But not everything I’d want to ask belongs on someone else’s servers. Personal data, private notes, half-formed ideas I’m still chewing on: for those I’d rather keep the conversation on my own network. So alongside the cloud tools, I run a local assistant of my own. A small Docker Compose stack gives me a private LLM with a chat UI that looks a lot like the commercial ones, and for that kind of prompt it means no per-token bill and nothing leaving the house." />
+<meta name="description" content="I use Claude Code every day but not everything belongs in the public domain: personal data, private notes, half-formed ideas. For those I’d rather keep the conversation local." />
+<meta property="og:description" content="I use Claude Code every day but not everything belongs in the public domain: personal data, private notes, half-formed ideas. For those I’d rather keep the conversation local." />
 <link rel="canonical" href="https://totaldebug.uk/posts/self-hosted-llms-ollama-open-webui-docker-compose/" />
 <meta property="og:url" content="https://totaldebug.uk/posts/self-hosted-llms-ollama-open-webui-docker-compose/" />
 <meta property="og:site_name" content="TotalDebug" />
@@ -45,7 +45,7 @@
 <meta property="twitter:title" content="Run your own ChatGPT: self-hosted LLMs with Docker Compose" />
 <meta name="twitter:site" content="@marksie1988" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-07-06T10:00:00+01:00","datePublished":"2026-07-06T10:00:00+01:00","description":"I use the big commercial chat assistants every day and they’re genuinely good at what they do. But not everything I’d want to ask belongs on someone else’s servers. Personal data, private notes, half-formed ideas I’m still chewing on: for those I’d rather keep the conversation on my own network. So alongside the cloud tools, I run a local assistant of my own. A small Docker Compose stack gives me a private LLM with a chat UI that looks a lot like the commercial ones, and for that kind of prompt it means no per-token bill and nothing leaving the house.","headline":"Run your own ChatGPT: self-hosted LLMs with Docker Compose","image":"https://totaldebug.uk/assets/img/posts/self-hosted-llms-ollama-open-webui-docker-compose/thumb.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://totaldebug.uk/posts/self-hosted-llms-ollama-open-webui-docker-compose/"},"url":"https://totaldebug.uk/posts/self-hosted-llms-ollama-open-webui-docker-compose/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-07-07T13:31:37+01:00","datePublished":"2026-07-06T10:00:00+01:00","description":"I use Claude Code every day but not everything belongs in the public domain: personal data, private notes, half-formed ideas. For those I’d rather keep the conversation local.","headline":"Run your own ChatGPT: self-hosted LLMs with Docker Compose","image":"https://totaldebug.uk/assets/img/posts/self-hosted-llms-ollama-open-webui-docker-compose/thumb.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://totaldebug.uk/posts/self-hosted-llms-ollama-open-webui-docker-compose/"},"url":"https://totaldebug.uk/posts/self-hosted-llms-ollama-open-webui-docker-compose/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
@@ -127,7 +127,7 @@
     <img class="av" src="/assets/img/avatar-td.png" alt="Steven Marks">
     <div>
       <div class="who">Steven Marks</div>
-      <div class="when">06 Jul 2026 · 9 min read</div>
+      <div class="when">06 Jul 2026 · 8 min read</div>
     </div>
   </div>
 
@@ -139,24 +139,26 @@
 
   <div class="post-grid">
     <div class="content" id="content">
-      <p>I use the big commercial chat assistants every day and they’re genuinely good at what they do. But not everything I’d want to ask belongs on someone else’s servers. Personal data, private notes, half-formed ideas I’m still chewing on: for those I’d rather keep the conversation on my own network. So alongside the cloud tools, I run a local assistant of my own. A small Docker Compose stack gives me a private LLM with a chat UI that looks a lot like the commercial ones, and for that kind of prompt it means no per-token bill and nothing leaving the house.</p>
+      <p>I use Claude Code every day but not everything belongs in the public domain: personal data, private notes, half-formed ideas. For those I’d rather keep the conversation local.</p>
 
-<p>The whole thing is two services: <a href="https://ollama.com/">Ollama</a> to run the models and <a href="https://openwebui.com/">Open WebUI</a> to talk to them. This is the stack I actually run, why each piece is there, and the bits that trip people up (GPU passthrough being the big one).</p>
+<p>So I also run a local assistant. A small Docker Compose stack gives me a private LLM with a chat UI that looks a lot like the commercial ones and for that kind of prompt it means no per-token bill and nothing leaving my local network.</p>
+
+<p>The whole thing is two services: <a href="https://ollama.com/">Ollama</a> to run the models and <a href="https://openwebui.com/">Open WebUI</a> to talk to them.</p>
 
 <h2 id="what-you-get">What you get</h2>
 
 <ul>
-  <li><strong>Ollama</strong> is the inference engine. It pulls models, keeps them on disk, and serves them over a simple HTTP API on port <code class="language-plaintext highlighter-rouge">11434</code>. Think of it as the thing that does the thinking.</li>
-  <li><strong>Open WebUI</strong> is the front end. It’s a polished, self-hosted chat interface with conversations, multiple models, user accounts and file uploads. It talks to Ollama over that API, so you get a ChatGPT-style experience pointed entirely at your own hardware.</li>
+  <li><strong>Ollama</strong> pulls models, keeps them on disk, and serves them over a simple HTTP API on port <code class="language-plaintext highlighter-rouge">11434</code>.</li>
+  <li><strong>Open WebUI</strong> is the front end. It’s a polished, self-hosted chat interface with conversations, multiple models, user accounts and file uploads. It talks to Ollama over the API, so you get a ChatGPT-style experience locally.</li>
 </ul>
 
 <p>Two containers, one network, two volumes for persistence. That’s the entire design.</p>
 
 <h2 id="before-you-start">Before you start</h2>
 
-<p>You need Docker and Docker Compose, which you almost certainly already have if you run anything in a homelab.</p>
+<p>You need Docker which is likely already installed if you run anything in a homelab.</p>
 
-<p>For anything beyond small models you also want an NVIDIA GPU and the <strong>NVIDIA Container Toolkit</strong> installed on the host. That toolkit is what lets a container see the GPU. Without it, the GPU block in the Compose file below will fail to start, and you’ll want the CPU-only variant instead (I cover that later). You can check the toolkit is working with:</p>
+<p>For anything beyond small models you also want an NVIDIA GPU and the <strong>NVIDIA Container Toolkit</strong> installed on the host. The toolkit is what lets a container see the GPU. Without it, the GPU block in the Compose file will fail to start, and you’ll want the CPU-only variant instead (I cover that later). You can check the toolkit is working with:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>docker run <span class="nt">--rm</span> <span class="nt">--gpus</span> all nvidia/cuda:12.4.0-base-ubuntu22.04 nvidia-smi
@@ -234,13 +236,15 @@
   <span class="na">open-webui</span><span class="pi">:</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 
-<p>Save it as <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> and you’re a <code class="language-plaintext highlighter-rouge">docker compose up -d</code> away from a running stack. Before you do, a few parts are worth understanding rather than copying blind.</p>
+<p>Save it as <code class="language-plaintext highlighter-rouge">docker-compose.yml</code> and run <code class="language-plaintext highlighter-rouge">docker compose up -d</code> to bring the full stack online.</p>
+
+<p>Before you do it’s worth understanding how it works in a little more detail below.</p>
 
 <h3 id="how-the-two-services-find-each-other">How the two services find each other</h3>
 
-<p>Notice <code class="language-plaintext highlighter-rouge">OLLAMA_BASE_URL=http://ollama:11434</code>. That <code class="language-plaintext highlighter-rouge">ollama</code> is not a hostname I’ve configured anywhere: it’s the service name, and Compose gives every service a DNS entry on the default network for the project. So Open WebUI reaches the inference engine by name, over the internal network, with no host ports or IP addresses involved.</p>
+<p>Notice <code class="language-plaintext highlighter-rouge">OLLAMA_BASE_URL=http://ollama:11434</code>. That <code class="language-plaintext highlighter-rouge">ollama</code> is not a hostname I’ve configured, it’s the service name for ollama. Compose gives every service a DNS entry on the default network for the project. So Open WebUI reaches the Ollama by name, over the internal network, with no host ports or IP addresses involved.</p>
 
-<p>That’s also why Ollama uses <code class="language-plaintext highlighter-rouge">expose</code> rather than <code class="language-plaintext highlighter-rouge">ports</code>. <code class="language-plaintext highlighter-rouge">expose</code> makes <code class="language-plaintext highlighter-rouge">11434</code> reachable to other containers on the same network but does <strong>not</strong> publish it to the host. The only thing I actually publish is Open WebUI’s <code class="language-plaintext highlighter-rouge">8080</code>, because that’s the one interface a human needs to reach. Keeping the raw model API off the host is a small but real bit of hygiene, and I’ll come back to why it matters.</p>
+<p>That’s also why Ollama uses <code class="language-plaintext highlighter-rouge">expose</code> rather than <code class="language-plaintext highlighter-rouge">ports</code>. <code class="language-plaintext highlighter-rouge">expose</code> makes <code class="language-plaintext highlighter-rouge">11434</code> reachable to other containers on the same network but does <strong>not</strong> publish it to the host. The only thing I actually publish is Open WebUI’s <code class="language-plaintext highlighter-rouge">8080</code>, because that’s the one interface a human needs to reach. Keeping the raw model API off the host is a small but real bit of hygiene and I’ll come back to why it matters.</p>
 
 <h3 id="gpu-passthrough-the-part-everyone-gets-stuck-on">GPU passthrough, the part everyone gets stuck on</h3>
 
@@ -274,7 +278,7 @@
 
 <h3 id="persistence-and-health">Persistence and health</h3>
 
-<p>The two named volumes are what stop you re-downloading several gigabytes of model every time a container restarts:</p>
+<p>The two named volumes persist the models to stop re-downloading several gigabytes of model every time a container restarts:</p>
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">ollama:/root/.ollama</code> keeps your pulled models.</li>
@@ -325,30 +329,30 @@ docker compose ps
       <span class="pi">-</span> <span class="s">ollama:/root/.ollama</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 
-<p>It will run happily on CPU. Be realistic about it, though: a small model will feel sluggish and a large one will feel broken. CPU-only is great for kicking the tyres and fine for light use with a 3B-class model. For anything you’ll use daily, the GPU is what makes it pleasant.</p>
+<p>It will run happily on CPU. Be realistic about it, a small model will feel sluggish and a large one will feel broken. CPU-only is great for kicking the tyres and fine for light use with a 3B-class model. For anything you’ll use daily, the GPU is what makes it pleasant.</p>
 
 <h2 id="dont-put-this-on-the-internet-naked">Don’t put this on the internet naked</h2>
 
 <p>Open WebUI has its own authentication, which is good. It is still not something I’d publish straight to the internet on a raw port, and the Ollama API has no auth at all, which is exactly why the Compose file above never publishes <code class="language-plaintext highlighter-rouge">11434</code> to the host.</p>
 
-<p>If you want to reach this from outside the house, put it behind a reverse proxy that terminates TLS and, ideally, an auth layer in front (I run mine behind an authenticating proxy so there are two doors, not one). The rule I stick to: the only thing that ever gets published is Open WebUI’s port, and even that goes through the proxy rather than straight out. The inference API stays on the internal Docker network where only the UI can see it.</p>
+<p>If you want to reach this from outside the house, put it behind a reverse proxy that terminates TLS and ideally, an auth layer in front (I run mine local only with no access from outside my home network).</p>
 
 <h2 id="is-running-it-yourself-actually-worth-it">Is running it yourself actually worth it?</h2>
 
-<p>Honest answer: it depends on what you want from it.</p>
+<p>I find that it is worth it for me with one real caveat. Here’s the full trade-off:</p>
 
 <ul>
-  <li><strong>Cost.</strong> After the hardware you already own, inference is free. No per-token billing, no surprise invoice because a script got chatty. If you tinker constantly, that adds up in your favour.</li>
-  <li><strong>Privacy.</strong> Nothing leaves your network. For anything sensitive, or just on principle, that’s the whole point. Your prompts are yours.</li>
+  <li><strong>Cost.</strong> If you already own the required hardware then its essentially free. No per-token billing, no surprise invoice.</li>
+  <li><strong>Privacy.</strong> Nothing leaves your network. Your prompts are yours.</li>
   <li><strong>Latency.</strong> On a decent GPU, first-token latency is genuinely competitive, and there’s no network round trip to a provider.</li>
-  <li><strong>Model quality.</strong> This is the honest trade-off. The open models you can run at home are very good and getting better fast, but the largest frontier models still have an edge on the hardest tasks. For summarising, drafting, coding help and general questions, local models are more than good enough. For the absolute cutting edge, they’re not there yet.</li>
+  <li><strong>Model quality.</strong> The open models you can run at home are very good and getting better, but the largest frontier models still have an edge on the more complex tasks. For summarising, drafting, coding help and general questions, local models are more than good enough.</li>
 </ul>
 
-<p>For me the split is easy. The cloud tools stay in the mix for the heavy, cutting-edge work, and anything personal or private goes to the local model instead, where the traffic never leaves the house. The stack above is what makes routing it that way a five-minute decision rather than a project.</p>
+<p>For me personally, the cloud tools stay in the mix for the heavy, cutting-edge work, and anything personal or private goes to the local model instead, where the traffic never leaves the house. The simple stack above is what makes it a five-minute decision rather than a project.</p>
 
 <h2 id="wrapping-up">Wrapping up</h2>
 
-<p>Two services, one Compose file, and you’ve got a private ChatGPT-alike running on your own hardware. The pieces that matter are small: point Open WebUI at Ollama by its service name, hand the GPU over with the <code class="language-plaintext highlighter-rouge">deploy</code> block (and the NVIDIA toolkit behind it), keep your models and chats in named volumes, and never publish the inference API. Get those right and the rest is just picking which models to pull.</p>
+<p>Two services, one Compose file, and you’ve got a private ChatGPT-like prompt running on your own hardware. It has very simple containers to setup: point Open WebUI at Ollama by its service name, hand the GPU over with the <code class="language-plaintext highlighter-rouge">deploy</code> block (and the NVIDIA toolkit behind it), keep your models and chats in named volumes, and never publish the inference API. Get those right and the rest is just picking which models to pull.</p>
 
     </div>
     <aside class="toc" id="toc-wrap">
