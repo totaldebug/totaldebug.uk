@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "humanize": {
+      "source": "harshaneel/humanize",
+      "sourceType": "github",
+      "skillPath": "humanize/SKILL.md",
+      "computedHash": "10458316e82626d5c5e2facdaa2ba37a0d4611a78ed391568d34849ab8180743"
+    }
+  }
+}
