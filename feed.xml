@@ -4,9 +4,18 @@
   <subtitle>Technology. Inside Out</subtitle>
   <link href="https://totaldebug.uk/feed.xml" rel="self"/>
   <link href="https://totaldebug.uk/"/>
-  <updated>2026-08-26T12:34:10+01:00</updated>
+  <updated>2026-08-26T16:00:32+01:00</updated>
   <id>https://totaldebug.uk/</id>
   <author><name>Steven Marks</name></author>
+  
+  <entry>
+    <title>A serverless signed APT repository on GCP</title>
+    <link href="https://totaldebug.uk/posts/serverless-signed-apt-repository-on-gcp/"/>
+    <updated>2026-08-24T10:00:00+01:00</updated>
+    <id>https://totaldebug.uk/posts/serverless-signed-apt-repository-on-gcp/</id>
+    <category term="GCP"/><category term="Automation"/>
+    <summary>You’ve built a .deb. Now you need a way for people to easily install it: apt install example-agent, upgrades included, no curl | sudo bash scripts so it’s easier for you to manage.</summary>
+  </entry>
   
   <entry>
     <title>Run your own ChatGPT: self-hosted LLMs with Docker Compose</title>
@@ -177,15 +186,6 @@
     <id>https://totaldebug.uk/posts/creating-standalone-zigbee2mqtt-hub-with-alpine-linux/</id>
     <category term="Home Automation"/>
     <summary>I have began sorting out my smart home again, I let it run to ruin a year or so ago and now I’m getting solar installed I wanted to increase my automation to make life easier and utilise my solar more efficiently once it’s installed.</summary>
-  </entry>
-  
-  <entry>
-    <title>Configuring Homer Dashboard</title>
-    <link href="https://totaldebug.uk/posts/configuring-homer-dashboard/"/>
-    <updated>2022-10-16T10:15:00+01:00</updated>
-    <id>https://totaldebug.uk/posts/configuring-homer-dashboard/</id>
-    <category term="Containers"/>
-    <summary>In my last article I talked about how to setup Homer dashboard with Docker, now I will walk through some of the features and how to use them.</summary>
   </entry>
   
 </feed>

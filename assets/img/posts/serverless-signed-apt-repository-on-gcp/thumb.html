@@ -1,0 +1,79 @@
+<!doctype html>
+<!--
+  Thumbnail for: A serverless signed APT repository on GCP
+  Technical post, so teal-dominant accent with a soft orange counter-glow.
+  Render: npx playwright screenshot --viewport-size=1200,630 ... thumb.html thumb.png
+-->
+<html lang="en-GB">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+  :root {
+    --accent: #00b2e8;
+    --accent-2: #f56600;
+    --bg-1: #1a1d23;
+    --bg-2: #1f242c;
+    --bg-3: #242930;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    width: 1200px;
+    height: 630px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    background:
+      radial-gradient(90% 130% at 0% 100%, color-mix(in srgb, var(--accent) 55%, transparent) 0%, transparent 52%),
+      radial-gradient(70% 110% at 100% 0%, color-mix(in srgb, var(--accent-2) 32%, transparent) 0%, transparent 50%),
+      linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 50%, var(--bg-3) 100%);
+    color: #fff;
+    overflow: hidden;
+  }
+  h1 {
+    font-size: 92px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.02;
+    text-shadow: 0 6px 30px rgba(0, 0, 0, 0.35);
+    max-width: 1000px;
+  }
+  .tiles { display: flex; gap: 44px; }
+  .tile {
+    width: 150px;
+    height: 150px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(10px);
+  }
+  .tile i { font-size: 68px; color: #fff; }
+  .subtitle {
+    font-size: 34px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.82);
+    letter-spacing: 0.5px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <h1>Serverless<br />APT repo</h1>
+  <div class="tiles">
+    <div class="tile"><i class="fas fa-box"></i></div>
+    <div class="tile"><i class="fab fa-google"></i></div>
+    <div class="tile"><i class="fas fa-signature"></i></div>
+  </div>
+  <div class="subtitle">Signed Debian packages on a GCS bucket</div>
+</body>
+</html>

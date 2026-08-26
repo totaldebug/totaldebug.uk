@@ -1,0 +1,1039 @@
+<!doctype html>
+<html lang="en" data-mode="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    /* set colour mode before paint to avoid a flash */
+    (function () {
+      try {
+        var q = (location.search.match(/[?&]mode=(light|dark)/) || [])[1];
+        var m = q || localStorage.getItem('td-mode')
+          || ((window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark');
+        if (q) { try { localStorage.setItem('td-mode', q); } catch (e) {} }
+        document.documentElement.setAttribute('data-mode', m);
+        document.documentElement.classList.add('js');
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
+  
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0b0d11">
+  
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>A serverless signed APT repository on GCP | TotalDebug</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="A serverless signed APT repository on GCP" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="You’ve built a .deb. Now you need a way for people to easily install it: apt install example-agent, upgrades included, no curl | sudo bash scripts so it’s easier for you to manage." />
+<meta property="og:description" content="You’ve built a .deb. Now you need a way for people to easily install it: apt install example-agent, upgrades included, no curl | sudo bash scripts so it’s easier for you to manage." />
+<link rel="canonical" href="https://totaldebug.uk/posts/serverless-signed-apt-repository-on-gcp/" />
+<meta property="og:url" content="https://totaldebug.uk/posts/serverless-signed-apt-repository-on-gcp/" />
+<meta property="og:site_name" content="TotalDebug" />
+<meta property="og:image" content="https://totaldebug.uk/assets/img/posts/serverless-signed-apt-repository-on-gcp/thumb.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-08-24T10:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://totaldebug.uk/assets/img/posts/serverless-signed-apt-repository-on-gcp/thumb.png" />
+<meta property="twitter:title" content="A serverless signed APT repository on GCP" />
+<meta name="twitter:site" content="@marksie1988" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-08-24T10:00:00+01:00","datePublished":"2026-08-24T10:00:00+01:00","description":"You’ve built a .deb. Now you need a way for people to easily install it: apt install example-agent, upgrades included, no curl | sudo bash scripts so it’s easier for you to manage.","headline":"A serverless signed APT repository on GCP","image":"https://totaldebug.uk/assets/img/posts/serverless-signed-apt-repository-on-gcp/thumb.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://totaldebug.uk/posts/serverless-signed-apt-repository-on-gcp/"},"url":"https://totaldebug.uk/posts/serverless-signed-apt-repository-on-gcp/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZDGYQV98HT"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZDGYQV98HT');
+  </script>
+  
+</head>
+
+<body>
+  <div id="progress"></div>
+
+  <div class="mobilebar">
+    <a href="/">
+      <img class="lockup only-dark" src="/assets/brand/lockup-dark.svg" alt="total{debug}" style="height:30px">
+      <img class="lockup only-light" src="/assets/brand/lockup-light.svg" alt="total{debug}" style="height:30px">
+    </a>
+    <button class="menu-btn" id="menu-btn">≡ menu</button>
+  </div>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="shell">
+    
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="/">
+    <img class="lockup only-dark" src="/assets/brand/lockup-dark.svg" alt="total{debug}">
+    <img class="lockup only-light" src="/assets/brand/lockup-light.svg" alt="total{debug}">
+    <div class="tagline">// technology. inside out</div>
+  </a>
+
+  <div>
+    <div class="treehdr"><span class="fl">$</span> tree ~</div>
+    <ul class="nav">
+      <li><a href="/" class=""><span class="br">├─</span><span class="pth"><span class="tilde">~/</span>home</span><span class="key">h</span></a></li>
+      <li><a href="/categories/" class=""><span class="br">├─</span><span class="pth"><span class="tilde">~/</span>categories</span><span class="key">c</span></a></li>
+      <li><a href="/tags/" class=""><span class="br">├─</span><span class="pth"><span class="tilde">~/</span>tags</span><span class="key">t</span></a></li>
+      <li><a href="/archives/" class=""><span class="br">├─</span><span class="pth"><span class="tilde">~/</span>archive</span><span class="key">a</span></a></li>
+      <li><a href="/projects/" class=""><span class="br">├─</span><span class="pth"><span class="tilde">~/</span>projects</span><span class="key">p</span></a></li>
+      <li><a href="/about/" class=""><span class="br">└─</span><span class="pth"><span class="tilde">~/</span>about</span><span class="key">i</span></a></li>
+    </ul>
+  </div>
+
+  <div class="social">
+    
+    <a href="https://github.com/marksie1988" aria-label="GitHub" title="GitHub" rel="me">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+    </a>
+    
+    <a href="https://twitter.com/marksie1988" aria-label="X (Twitter)" title="X (Twitter)" rel="me">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+    </a>
+    <a href="/feed.xml" aria-label="RSS" title="RSS">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.18 15.64a2.18 2.18 0 1 1 0 4.36 2.18 2.18 0 0 1 0-4.36zM4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44zm0 5.66a9.9 9.9 0 0 1 9.9 9.9H11.07A7.07 7.07 0 0 0 4 12.93V10.1z"/></svg>
+    </a>
+    <button class="modetoggle" id="mode-toggle" aria-label="Toggle light / dark" title="Toggle light / dark">
+      <svg class="only-dark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-13a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1zm0 14a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1zM4 11a1 1 0 1 1 0 2H3a1 1 0 1 1 0-2h1zm17 0a1 1 0 1 1 0 2h-1a1 1 0 1 1 0-2h1zM5.64 5.64a1 1 0 0 1 1.42 0l.7.7a1 1 0 0 1-1.41 1.42l-.71-.7a1 1 0 0 1 0-1.42zm11.3 11.3a1 1 0 0 1 1.42 0l.7.7a1 1 0 0 1-1.41 1.42l-.71-.7a1 1 0 0 1 0-1.42zm1.42-11.3a1 1 0 0 1 0 1.42l-.7.7a1 1 0 1 1-1.42-1.41l.7-.71a1 1 0 0 1 1.42 0zM7.06 16.94a1 1 0 0 1 0 1.42l-.7.7a1 1 0 0 1-1.42-1.41l.7-.71a1 1 0 0 1 1.42 0z"/></svg>
+      <svg class="only-light" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.74 2.02a1 1 0 0 1 .26 1.06 7 7 0 0 0 8.92 8.92 1 1 0 0 1 1.32 1.27A9 9 0 1 1 11.45 1.7a1 1 0 0 1 1.29.32z"/></svg>
+    </button>
+  </div>
+  <div class="sidefoot">© 2026 Steven Marks<br>built with <span style="color:var(--orange)">&gt;_</span></div>
+</aside>
+
+    <div class="main">
+      <div class="container">
+        
+
+
+
+
+<article class="post">
+  <div class="kicker"><span class="o">&gt;_</span> GCP · Automation</div>
+  <h1 class="post-title">A serverless signed APT repository on GCP</h1>
+
+  <div class="byline">
+    <img class="av" src="/assets/img/avatar-td.png" alt="Steven Marks">
+    <div>
+      <div class="who">Steven Marks</div>
+      <div class="when">24 Aug 2026 · 23 min read</div>
+    </div>
+  </div>
+
+  
+  <div class="hero-img"><img src="/assets/img/posts/serverless-signed-apt-repository-on-gcp/thumb.png" alt="A serverless signed APT repository on GCP"></div>
+  
+
+  
+
+  <div class="post-grid">
+    <div class="content" id="content">
+      <p>You’ve built a <code class="language-plaintext highlighter-rouge">.deb</code>.
+Now you need a way for people to easily install it: <code class="language-plaintext highlighter-rouge">apt install example-agent</code>, upgrades included, no <code class="language-plaintext highlighter-rouge">curl | sudo bash</code> scripts so it’s easier for you to manage.</p>
+
+<p>The usual answer is to stand up a repository server.
+A VM running reprepro or aptly behind nginx, with a certificate, a firewall, patches, and a pager rotation.
+That is a lot of standing infrastructure for something that is, when you look closely, a folder of files.</p>
+
+<p>Because that is all an APT repository is, a specific directory layout, a couple of generated index files and one signature over the top.
+It is static content, so it does not need a server at all.
+It needs somewhere to store files, something to serve them over TLS, and something to regenerate the indexes when a package changes.</p>
+
+<p>On GCP that maps cleanly onto a storage bucket, a load balancer, and a Cloud Run job.
+Nothing runs between publishes.
+This post builds the whole thing, and then fixes the one part that most people get subtly wrong: the reindex.</p>
+
+<h2 id="what-an-apt-repository-actually-is">What an APT repository actually is</h2>
+
+<p>Two directory trees and a signature.</p>
+
+<p>The <strong>pool</strong> holds the packages.
+The exact <code class="language-plaintext highlighter-rouge">.deb</code> files, laid out by name so they never collide:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>pool/stable/main/e/example-agent/example-agent_1.0.0_amd64.deb
+pool/stable/main/e/example-agent/example-agent_1.1.0_amd64.deb
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The <strong>dists</strong> tree holds the metadata that <code class="language-plaintext highlighter-rouge">apt</code> reads first:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>dists/stable/main/binary-amd64/Packages       # one stanza per package
+dists/stable/main/binary-amd64/Packages.gz     # the same, compressed
+dists/stable/Release                            # checksums of the Packages files
+dists/stable/InRelease                          # Release, clear-signed
+dists/stable/Release.gpg                        # detached signature of Release
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>A single <code class="language-plaintext highlighter-rouge">Packages</code> stanza is just the package’s control fields plus its location and hashes:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>Package: example-agent
+Version: 1.1.0
+Architecture: amd64
+Filename: pool/stable/main/e/example-agent/example-agent_1.1.0_amd64.deb
+Size: 4194
+MD5sum: ...
+SHA256: ...
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The trust chain runs top down.
+You sign <code class="language-plaintext highlighter-rouge">Release</code>.
+<code class="language-plaintext highlighter-rouge">Release</code> contains the SHA256 of each <code class="language-plaintext highlighter-rouge">Packages</code> file.
+Each <code class="language-plaintext highlighter-rouge">Packages</code> stanza contains the SHA256 of a <code class="language-plaintext highlighter-rouge">.deb</code>.
+So one signature, checked against one public key on the client, vouches for every byte the client downloads.
+That is the whole security model and it is why the signing step is not optional.</p>
+
+<h2 id="the-shape-of-it-on-gcp">The shape of it on GCP</h2>
+
+<p>Four pieces, and only one of them ever runs code:</p>
+
+<ul>
+  <li>A <strong>GCS bucket</strong> stores <code class="language-plaintext highlighter-rouge">pool/</code> and <code class="language-plaintext highlighter-rouge">dists/</code>. This is the repository.</li>
+  <li>A <strong>global HTTPS load balancer</strong> serves the bucket over TLS on your own domain.</li>
+  <li>A <strong>Cloud Run job</strong> regenerates and signs the metadata. It runs, then exits.</li>
+  <li>Your <strong>release pipeline</strong> runs that job after it uploads a package.</li>
+</ul>
+
+<pre><code class="language-mermaid">flowchart LR
+  subgraph PUB["Publishing Pipeline"]
+    direction TB
+    PIPE["&lt;table class='di'&gt;&lt;tr&gt;&lt;td class='di-ic'&gt;&lt;img src='/assets/img/posts/serverless-signed-apt-repository-on-gcp/ic/pipeline.svg'&gt;&lt;/td&gt;&lt;td&gt;&lt;span class='di-t'&gt;Release pipeline&lt;/span&gt;&lt;br&gt;&lt;span class='di-s'&gt;builds .deb artifacts&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"]
+    JOB["&lt;table class='di'&gt;&lt;tr&gt;&lt;td class='di-ic'&gt;&lt;img src='/assets/img/posts/serverless-signed-apt-repository-on-gcp/ic/cloudrun.svg'&gt;&lt;/td&gt;&lt;td&gt;&lt;span class='di-t'&gt;Cloud Run job&lt;/span&gt;&lt;br&gt;&lt;span class='di-s'&gt;indexer&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"]
+    PIPE --&gt;|"2 · execute"| JOB
+  end
+  subgraph STORE["Repository Storage"]
+    BUCKET["&lt;table class='di'&gt;&lt;tr&gt;&lt;td class='di-ic'&gt;&lt;img src='/assets/img/posts/serverless-signed-apt-repository-on-gcp/ic/bucket.svg'&gt;&lt;/td&gt;&lt;td&gt;&lt;span class='di-t'&gt;GCS bucket&lt;/span&gt;&lt;br&gt;&lt;span class='di-s'&gt;pool/ · dists/&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"]
+  end
+  subgraph CLI["Client Access Path"]
+    direction LR
+    APT["&lt;table class='di'&gt;&lt;tr&gt;&lt;td class='di-ic'&gt;&lt;img src='/assets/img/posts/serverless-signed-apt-repository-on-gcp/ic/apt.svg'&gt;&lt;/td&gt;&lt;td&gt;&lt;span class='di-t'&gt;apt client&lt;/span&gt;&lt;br&gt;&lt;span class='di-s'&gt;apt.example.com&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"]
+    DNS["&lt;table class='di'&gt;&lt;tr&gt;&lt;td class='di-ic'&gt;&lt;img src='/assets/img/posts/serverless-signed-apt-repository-on-gcp/ic/dns.svg'&gt;&lt;/td&gt;&lt;td&gt;&lt;span class='di-t'&gt;Cloudflare DNS&lt;/span&gt;&lt;br&gt;&lt;span class='di-s'&gt;CNAME to LB&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"]
+    LB["&lt;table class='di'&gt;&lt;tr&gt;&lt;td class='di-ic'&gt;&lt;img src='/assets/img/posts/serverless-signed-apt-repository-on-gcp/ic/lb.svg'&gt;&lt;/td&gt;&lt;td&gt;&lt;span class='di-t'&gt;HTTPS load balancer&lt;/span&gt;&lt;br&gt;&lt;span class='di-s'&gt;backend bucket + CDN&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;"]
+    APT --&gt; DNS --&gt; LB
+  end
+  PIPE --&gt;|"1 · upload .deb"| BUCKET
+  JOB --&gt;|"3 · index + sign"| BUCKET
+  LB --&gt;|"serve dists/ + pool/"| BUCKET
+
+  style PUB fill:#00b2e812,stroke:#00b2e8
+  style STORE fill:#f5660012,stroke:#f56600
+  style CLI fill:#28c84012,stroke:#28c840
+</code></pre>
+
+<p>Reads are served by the bucket and the load balancer, which cost nothing to keep idle.
+Compute exists only for the few seconds it takes to reindex.
+That is what “serverless” earns you here: there is genuinely no box to keep alive.</p>
+
+<h2 id="the-bucket">The bucket</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>gcloud storage buckets create gs://example-apt-repo <span class="se">\</span>
+  <span class="nt">--location</span><span class="o">=</span>europe-west2 <span class="se">\</span>
+  <span class="nt">--uniform-bucket-level-access</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">apt</code> clients are anonymous, so object reads need to be public:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>gcloud storage buckets add-iam-policy-binding gs://example-apt-repo <span class="se">\</span>
+  <span class="nt">--member</span><span class="o">=</span>allUsers <span class="nt">--role</span><span class="o">=</span>roles/storage.objectViewer
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Everything in the bucket is a public package or a public signature.
+The private half of the story is the signing key, which never goes near the bucket.</p>
+
+<h2 id="serving-it-behind-a-load-balancer">Serving it behind a load balancer</h2>
+
+<p>You can point <code class="language-plaintext highlighter-rouge">apt</code> straight at <code class="language-plaintext highlighter-rouge">https://storage.googleapis.com/example-apt-repo</code>, and it will sort of work, but it will bite you later on with redirects and caching.
+The clean path is a backend bucket behind a global HTTPS load balancer, on a domain you control.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre><span class="c"># Managed certificate for the domain</span>
+gcloud compute ssl-certificates create apt-cert <span class="se">\</span>
+  <span class="nt">--domains</span><span class="o">=</span>apt.example.com <span class="nt">--global</span>
+
+<span class="c"># Bucket as a load-balancer backend</span>
+gcloud compute backend-buckets create apt-backend <span class="se">\</span>
+  <span class="nt">--gcs-bucket-name</span><span class="o">=</span>example-apt-repo
+
+<span class="c"># Route everything to that backend, terminate TLS, get a public IP</span>
+gcloud compute url-maps create apt-urlmap <span class="nt">--default-backend-bucket</span><span class="o">=</span>apt-backend
+gcloud compute target-https-proxies create apt-proxy <span class="se">\</span>
+  <span class="nt">--url-map</span><span class="o">=</span>apt-urlmap <span class="nt">--ssl-certificates</span><span class="o">=</span>apt-cert
+gcloud compute forwarding-rules create apt-fr <span class="se">\</span>
+  <span class="nt">--global</span> <span class="nt">--target-https-proxy</span><span class="o">=</span>apt-proxy <span class="nt">--ports</span><span class="o">=</span>443
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Then a DNS <code class="language-plaintext highlighter-rouge">A</code> record from <code class="language-plaintext highlighter-rouge">apt.example.com</code> to the forwarding rule’s IP.</p>
+
+<p>One gotcha if you sit DNS behind a proxy such as Cloudflare: keep this record <strong>unproxied</strong> (grey cloud, DNS only).
+A proxy in front of the repo rewrites requests and caches responses in ways that break <code class="language-plaintext highlighter-rouge">apt</code>’s hash checks.
+<code class="language-plaintext highlighter-rouge">apt</code> is fussy about getting exactly the bytes the signature covers, and a helpful CDN in the middle is not helping.</p>
+
+<p>That fussiness has a second consequence worth wiring in now.
+The <code class="language-plaintext highlighter-rouge">.deb</code> bodies are immutable and can cache for a year, but the metadata must never be served stale.
+If a client reads an old <code class="language-plaintext highlighter-rouge">Packages</code> against a fresh <code class="language-plaintext highlighter-rouge">Release</code>, it fails with “Hash Sum mismatch” and stops.
+So the indexer writes <code class="language-plaintext highlighter-rouge">dists/</code> with <code class="language-plaintext highlighter-rouge">no-cache</code>, which we will see below.</p>
+
+<h2 id="the-signing-key">The signing key</h2>
+
+<p>Generate a key dedicated to the repository, export the private half, and put it in Secret Manager.
+It is the one genuine secret in the system.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre>gpg <span class="nt">--batch</span> <span class="nt">--gen-key</span> <span class="o">&lt;&lt;</span><span class="sh">'</span><span class="no">EOF</span><span class="sh">'
+%no-protection
+Key-Type: eddsa
+Key-Curve: ed25519
+Subkey-Type: ecdh
+Subkey-Curve: cv25519
+Name-Real: Example Repo Signing
+Name-Email: apt@example.com
+Expire-Date: 0
+%commit
+</span><span class="no">EOF
+
+</span>gpg <span class="nt">--armor</span> <span class="nt">--export-secret-keys</span> apt@example.com <span class="se">\</span>
+  | gcloud secrets create apt-signing-key <span class="nt">--data-file</span><span class="o">=</span>-
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Publish the <strong>public</strong> key next to the repository so clients can install it.
+The private key only ever exists inside the indexer, in memory, for the length of one run.</p>
+
+<h2 id="the-naive-indexer-and-why-it-does-not-scale">The naive indexer, and why it does not scale</h2>
+
+<p>Here is the version almost every guide gives you, and the version I shipped first.
+Sync the pool, scan it, sign it, sync the metadata back:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>gcloud storage rsync <span class="nt">-r</span> gs://example-apt-repo/pool pool
+dpkg-scanpackages <span class="nt">-m</span> <span class="nt">-a</span> amd64 pool/stable <span class="o">&gt;</span> dists/stable/main/binary-amd64/Packages
+<span class="nb">gzip</span> <span class="nt">-9c</span> dists/stable/main/binary-amd64/Packages <span class="o">&gt;</span> dists/stable/main/binary-amd64/Packages.gz
+apt-ftparchive release dists/stable <span class="o">&gt;</span> dists/stable/Release
+<span class="c"># sign, then sync dists back</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>It works.
+It is also quietly O(n).</p>
+
+<p><code class="language-plaintext highlighter-rouge">dpkg-scanpackages</code> is stateless.
+To emit the stanza for a package it opens the <code class="language-plaintext highlighter-rouge">.deb</code>, reads its control file, and hashes the whole thing.
+It has no memory of the last run, so it does this for <strong>every</strong> package, every time, even the ones that have not changed since the day you added them.</p>
+
+<p>Which means each run has to pull the entire pool down first.
+A repository with a few hundred packages is already hundreds of megabytes, and it only climbs with every release.
+To add one 4 MB package you download all of it and rehash every byte.
+That is a lot of work to learn a single new line of text, and it gets worse as the repo grows: the bigger the pool, the more you re-download to change nothing.</p>
+
+<p>The transfer itself is cheap, in-region and free, so this is not really about cost.
+It is that the work is proportional to the size of the repository when it should be proportional to the size of the change.</p>
+
+<h2 id="the-insight-a-stanza-is-a-pure-function-of-a-package">The insight: a stanza is a pure function of a package</h2>
+
+<p>Look again at what goes into a <code class="language-plaintext highlighter-rouge">Packages</code> stanza: control fields, filename, size, hashes.
+Every one of those is derived from a single <code class="language-plaintext highlighter-rouge">.deb</code>.
+A <code class="language-plaintext highlighter-rouge">.deb</code> in the pool is immutable.
+Its version and architecture are baked into its filename, and you never rewrite it in place. A new build is a new file.</p>
+
+<p>So a stanza, once computed, is correct forever.
+There is no reason to ever compute it twice.</p>
+
+<p>That turns the reindex into a cache problem.
+The <code class="language-plaintext highlighter-rouge">Packages</code> file you generated last time <strong>is</strong> the cache: it already holds a correct stanza for every package the pool contained then.
+On the next run you only need to compute stanzas for packages that are new since that file was written, and drop stanzas for any that were removed.</p>
+
+<p>The authoritative list of what the pool contains today is one cheap, bodiless call:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>gcloud storage <span class="nb">ls</span> <span class="nt">-r</span> <span class="s2">"gs://example-apt-repo/pool/stable/**/*.deb"</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Listing object names does not download them.
+So the plan is: list the pool, compare against last time’s <code class="language-plaintext highlighter-rouge">Packages</code>, fetch only the genuinely new <code class="language-plaintext highlighter-rouge">.deb</code> files, and splice.</p>
+
+<h2 id="why-not-aptly-or-reprepro">Why not aptly or reprepro?</h2>
+
+<p>The obvious move is to reach for a repository manager and let it worry about the metadata.
+I tried.
+aptly keeps a database of exactly this information, so adding a package should be a small delta rather than a full rebuild.</p>
+
+<p>The catch is what happens at publish time.
+On every publish aptly stats and links every package file in its own local pool, so it needs the whole pool present on disk each run.
+In a job that starts from nothing, that means downloading the entire pool every time, which is the exact cost I was trying to remove.
+You can keep the pool on a persistent disk to avoid that, but then I am back to running and paying for standing storage, and the “just a bucket and a job” design is gone.</p>
+
+<p>So for this shape, a stateless tool plus a cache I control is both simpler and cheaper.
+The whole state I have to keep is one file: the <code class="language-plaintext highlighter-rouge">Packages</code> I published last time.</p>
+
+<h2 id="the-incremental-indexer">The incremental indexer</h2>
+
+<p>First the job fetches what it needs: the current pool listing as relative paths, and the new <code class="language-plaintext highlighter-rouge">.deb</code> files on disk.
+The listing is one bodiless call, normalised to the same <code class="language-plaintext highlighter-rouge">pool/...</code> form the <code class="language-plaintext highlighter-rouge">Filename</code> field uses.
+The download then pulls only the paths the cached <code class="language-plaintext highlighter-rouge">Packages</code> has never seen, keeping their pool layout so <code class="language-plaintext highlighter-rouge">dpkg-scanpackages</code> emits the right <code class="language-plaintext highlighter-rouge">Filename</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre><span class="c"># what the pool holds today, as pool/... paths, not gs:// URLs</span>
+gcloud storage <span class="nb">ls</span> <span class="nt">-r</span> <span class="s2">"gs://example-apt-repo/pool/stable/**/*.deb"</span> <span class="se">\</span>
+  | <span class="nb">sed</span> <span class="s2">"s|gs://example-apt-repo/||"</span> <span class="o">&gt;</span> pool.list
+
+<span class="c"># fetch only the paths the cache does not already describe</span>
+<span class="nb">grep</span> <span class="s1">'^Filename: '</span> Packages.cache | <span class="nb">awk</span> <span class="s1">'{print $2}'</span> | <span class="nb">sort</span> <span class="o">&gt;</span> cached.list
+<span class="nb">comm</span> <span class="nt">-23</span> &lt;<span class="o">(</span><span class="nb">sort </span>pool.list<span class="o">)</span> cached.list | <span class="k">while </span><span class="nb">read</span> <span class="nt">-r</span> path<span class="p">;</span> <span class="k">do
+  </span><span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">dirname</span> <span class="s2">"</span><span class="nv">$path</span><span class="s2">"</span><span class="si">)</span><span class="s2">"</span>
+  gcloud storage <span class="nb">cp</span> <span class="s2">"gs://example-apt-repo/</span><span class="nv">$path</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$path</span><span class="s2">"</span>
+<span class="k">done</span>
+
+<span class="c"># scan just those new debs; the rest of the pool is not on disk</span>
+dpkg-scanpackages <span class="nt">-m</span> <span class="nt">-a</span> amd64 pool/stable <span class="o">&gt;</span> Packages.new
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>That scan is the only place a <code class="language-plaintext highlighter-rouge">.deb</code> is ever read, and it only ever sees the new ones.</p>
+
+<p>Now the splice, the one part with any real logic.
+It parses the previous <code class="language-plaintext highlighter-rouge">Packages</code> into stanzas keyed by their <code class="language-plaintext highlighter-rouge">Filename</code>, then walks the current listing: reuse the cached stanza where we have one, use a freshly scanned stanza where we do not.
+Anything no longer in the pool falls out, because we only emit paths that are in the current listing.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre></td><td class="rouge-code"><pre><span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">Packages file -&gt; {filename: stanza}.</span><span class="sh">"""</span>
+    <span class="n">stanzas</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="nf">open</span><span class="p">(</span><span class="n">path</span><span class="p">).</span><span class="nf">read</span><span class="p">()</span>
+    <span class="k">except</span> <span class="nb">FileNotFoundError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">stanzas</span>
+    <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="nf">filter</span><span class="p">(</span><span class="nb">str</span><span class="p">.</span><span class="n">strip</span><span class="p">,</span> <span class="n">text</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="se">\n\n</span><span class="sh">"</span><span class="p">)):</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="nf">next</span><span class="p">(</span>
+            <span class="n">line</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">: </span><span class="sh">"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">block</span><span class="p">.</span><span class="nf">splitlines</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">line</span><span class="p">.</span><span class="nf">startswith</span><span class="p">(</span><span class="sh">"</span><span class="s">Filename: </span><span class="sh">"</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">stanzas</span><span class="p">[</span><span class="n">filename</span><span class="p">]</span> <span class="o">=</span> <span class="n">block</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">stanzas</span>
+
+<span class="n">cache</span> <span class="o">=</span> <span class="nf">parse</span><span class="p">(</span><span class="sh">"</span><span class="s">Packages.cache</span><span class="sh">"</span><span class="p">)</span>     <span class="c1"># last run's output
+</span><span class="n">fresh</span> <span class="o">=</span> <span class="nf">parse</span><span class="p">(</span><span class="sh">"</span><span class="s">Packages.new</span><span class="sh">"</span><span class="p">)</span>       <span class="c1"># scan of only the new .debs
+</span><span class="n">current</span> <span class="o">=</span> <span class="nf">set</span><span class="p">(</span><span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">pool.list</span><span class="sh">"</span><span class="p">).</span><span class="nf">read</span><span class="p">().</span><span class="nf">split</span><span class="p">())</span>  <span class="c1"># every pool path, from gcloud storage ls
+</span>
+<span class="n">merged</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">current</span><span class="p">:</span>
+    <span class="n">merged</span><span class="p">[</span><span class="n">path</span><span class="p">]</span> <span class="o">=</span> <span class="n">fresh</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="ow">or</span> <span class="n">cache</span><span class="p">[</span><span class="n">path</span><span class="p">]</span>   <span class="c1"># scanned if new, cached otherwise
+</span>
+<span class="n">body</span> <span class="o">=</span> <span class="sh">"</span><span class="se">\n\n</span><span class="sh">"</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">merged</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nf">sorted</span><span class="p">(</span><span class="n">merged</span><span class="p">))</span> <span class="o">+</span> <span class="sh">"</span><span class="se">\n</span><span class="sh">"</span>
+<span class="nf">open</span><span class="p">(</span><span class="sh">"</span><span class="s">Packages</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">w</span><span class="sh">"</span><span class="p">).</span><span class="nf">write</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">Packages.cache</code> comes from the bucket at the start of the run, and the finished <code class="language-plaintext highlighter-rouge">Packages</code> goes back at the end.
+<code class="language-plaintext highlighter-rouge">apt-ftparchive release</code> builds <code class="language-plaintext highlighter-rouge">Release</code> from the <code class="language-plaintext highlighter-rouge">Packages</code> files, not the packages themselves, so it stays cheap no matter how large the pool grows, and <code class="language-plaintext highlighter-rouge">gpg</code> signs it with the repository key (<code class="language-plaintext highlighter-rouge">$KEYID</code>, imported from Secret Manager at the start of the run):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>apt-ftparchive release dists/stable <span class="o">&gt;</span> dists/stable/Release
+
+gpg <span class="nt">--batch</span> <span class="nt">--yes</span> <span class="nt">--default-key</span> <span class="s2">"</span><span class="nv">$KEYID</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--clearsign</span> <span class="nt">-o</span> dists/stable/InRelease dists/stable/Release
+gpg <span class="nt">--batch</span> <span class="nt">--yes</span> <span class="nt">--default-key</span> <span class="s2">"</span><span class="nv">$KEYID</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--armor</span> <span class="nt">--detach-sign</span> <span class="nt">-o</span> dists/stable/Release.gpg dists/stable/Release
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Finally, push <code class="language-plaintext highlighter-rouge">dists/</code> back with caching disabled so no client ever reads a stale index:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>gcloud storage rsync <span class="nt">-r</span> <span class="nt">-c</span> <span class="se">\</span>
+  <span class="nt">--cache-control</span><span class="o">=</span><span class="s2">"no-cache, no-store, must-revalidate"</span> <span class="se">\</span>
+  dists gs://example-apt-repo/dists
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Real repositories serve more than one architecture, so in practice the scan and splice run once per architecture (<code class="language-plaintext highlighter-rouge">amd64</code>, <code class="language-plaintext highlighter-rouge">arm64</code>, and so on), each writing its own <code class="language-plaintext highlighter-rouge">Packages</code> under <code class="language-plaintext highlighter-rouge">binary-&lt;arch&gt;</code>.
+The logic does not change, only the <code class="language-plaintext highlighter-rouge">-a</code> flag and the output path do.</p>
+
+<h3 id="is-the-output-actually-identical">Is the output actually identical?</h3>
+
+<p>An incremental index that is subtly wrong is worse than a slow one: it fails on the user’s machine, later, with the “Hash Sum mismatch” from earlier, and nobody can install anything.</p>
+
+<p>So I built a pool of three packages and generated the index the incremental way, reusing a cached <code class="language-plaintext highlighter-rouge">Packages</code> and scanning only the one new <code class="language-plaintext highlighter-rouge">.deb</code>.
+Then I generated it the authoritative way, a full scan of all three.</p>
+
+<p>A <code class="language-plaintext highlighter-rouge">diff</code> of the two is the whole test, and they match exactly, with only one of the three packages ever opened:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="gp">$</span><span class="w"> </span>diff Packages.full Packages.incremental <span class="o">&amp;&amp;</span> <span class="nb">echo </span>IDENTICAL
+<span class="go">IDENTICAL
+reused 2 cached, scanned 1 new, total 3
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Same bytes, a third of the reads.
+That ratio is the point, and it widens with the repo: the work stays one new package read whether the pool holds fifty packages or fifty thousand.</p>
+
+<h2 id="running-it-with-nothing-kept-warm">Running it with nothing kept warm</h2>
+
+<p>The indexer is a shell script and a couple of tools, so the container is small: a Debian base with <code class="language-plaintext highlighter-rouge">dpkg-dev</code>, <code class="language-plaintext highlighter-rouge">apt-utils</code>, <code class="language-plaintext highlighter-rouge">gnupg</code>, and the Cloud SDK.
+It runs as a <strong>Cloud Run job</strong>, not a service.
+A job is the right option here: it has no HTTP endpoint and nothing to keep listening.
+It starts, reindexes, and exits, and you are billed for those seconds and nothing else.</p>
+
+<p>The job pulls the signing key from Secret Manager at the start of each run and imports it into a throwaway keyring:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>gcloud secrets versions access latest <span class="nt">--secret</span><span class="o">=</span>apt-signing-key <span class="se">\</span>
+  | gpg <span class="nt">--batch</span> <span class="nt">--import</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Give the job a dedicated service account with object read and write on the repository bucket and access to the secret.
+Nothing else.</p>
+
+<h2 id="hardening-keep-the-signing-key-out-of-the-container">Hardening: keep the signing key out of the container</h2>
+
+<p>There is one point that could be considered a weakness in this design, especially in a highly secure environment.
+<code class="language-plaintext highlighter-rouge">gcloud secrets versions access</code> pulls the private signing key out of Secret Manager and into the container’s memory on every run.
+This is the key that vouches for every package every client installs, so a compromise of the indexer is a compromise of the key and from there a potential attack on everyone downstream.</p>
+
+<p>For a hobby repository that is a fair trade for simplicity.
+For anything people actually depend on, the key should never leave a place built to hold it.</p>
+
+<p>Cloud KMS is that place.
+You generate the key inside KMS, it is non-exportable, and the job never sees it.
+The indexer stops asking for the key and starts asking KMS to produce a signature, which is a much smaller thing to trust the job with.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre>gcloud kms keyrings create apt <span class="nt">--location</span><span class="o">=</span>europe-west2
+
+gcloud kms keys create release-signing <span class="se">\</span>
+  <span class="nt">--keyring</span><span class="o">=</span>apt <span class="nt">--location</span><span class="o">=</span>europe-west2 <span class="se">\</span>
+  <span class="nt">--purpose</span><span class="o">=</span>asymmetric-signing <span class="se">\</span>
+  <span class="nt">--default-algorithm</span><span class="o">=</span>rsa-sign-pkcs1-4096-sha256 <span class="se">\</span>
+  <span class="nt">--protection-level</span><span class="o">=</span>hsm
+
+<span class="c"># the indexer's service account may sign, nothing more</span>
+gcloud kms keys add-iam-policy-binding release-signing <span class="se">\</span>
+  <span class="nt">--keyring</span><span class="o">=</span>apt <span class="nt">--location</span><span class="o">=</span>europe-west2 <span class="se">\</span>
+  <span class="nt">--member</span><span class="o">=</span>serviceAccount:example-apt-indexer@PROJECT.iam.gserviceaccount.com <span class="se">\</span>
+  <span class="nt">--role</span><span class="o">=</span>roles/cloudkms.signerVerifier
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">hsm</code> protection level keeps the private key in a FIPS 140-2 Level 3 hardware module.</p>
+
+<p>Here is the wrinkle to be honest about.
+<code class="language-plaintext highlighter-rouge">apt</code> wants an OpenPGP signature, and KMS only does raw asymmetric signing: it hands back a bare RSA signature, not the OpenPGP-framed one <code class="language-plaintext highlighter-rouge">apt</code> verifies.
+The bridge is a smartcard shim.
+Google ships a PKCS#11 library, <code class="language-plaintext highlighter-rouge">libkmsp11</code>, that exposes the KMS key through the standard smartcard interface, and <a href="https://manpages.ubuntu.com/manpages/trusty/man1/gnupg-pkcs11-scd.1.html"><code class="language-plaintext highlighter-rouge">gnupg-pkcs11-scd</code></a> lets <code class="language-plaintext highlighter-rouge">gpg</code> treat that as a card.
+<code class="language-plaintext highlighter-rouge">gpg</code> then builds an ordinary OpenPGP signature while the private-key operation happens inside KMS.</p>
+
+<p>Point <code class="language-plaintext highlighter-rouge">libkmsp11</code> at the key ring and tell it to generate a throwaway certificate for the key, because <code class="language-plaintext highlighter-rouge">gnupg-pkcs11-scd</code> discovers keys by their certificate:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="c1"># kmsp11.yaml</span>
+<span class="na">tokens</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">key_ring</span><span class="pi">:</span> <span class="s2">"</span><span class="s">projects/PROJECT/locations/europe-west2/keyRings/apt"</span>
+<span class="na">generate_certs</span><span class="pi">:</span> <span class="kc">true</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Inside the Cloud Run job the attached service account is already the credential, so <code class="language-plaintext highlighter-rouge">libkmsp11</code> authenticates with no key file. You point it at that config and wire <code class="language-plaintext highlighter-rouge">gpg</code> to the shim:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="nb">export </span><span class="nv">KMS_PKCS11_CONFIG</span><span class="o">=</span>/etc/kmsp11.yaml
+
+<span class="c"># ~/.gnupg/gpg-agent.conf</span>
+scdaemon-program /usr/bin/gnupg-pkcs11-scd
+
+<span class="c"># ~/.gnupg/gnupg-pkcs11-scd.conf</span>
+providers kms
+provider-kms-library /usr/lib/libkmsp11.so
+
+<span class="c"># ~/.gnupg/gpg.conf   (match the key's digest, or KMS rejects the signature)</span>
+cert-digest-algo SHA256
+digest-algo SHA256
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>That digest line matters more than it looks.
+The key is an <code class="language-plaintext highlighter-rouge">rsa-sign-pkcs1-4096-sha256</code> key, so KMS will only sign a SHA-256 digest.
+Let <code class="language-plaintext highlighter-rouge">gpg</code> fall back to its SHA-512 default and every signature bounces.</p>
+
+<p>Then, once, you wrap the KMS key as an OpenPGP key so <code class="language-plaintext highlighter-rouge">gpg</code> has something to sign with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>gpg <span class="nt">--card-status</span>                     <span class="c"># gpg-agent picks up the KMS key</span>
+gpg-connect-agent <span class="s1">'SCD LEARN'</span> /bye    <span class="c"># prints the keygrip</span>
+gpg <span class="nt">--expert</span> <span class="nt">--full-generate-key</span>      <span class="c"># choose (13) Existing key, paste the keygrip</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The result lists as <code class="language-plaintext highlighter-rouge">sec&gt;</code>, which is <code class="language-plaintext highlighter-rouge">gpg</code>’s way of saying the secret lives on a card, and here the card is KMS.
+Export its public key, publish it next to the repository as before, and the signing commands from earlier do not change at all. Only where the key lives does.</p>
+
+<p>I ran this end to end against a real KMS key before writing it down.
+The <code class="language-plaintext highlighter-rouge">InRelease</code> it produces verifies as a good signature in a clean keyring holding only the exported public key, which is all an <code class="language-plaintext highlighter-rouge">apt</code> client ever does.</p>
+
+<p>Two things caught me out, so they are worth a mention here:</p>
+
+<ol>
+  <li>The key has to be RSA. The PKCS#11 path is dependable for RSA and fiddly for elliptic curves, so the ed25519 key from earlier becomes an RSA 4096 one.</li>
+  <li>If you test against a software-protection key rather than an HSM one, add <code class="language-plaintext highlighter-rouge">allow_software_keys: true</code> to the config, because <code class="language-plaintext highlighter-rouge">libkmsp11</code> skips software keys by default.</li>
+</ol>
+
+<p>It is more machinery in the signing path than a plain download, but for a key that other people’s trust depends on, one that never leaves the vault is the right trade.</p>
+
+<h2 id="triggering-the-reindex">Triggering the reindex</h2>
+
+<p>Something has to run the job when a new package lands.
+The simplest thing that works and what I do, is to make it the last step of my CI/CD that already publishes the package.</p>
+
+<p>My release pipeline uploads the <code class="language-plaintext highlighter-rouge">.deb</code> to the bucket, then runs the job:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>gcloud run <span class="nb">jobs </span>execute apt-repo-indexer <span class="nt">--region</span><span class="o">=</span>europe-west2 <span class="nt">--async</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">--async</code> fires it and moves on. Swap in <code class="language-plaintext highlighter-rouge">--wait</code> if you want the pipeline to block until the repository is updated.
+That is the whole trigger.
+The pipeline already has credentials and already knows a release happened, so there is nothing to subscribe to and no event to keep alive.</p>
+
+<p>You could instead drive it from the bucket, with an Eventarc trigger on object changes, so anything landing in <code class="language-plaintext highlighter-rouge">pool/</code> reindexes on its own.
+It is a tidy idea and I sketched it, but for a single publisher it is more moving parts than calling the job from the thing that just did the upload.</p>
+
+<p>The one case to think about is concurrency.
+If two releases land within a few seconds of each other, two executions can run at once and race to rewrite the same <code class="language-plaintext highlighter-rouge">dists/</code>.
+If that is a real risk for you, have the job take a small lock at the start: write a lock object with a timestamp, and if a recent one already exists, exit early so a burst of releases collapses into a single reindex.
+At a low release cadence you can skip it and let the last run win.</p>
+
+<h2 id="using-it">Using it</h2>
+
+<p>On the client, trust the public key and add the source.
+The modern, non-deprecated way keeps the key in its own file and points at it explicitly, rather than piping into <code class="language-plaintext highlighter-rouge">apt-key</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>curl <span class="nt">-fsSL</span> https://apt.example.com/public-key.gpg <span class="se">\</span>
+  | <span class="nb">sudo tee</span> /usr/share/keyrings/example.gpg <span class="o">&gt;</span> /dev/null
+
+<span class="nb">echo</span> <span class="s2">"deb [signed-by=/usr/share/keyrings/example.gpg] https://apt.example.com stable main"</span> <span class="se">\</span>
+  | <span class="nb">sudo tee</span> /etc/apt/sources.list.d/example.list
+
+<span class="nb">sudo </span>apt update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt <span class="nb">install </span>example-agent
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">signed-by</code> line is what ties the source to your key.
+It tells <code class="language-plaintext highlighter-rouge">apt</code> to trust this repository only when it is signed by that specific key and nothing else on the system.</p>
+
+<h2 id="what-you-end-up-with">What you end up with</h2>
+
+<p>A repository that is a bucket, a load balancer in front of it and a job that wakes up only when there is something to do.</p>
+
+<p>No server to patch, no certificate to renew by hand, no compute idling overnight and a reindex whose cost tracks the change, not the archive.</p>
+
+<p>Most of my career has been spent optimising workflows and refusing to redo work that has not changed, and this design is that same habit pointed at a package repo.
+Once the reindex only touches the packages that changed, a private apt repo stops being a service you babysit and becomes a bucket you forget about.
+If you build one, I would like to hear how it goes.</p>
+
+    </div>
+    <aside class="toc" id="toc-wrap">
+      <div class="tl">On this page</div>
+      <nav id="toc"></nav>
+    </aside>
+  </div>
+
+  
+  <div class="post-tags">
+    <a href="/tags/gcp/">#gcp</a><a href="/tags/apt/">#apt</a><a href="/tags/debian/">#debian</a><a href="/tags/cloud-run/">#cloud-run</a><a href="/tags/gcs/">#gcs</a><a href="/tags/packaging/">#packaging</a><a href="/tags/serverless/">#serverless</a>
+  </div>
+  
+
+  
+
+<div class="share" aria-label="Share this post">
+  <span class="sl">$ share</span>
+  <a class="sh" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Ftotaldebug.uk%2Fposts%2Fserverless-signed-apt-repository-on-gcp%2F&amp;text=A+serverless+signed+APT+repository+on+GCP" target="_blank" rel="noopener noreferrer">X</a>
+  <a class="sh" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Ftotaldebug.uk%2Fposts%2Fserverless-signed-apt-repository-on-gcp%2F" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  <a class="sh" href="https://www.reddit.com/submit?url=https%3A%2F%2Ftotaldebug.uk%2Fposts%2Fserverless-signed-apt-repository-on-gcp%2F&amp;title=A+serverless+signed+APT+repository+on+GCP" target="_blank" rel="noopener noreferrer">Reddit</a>
+  <a class="sh" href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Ftotaldebug.uk%2Fposts%2Fserverless-signed-apt-repository-on-gcp%2F&amp;t=A+serverless+signed+APT+repository+on+GCP" target="_blank" rel="noopener noreferrer">HN</a>
+  <button class="sh" type="button" data-copy-link aria-label="Copy link to clipboard">copy link</button>
+</div>
+
+
+  <div class="prevnext">
+    
+    <a class="pn" href="/posts/self-hosted-llms-ollama-open-webui-docker-compose/"><span class="dir">← previous</span><span class="t">Run your own ChatGPT: self-hosted LLMs with Docker Compose</span></a>
+    
+    <span></span>
+  </div>
+
+  
+
+
+<section class="related" aria-label="Related posts">
+  <div class="rl-h">// related</div>
+  <ul><li><a href="/posts/ditch-the-manual-chore-automating-releases-and-versions/"><span class="rl-t">&gt; Ditch the Manual Chore: Automating Releases and Versioning with release-please</span><span class="rl-d">2025-11-03</span></a></li>
+  
+  
+
+  
+  
+  
+  
+  
+  
+  <li><a href="/posts/opentofu-getting-started/"><span class="rl-t">&gt; Getting Started with OpenTofu: Infrastructure as Code for Cloud Providers</span><span class="rl-d">2024-07-19</span></a></li>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  <li><a href="/posts/automated-release-with-semantic-release-and-commitizen/"><span class="rl-t">&gt; Automated release with Semantic Release and commitizen</span><span class="rl-d">2023-09-29</span></a></li></ul>
+</section>
+
+
+
+  
+<div class="comments" id="comments"></div>
+<script>
+  (function () {
+    var mode = document.documentElement.getAttribute('data-mode');
+    var s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    var attrs = {
+      'data-repo': "totaldebug/totaldebug.uk",
+      'data-repo-id': "MDEwOlJlcG9zaXRvcnkzMTkxMTkxNTE=",
+      'data-category': "General",
+      'data-category-id': "DIC_kwDOEwVfL84CPpH4",
+      'data-mapping': 'pathname',
+      'data-strict': '0',
+      'data-reactions-enabled': '1',
+      'data-emit-metadata': '0',
+      'data-input-position': 'bottom',
+      'data-theme': mode === 'light' ? 'light' : 'dark_dimmed',
+      'data-lang': "en"
+    };
+    Object.keys(attrs).forEach(function (k) { s.setAttribute(k, attrs[k]); });
+    s.crossOrigin = 'anonymous';
+    s.async = true;
+    document.getElementById('comments').appendChild(s);
+  })();
+</script>
+
+
+</article>
+
+      </div>
+      <footer class="site-foot">
+  <span><span class="wm"><span class="t">total</span><span class="b">{</span><span class="d">debug</span><span class="b">}</span></span> · Technology. Inside Out</span>
+  <span>© 2026 Steven Marks · <a href="/feed.xml">rss</a></span>
+</footer>
+
+    </div>
+  </div>
+
+  <!-- search palette -->
+  <div id="search-modal">
+    <div class="search-box">
+      <div class="inp"><span class="fl">$</span> <input id="search-input" type="text" placeholder="grep posts…" autocomplete="off"></div>
+      <div class="results" id="search-results"></div>
+    </div>
+  </div>
+
+  <script>
+    window.SEARCH_JSON = "/assets/search.json";
+    window.SW_URL = "/sw.js";
+  </script>
+  <!-- Mermaid diagrams, themed from the site's own CSS tokens. Loaded only when a page sets `mermaid: true`. -->
+<style>
+  .mermaid-wrap {
+    background: var(--surf);
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--orange);
+    border-radius: 12px;
+    padding: 22px 18px;
+    margin: 1.6rem 0;
+    overflow-x: auto;
+    box-shadow: var(--elev);
+  }
+  .mermaid { display: flex; justify-content: center; min-width: 0; }
+  .mermaid:not([data-processed]) { color: var(--mut); font-family: var(--mono); font-size: 13px; white-space: pre; }
+  .mermaid svg { max-width: 100%; height: auto; }
+
+  /* --- Rounded, tinted "grouped architecture" styling for flowcharts --- */
+  .mermaid .cluster rect { rx: 16px; ry: 16px; }
+  .mermaid .cluster .nodeLabel, .mermaid .cluster-label .nodeLabel,
+  .mermaid .cluster-label { font-family: var(--mono); font-weight: 700; color: var(--head); }
+
+  .mermaid .node rect, .mermaid .node polygon, .mermaid .node path {
+    rx: 12px; ry: 12px; fill: var(--surf-2); stroke: var(--line-2);
+  }
+
+  /* Icon node label. Markup in the diagram is minimal:
+       <table class="di"><tr>
+         <td class="di-ic"><img src="…"></td>
+         <td><span class="di-t">Title</span><br><span class="di-s">subtitle</span></td>
+       </tr></table>
+     All styling lives here so any article can reuse it, and every property the
+     blog's `.content table`/`img` rules set is reset so they can't leak in. */
+  .mermaid .nodeLabel table.di { display: inline-table; width: auto !important; margin: 0 !important;
+    border: 0 !important; background: transparent !important; border-collapse: collapse; border-spacing: 0; vertical-align: middle; }
+  .mermaid .nodeLabel table.di td { border: 0 !important; background: transparent !important; padding: 0 !important;
+    vertical-align: middle; text-align: left; }
+  .mermaid .nodeLabel table.di td.di-ic { padding-right: 9px !important; }
+  .mermaid .nodeLabel table.di img { width: 22px !important; height: 22px !important; max-width: none !important; display: block; margin: 0 !important; }
+  .mermaid .nodeLabel table.di .di-t { font-family: var(--mono); font-weight: 700; font-size: 14px; color: var(--text); white-space: nowrap; }
+  .mermaid .nodeLabel table.di .di-s { font-family: var(--sans); font-weight: 400; font-size: 11px; color: var(--mut); white-space: nowrap; }
+  .mermaid .nodeLabel p { margin: 0; }
+  .mermaid .nodeLabel p:empty { display: none; }
+
+  .mermaid .edgeLabel, .mermaid .edgeLabel p { font-family: var(--mono); font-size: 12px; color: var(--teal); background: var(--surf); }
+  .mermaid .flowchart-link { stroke: var(--mut-2); }
+
+  /* Click a diagram to enlarge it (lightbox). */
+  .mermaid-wrap { cursor: zoom-in; }
+  .mmd-lightbox { position: fixed; inset: 0; z-index: 90; display: none; align-items: center; justify-content: center;
+    padding: 4vmin; background: rgba(5, 6, 9, .82); backdrop-filter: blur(4px); cursor: zoom-out; }
+  .mmd-lightbox.open { display: flex; }
+  .mmd-lightbox svg { width: min(1600px, 96vw) !important; max-width: 96vw !important; height: auto !important; max-height: 92vh !important; }
+  .mmd-hint { position: absolute; bottom: 18px; left: 0; right: 0; text-align: center;
+    font-family: var(--mono); font-size: 12px; color: var(--mut); pointer-events: none; }
+  @media (prefers-reduced-motion: no-preference) { .mmd-lightbox.open svg { animation: mmd-pop .12s ease-out; } }
+  @keyframes mmd-pop { from { transform: scale(.98); opacity: .6; } to { transform: scale(1); opacity: 1; } }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+  (function () {
+    if (!window.mermaid) return;
+    var root = document.documentElement;
+    var css = function (name) { return getComputedStyle(root).getPropertyValue(name).trim(); };
+
+    function themeVariables() {
+      return {
+        darkMode: root.getAttribute('data-mode') !== 'light',
+        fontFamily: css('--mono') || 'monospace',
+        fontSize: '15px',
+        background: 'transparent',
+        primaryColor: css('--surf-2'),
+        primaryTextColor: css('--text'),
+        primaryBorderColor: css('--teal'),
+        secondaryColor: css('--surf'),
+        tertiaryColor: css('--surf'),
+        lineColor: css('--mut-2'),
+        clusterBkg: css('--surf'),
+        clusterBorder: css('--line-2'),
+        edgeLabelBackground: css('--surf'),
+        titleColor: css('--head'),
+        nodeTextColor: css('--text')
+      };
+    }
+
+    // Turn Kramdown's `code.language-mermaid` blocks into mermaid containers, keeping the source.
+    document.querySelectorAll('pre > code.language-mermaid').forEach(function (code) {
+      var src = code.textContent;
+      var wrap = document.createElement('div');
+      wrap.className = 'mermaid-wrap';
+      var el = document.createElement('div');
+      el.className = 'mermaid';
+      el.setAttribute('data-src', src);
+      el.textContent = src;
+      wrap.appendChild(el);
+      code.parentElement.replaceWith(wrap);
+    });
+
+    var nodes = Array.prototype.slice.call(document.querySelectorAll('.mermaid'));
+    if (!nodes.length) return;
+
+    function render() {
+      nodes.forEach(function (n) {
+        n.removeAttribute('data-processed');
+        n.innerHTML = n.getAttribute('data-src');
+      });
+      window.mermaid.initialize({
+        startOnLoad: false,
+        securityLevel: 'loose',
+        theme: 'base',
+        themeVariables: themeVariables(),
+        flowchart: { htmlLabels: true, curve: 'basis' }
+      });
+      window.mermaid.run({ nodes: nodes });
+    }
+
+    render();
+
+    // Re-render when the reader flips light / dark so diagrams follow the site.
+    new MutationObserver(function (muts) {
+      for (var i = 0; i < muts.length; i++) {
+        if (muts[i].attributeName === 'data-mode') { render(); return; }
+      }
+    }).observe(root, { attributes: true });
+
+    // Lightbox: click a diagram to see it full-size.
+    var box = document.createElement('div');
+    box.className = 'mmd-lightbox';
+    box.innerHTML = '<div class="mmd-hint">click anywhere or press Esc to close</div>';
+    document.body.appendChild(box);
+    function closeBox() { box.classList.remove('open'); }
+    function openBox(svg) {
+      // Wrap the clone in a `.mermaid` holder so all the diagram styling (mono
+      // fonts, label backgrounds, rounding) applies exactly as it does in-page.
+      box.querySelectorAll('.mermaid').forEach(function (m) { m.remove(); });
+      var holder = document.createElement('div');
+      holder.className = 'mermaid';
+      holder.setAttribute('data-processed', 'true');
+      var clone = svg.cloneNode(true);
+      clone.removeAttribute('width'); clone.removeAttribute('height');
+      clone.style.maxWidth = ''; clone.style.height = '';
+      holder.appendChild(clone);
+      box.insertBefore(holder, box.firstChild);
+      box.classList.add('open');
+    }
+    document.querySelectorAll('.mermaid-wrap').forEach(function (w) {
+      w.addEventListener('click', function () {
+        var svg = w.querySelector('svg');
+        if (svg) { openBox(svg); }
+      });
+    });
+    box.addEventListener('click', closeBox);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeBox(); } });
+  })();
+</script>
+
+  <script src="/assets/js/td.js" defer></script>
+</body>
+</html>

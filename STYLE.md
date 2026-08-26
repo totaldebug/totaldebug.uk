@@ -82,6 +82,57 @@ I build each thumbnail from an HTML mock rather than by hand:
 
 3. Keep the `thumb.html` next to the PNG so it can be regenerated later.
 
+## Diagrams
+
+Diagrams are [Mermaid](https://mermaid.js.org). Set `mermaid: true` in the front matter
+and write the diagram in a fenced ` ```mermaid ` block. The theme
+(`_includes/mermaid.html`) renders it, themes it from the site's own CSS tokens in both
+light and dark, and makes it click-to-zoom. **Do not style diagrams in the post.** All
+styling lives in the include so every diagram matches; keep the diagram source to
+structure and content only.
+
+Simple flowcharts just work. For the grouped, icon "architecture" look (see the
+serverless APT repo post), follow these conventions.
+
+- **Groups.** Use `subgraph`s for the logical areas. Give each an accent border and a
+  matching 8-digit-hex fill (the alpha keeps it subtle on both themes). Reuse the three
+  brand roles: teal `#00b2e8`, orange `#f56600`, green `#28c840`.
+
+  ```text
+  style PUB fill:#00b2e812,stroke:#00b2e8
+  style STORE fill:#f5660012,stroke:#f56600
+  style CLI fill:#28c84012,stroke:#28c840
+  ```
+
+- **Icon nodes.** Each node is a small table with the class `di`: an icon cell, then a
+  title and subtitle. Nothing else, the include styles it.
+
+  ```html
+  <table class='di'><tr>
+    <td class='di-ic'><img src='/assets/img/posts/<slug>/ic/cloudrun.svg'></td>
+    <td><span class='di-t'>Cloud Run job</span><br><span class='di-s'>indexer</span></td>
+  </tr></table>
+  ```
+
+- **Icons.** Fetch monochrome glyphs from Iconify pre-tinted to a brand accent and store
+  them per post under `assets/img/posts/<slug>/ic/`. `simple-icons` has the brand marks
+  (googlecloud, cloudflare, debian, githubactions); `lucide` covers generic shapes
+  (database, server). Tint each icon to its group colour, and give the hub node (the one
+  everything points at) orange.
+
+  ```bash
+  curl "https://api.iconify.design/simple-icons/googlecloud.svg?color=%2300b2e8&height=44" -o cloudrun.svg
+  ```
+
+- **Edge labels** are plain (`-->|"1 · upload .deb"|`); the include colours them teal.
+  Number a sequence when the order matters.
+
+Two gotchas the include already solves, so stay on the pattern. Use a `<table>` for node
+labels, never CSS flex: Mermaid mis-measures flex labels and clips the text. And never
+rely on inline `style=` in a label for fonts or colours; put reusable styling in the
+include's `.di` rules. The blog's `.content table`/`img` styles otherwise leak into
+labels, and the include only resets them for the `di` class.
+
 ## Keeping it consistent
 
 The rules above are enforced with Vale (prose) and markdownlint (formatting), wired into
