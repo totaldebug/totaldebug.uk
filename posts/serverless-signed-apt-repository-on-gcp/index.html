@@ -44,7 +44,7 @@
 <meta property="twitter:image" content="https://totaldebug.uk/assets/img/posts/serverless-signed-apt-repository-on-gcp/thumb.png" />
 <meta property="twitter:title" content="A serverless signed APT repository on GCP" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-08-24T10:00:00+01:00","datePublished":"2026-08-24T10:00:00+01:00","description":"You’ve built a .deb. Now you need a way for people to easily install it: apt install example-agent, upgrades included, no curl | sudo bash scripts so it’s easier for you to manage.","headline":"A serverless signed APT repository on GCP","image":"https://totaldebug.uk/assets/img/posts/serverless-signed-apt-repository-on-gcp/thumb.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://totaldebug.uk/posts/serverless-signed-apt-repository-on-gcp/"},"url":"https://totaldebug.uk/posts/serverless-signed-apt-repository-on-gcp/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-08-26T18:17:38+01:00","datePublished":"2026-08-24T10:00:00+01:00","description":"You’ve built a .deb. Now you need a way for people to easily install it: apt install example-agent, upgrades included, no curl | sudo bash scripts so it’s easier for you to manage.","headline":"A serverless signed APT repository on GCP","image":"https://totaldebug.uk/assets/img/posts/serverless-signed-apt-repository-on-gcp/thumb.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://totaldebug.uk/posts/serverless-signed-apt-repository-on-gcp/"},"url":"https://totaldebug.uk/posts/serverless-signed-apt-repository-on-gcp/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
@@ -416,6 +416,9 @@ aptly keeps a database of exactly this information, so adding a package should b
 On every publish aptly stats and links every package file in its own local pool, so it needs the whole pool present on disk each run.
 In a job that starts from nothing, that means downloading the entire pool every time, which is the exact cost I was trying to remove.
 You can keep the pool on a persistent disk to avoid that, but then I am back to running and paying for standing storage, and the “just a bucket and a job” design is gone.</p>
+
+<p>reprepro sidesteps that particular trap by design, because it keeps checksums in its own database and regenerates the indexes from there rather than re-reading the pool.
+What it wants in exchange is to own the repository: a local tree and a Berkeley DB it writes on every change, which is state a from-scratch job has to fetch, write back, and never corrupt or race.</p>
 
 <p>So for this shape, a stateless tool plus a cache I control is both simpler and cheaper.
 The whole state I have to keep is one file: the <code class="language-plaintext highlighter-rouge">Packages</code> I published last time.</p>

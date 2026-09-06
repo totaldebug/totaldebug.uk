@@ -9,6 +9,17 @@ despite older references).
 voice (first person, en-GB, no em dashes, no emoji, sentence-case headings), front
 matter, thumbnails, and diagrams. The `blog-style` skill enforces the prose rules.
 
+## Social promo pack
+
+Every new post gets a private promo pack in `_social/<post-slug>/`, alongside its
+thumbnail. This is not optional and it is easy to forget: a post is not finished until
+the pack exists. It holds `posts.md` (per-platform drafts for LinkedIn, the relevant
+subreddits, Hacker News and Mastodon) and a 1080x1080 `social-square.png` with its
+`social-square.html` source, which is a square re-cut of the post's `thumb.png` reusing
+the same title, icons and accent. Start from `_social/_template/` and follow the "Social
+promo pack" section of the `blog-style` skill. `_social/` is excluded from the build and
+never ships to the public site.
+
 ## Diagrams
 
 Diagrams are Mermaid, and all styling lives in `_includes/mermaid.html` (themed from the
