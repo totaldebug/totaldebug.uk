@@ -4,7 +4,7 @@
    (analytics, fonts, giscus, GitHub API) bypass the worker entirely. */
 'use strict';
 
-var CACHE = 'td-1791914638';
+var CACHE = 'td-1791992721';
 var OFFLINE = '/offline/';
 var CORE = [
   '/',
